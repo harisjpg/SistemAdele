@@ -1,0 +1,2 @@
+ALTER TABLE t_theinsured
+ADD MARITAL_STATUS_ID INT(11);

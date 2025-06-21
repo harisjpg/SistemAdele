@@ -1,0 +1,2 @@
+ALTER TABLE t_rate_manage
+ADD USING_PAYROLL INT(1);
