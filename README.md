@@ -1,0 +1,1 @@
+Adele Core App (AJK Application)
