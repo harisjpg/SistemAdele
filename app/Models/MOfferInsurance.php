@@ -17,5 +17,12 @@ class MOfferInsurance extends Model
         'OFFER_INSURANCE_ID',
     ];
 
+    public $with = ['product'];
+
+    public function product()
+    {
+        return $this->hasOne(TProdukAsuransi::class, 'PRODUK_ASURANSI_ID', 'PRODUK_ASURANSI_ID');
+    }
+
     public $timestamps = false;
 }

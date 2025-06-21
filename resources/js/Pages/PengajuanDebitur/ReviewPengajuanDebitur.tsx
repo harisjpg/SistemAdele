@@ -16,7 +16,7 @@ import TextArea from "@/Components/TextArea";
 import Swal from "sweetalert2";
 import Loader from "@/Components/Loader";
 import EditExtraPremi from "./EditExtraPremi";
-import ViewPenawaran from "./viewPenawaran";
+import ViewPenawaran from "./ViewPenawaran";
 
 export default function ReviewPengajuanDebitur({
      auth,
@@ -32,6 +32,7 @@ export default function ReviewPengajuanDebitur({
      setModalPengajuan,
      getOfferDetail,
      arrInsurance,
+     arrGetAllMekanisme,
 }: PropsWithChildren<{
      auth: any;
      dataReviewPengajuan: any;
@@ -46,6 +47,7 @@ export default function ReviewPengajuanDebitur({
      setModalPengajuan: any;
      getOfferDetail: any;
      arrInsurance: any;
+     arrGetAllMekanisme: any;
 }>) {
      console.log(arrInsurance, "<<< urlOfferDetail");
 
@@ -532,6 +534,17 @@ export default function ReviewPengajuanDebitur({
           var offerDetailId = data.selectedRows;
           setDataSelectRow(offerDetailId);
      };
+
+     // for filter mekanisme
+     const filterMekanis = arrGetAllMekanisme.filter((dataMekanisme: any) =>
+          arrInsurance.some(
+               (dataInsurance: any) =>
+                    dataInsurance.PRODUK_ASURANSI_ID ===
+                    dataMekanisme.PRODUK_ASURANSI_ID
+          )
+     );
+
+     console.log(filterMekanis, "<<< adada");
 
      return (
           <>
@@ -1625,7 +1638,10 @@ export default function ReviewPengajuanDebitur({
 
                {/* For Data Penawaran */}
                <>
-                    <ViewPenawaran arrInsurance={arrInsurance} />
+                    <ViewPenawaran
+                         arrInsurance={arrInsurance}
+                         filterMekanis={filterMekanis}
+                    />
                </>
                {/* End For Data Penawaran */}
                {/* For Data List insurance */}

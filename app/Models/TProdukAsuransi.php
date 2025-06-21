@@ -19,6 +19,8 @@ class TProdukAsuransi extends Model
 
     public $timestamps = false;
 
+    public $with = ['data_mekanisme_produk'];
+
     public function data_mekanisme_produk()
     {
         return $this->hasMany(TMekanismeProdukAsuransi::class, 'PRODUK_ASURANSI_ID', 'PRODUK_ASURANSI_ID');

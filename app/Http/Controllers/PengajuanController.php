@@ -12,10 +12,12 @@ use App\Models\TBusinessList;
 use App\Models\TCatatanBroker;
 use App\Models\TCoverNote;
 use App\Models\TLoanType;
+use App\Models\TMekanismeProdukAsuransi;
 use App\Models\TOffer;
 use App\Models\TOfferDetail;
 use App\Models\TOfferStaging;
 use App\Models\TProductSchemeLoanType;
+use App\Models\TProdukAsuransi;
 use App\Models\TRateHistory;
 use App\Models\TTheInsured;
 use App\Models\UserLog;
@@ -943,13 +945,17 @@ class PengajuanController extends Controller
             ->leftJoin('t_insurance', 't_insurance.INSURANCE_ID', '=', 'm_offer_insurance.INSURANCE_ID')
             ->get();
 
+        // get all product
+        $getAllMekanisme = TMekanismeProdukAsuransi::get();
+
         return array(
             "pengajuanDetail"       => $arrOffer,
             "arrDoc"                => $arrDoc,
             "arrCatatan"            => $arrCatatan,
             "arrRateHistory"        => $arrRateHistory,
             "getOfferDetail"        => $getOfferDetail,
-            "getMappingInsurance"   => $getMappingInsurance
+            "getMappingInsurance"   => $getMappingInsurance,
+            "getAllMekanisme"       => $getAllMekanisme
         );
     }
 
