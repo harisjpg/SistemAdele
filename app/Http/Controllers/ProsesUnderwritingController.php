@@ -79,6 +79,7 @@ class ProsesUnderwritingController extends Controller
         );
 
         $query->leftJoin('t_theinsured', 't_theinsured.THE_INSURED_ID', '=', 't_offer.THE_INSURED_ID');
+        $query->leftJoin('t_offer_detail', 't_offer_detail.OFFER_ID', '=', 't_offer.OFFER_ID');
         $query->leftJoin('r_jenis_asuransi', 'r_jenis_asuransi.JENIS_ASURANSI_ID', '=', 't_offer.JENIS_ASURANSI_ID');
         $query->leftJoin('r_tarif_payroll', 'r_tarif_payroll.TARIF_PAYROLL_ID', '=', 't_offer.TARIF_PAYROLL_ID');
         $query->leftJoin('t_loan_type', 't_loan_type.loan_type_id', '=', 't_offer.LOAN_TYPE_ID');
@@ -88,13 +89,14 @@ class ProsesUnderwritingController extends Controller
         $query->leftJoin('t_scheme', 't_scheme.scheme_id', '=', 't_product_scheme.scheme_id');
         $query->leftJoin('r_offer_status', 'r_offer_status.offer_status_id', '=', 't_offer.OFFER_STATUS_ID');
         $query->leftJoin('r_staging_pengajuan', 'r_staging_pengajuan.staging_pengajuan_id', '=', 't_offer.OFFER_STAGING_ID');
-        $query->leftJoin('t_bank_insurance', 't_bank_insurance.BANK_INSURANCE_ID', '=', 't_offer.BANK_INSURANCE_ID');
+        $query->leftJoin('t_bank_insurance', 't_bank_insurance.BANK_INSURANCE_ID', '=', 't_offer_detail.BANK_INSURANCE_ID');
         $query->leftJoin('t_insurance', 't_insurance.INSURANCE_ID', '=', 't_bank_insurance.INSURANCE_ID');
         $query->leftJoin('t_user', 't_user.id', '=', 't_offer.USER_BANK_ID');
         // $query->leftJoin('r_jenis_asuransi', 'r_jenis_asuransi.JENIS_ASURANSI_ID', '=', 't_share_effective_date.JENIS_ASURANSI_ID')
         $query->orderBy($sortColumn, $sortDirection);
         $query->orderBy('OFFER_UPDATED_DATE', 'DESC');
         $query->where('t_offer.OFFER_IS_UNDERWRITING', 1);
+        $query->where('t_offer_detail.OFFER_DETAIL_IS_USED', 1);
 
         // for filter status
         if ($status != null) {

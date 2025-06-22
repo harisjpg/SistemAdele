@@ -44,6 +44,17 @@ export default function ProsesUnderwriting({ auth }: any) {
           { name: "Proses Underwriting", href: "#", current: true },
      ];
 
+     const [modal, setModal] = useState<any>({
+          detail: false,
+     });
+
+     // for click detail
+     const handleClickDetailUnderwriting = async (idOffer: any) => {
+          setModal({
+               detail: true,
+          });
+     };
+
      return (
           <AuthenticatedLayout user={auth.user} header={"Proses Underwriting"}>
                <Head title={"Proses Underwriting"} />
@@ -56,6 +67,29 @@ export default function ProsesUnderwriting({ auth }: any) {
                          type={"success"}
                     />
                )} */}
+
+               {/* modal action */}
+               <ModalToAction
+                    show={modal.detail}
+                    onClose={() => {
+                         setModal({
+                              ...modal,
+                              detail: false,
+                         });
+                    }}
+                    title="Detail Proses Underwriting"
+                    url={``}
+                    data={""}
+                    onSuccess={""}
+                    method={""}
+                    headers={null}
+                    classPanel={
+                         "relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg lg:max-w-[90%]"
+                    }
+                    submitButtonName={""}
+                    body={<></>}
+               />
+               {/* modal action */}
                {/* section for index Proses underwriting debitur  */}
                <section>
                     {/* Header */}
@@ -67,14 +101,14 @@ export default function ProsesUnderwriting({ auth }: any) {
                               <Breadcrumbs forBreadcrumbs={forBreadcrumbs} />
                          </div>
                          <div className="flex gap-2">
-                              <div
+                              {/* <div
                                    className="p-3 bg-[#0A47FF] text-xs text-white rounded-md shadow-lg hover:cursor-pointer hover:bg-blue-800"
                                    // onClick={(e: any) => {
                                    //      handleProses underwritingDebitur(e);
                                    // }}
                               >
                                    <span>Tambah Proses underwriting</span>
-                              </div>
+                              </div> */}
                          </div>
                     </div>
                     {/* End Header */}
@@ -187,10 +221,9 @@ export default function ProsesUnderwriting({ auth }: any) {
                                                                            onClick={(
                                                                                 e: any
                                                                            ) => {
-                                                                                // handleClickReviewOffer(
-                                                                                //      e,
-                                                                                //      row.OFFER_ID
-                                                                                // );
+                                                                                handleClickDetailUnderwriting(
+                                                                                     row.OFFER_ID
+                                                                                );
                                                                            }}
                                                                       >
                                                                            <span>
@@ -205,37 +238,15 @@ export default function ProsesUnderwriting({ auth }: any) {
                                                                                 onClick={(
                                                                                      e: any
                                                                                 ) => {
-                                                                                     // handleClickReviewOffer(
-                                                                                     //      e,
-                                                                                     //      row.OFFER_ID
-                                                                                     // );
+                                                                                     handleClickDetailUnderwriting(
+                                                                                          row.OFFER_ID
+                                                                                     );
                                                                                 }}
                                                                            >
                                                                                 <span>
                                                                                      <EyeIcon className="w-5 text-primary-adele" />
                                                                                 </span>
                                                                            </div>
-                                                                           {auth
-                                                                                .user
-                                                                                .user_type_id ===
-                                                                                2 && (
-                                                                                <div
-                                                                                     className="text-xs p-2 w-fit hover:cursor-pointer"
-                                                                                     title="Edit"
-                                                                                     // onClick={(
-                                                                                     //      e
-                                                                                     // ) => {
-                                                                                     //      handleClickEdit(
-                                                                                     //           e,
-                                                                                     //           row
-                                                                                     //      );
-                                                                                     // }}
-                                                                                >
-                                                                                     <span>
-                                                                                          <PencilSquareIcon className="w-5 text-primary-adele" />
-                                                                                     </span>
-                                                                                </div>
-                                                                           )}
                                                                       </div>
                                                                  )}
                                                             </>
@@ -366,10 +377,11 @@ export default function ProsesUnderwriting({ auth }: any) {
                                              width: "200px",
                                         },
                                         {
-                                             name: "Nama Debitur",
+                                             name: "Nama Nasabah",
                                              selector: (row: any) =>
                                                   row.THE_INSURED_NAME,
                                              sortable: true,
+                                             width: "200px",
                                         },
                                         // {
                                         //      name: "Status Proses underwriting",

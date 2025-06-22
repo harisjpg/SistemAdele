@@ -139,7 +139,11 @@ export default function ViewPenawaran({
                     <section className="min-w-20 overflow-x-auto custom-scrollbar">
                          {/* for lopping insurance */}
                          <div className="mr-4 mt-4 mb-4 pr-4 pl-4 flex justify-start gap-5">
-                              <div className="flex gap-1 flex-col w-full"></div>
+                              <div className="flex gap-1 flex-col w-full justify-end ml-5">
+                                   <div className="font-semibold text-lg border-b-2 w-fit border-slate-700">
+                                        <span>Produk Asuransi</span>
+                                   </div>
+                              </div>
                               {arrInsurance?.map(
                                    (dataInsurance: any, index: number) => (
                                         <>
