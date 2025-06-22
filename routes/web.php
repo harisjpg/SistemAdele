@@ -10,6 +10,7 @@ use App\Http\Controllers\MenuController;
 use App\Http\Controllers\PengajuanController;
 use App\Http\Controllers\PenutupanController;
 use App\Http\Controllers\ProdukController;
+use App\Http\Controllers\ProsesUnderwritingController;
 use App\Http\Controllers\RateSettingController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\TPermissionController;
@@ -189,6 +190,8 @@ Route::middleware('auth')->group(function () {
     Route::post('/getSumberPembayaran', [PengajuanController::class, 'getSumberPembayaran'])->name('getSumberPembayaran');
     Route::post('/calculatePremi', [PengajuanController::class, 'calculatePremi'])->name('calculatePremi');
     Route::post('/forInsuranceReview', [PengajuanController::class, 'forInsuranceReview'])->name('forInsuranceReview.forInsuranceReview');
+    Route::post('/selectInsurance', [PengajuanController::class, 'selectInsurance'])->name('selectInsurance.selectInsurance');
+
 
 
 
@@ -240,6 +243,10 @@ Route::middleware('auth')->group(function () {
 
     // Proses Penawaran
     // Route::get('/prosesPenawaran', [ProsesPenawaranController::class, 'index'])->name('prosesPenawaran');
+
+    // Proses Underwriting
+    Route::get('/prosesUnderwriting', [ProsesUnderwritingController::class, 'index'])->name('prosesUnderwriting');
+    Route::get('/getOfferUnderwriting', [ProsesUnderwritingController::class, 'getOfferUnderwriting'])->name('getOfferUnderwriting');
 
 
 

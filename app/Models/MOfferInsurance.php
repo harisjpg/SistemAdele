@@ -17,11 +17,16 @@ class MOfferInsurance extends Model
         'OFFER_INSURANCE_ID',
     ];
 
-    public $with = ['product'];
+    public $with = ['product', 'offer_detail'];
 
     public function product()
     {
         return $this->hasOne(TProdukAsuransi::class, 'PRODUK_ASURANSI_ID', 'PRODUK_ASURANSI_ID');
+    }
+
+    public function offer_detail()
+    {
+        return $this->hasMany(TOfferDetail::class, 'OFFER_ID', 'OFFER_ID');
     }
 
     public $timestamps = false;

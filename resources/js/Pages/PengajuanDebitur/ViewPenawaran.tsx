@@ -21,12 +21,114 @@ import {
      PencilSquareIcon,
      XMarkIcon,
 } from "@heroicons/react/20/solid";
+import Swal from "sweetalert2";
+import { Inertia } from "@inertiajs/inertia";
 
 export default function ViewPenawaran({
      arrInsurance,
      filterMekanis,
-}: PropsWithChildren<{ arrInsurance: any; filterMekanis: any }>) {
+     setIsSuccess,
+     setModalPengajuan,
+     setRefreshTrigger,
+}: PropsWithChildren<{
+     arrInsurance: any;
+     filterMekanis: any;
+     setIsSuccess: any;
+     setModalPengajuan: any;
+     setRefreshTrigger: any;
+}>) {
      console.log(arrInsurance);
+
+     const prosesSelectInsurance = async (dataInsurance: any) => {
+          await axios
+               .post(`/selectInsurance`, { dataInsurance })
+               .then((res) => {
+                    if (res.data[1].original[1] === "Underwriting") {
+                         Swal.fire({
+                              title: "",
+                              text: res.data[1].original[0],
+                              icon: "question",
+                              showCancelButton: true,
+                              confirmButtonColor: "#3085d6",
+                              cancelButtonColor: "#d33",
+                              confirmButtonText: "Yes",
+                         }).then((result) => {
+                              if (result.isConfirmed) {
+                                   alert("lannjut proses underwriting");
+                              } else {
+                                   setModalPengajuan({
+                                        add: false,
+                                        detail: false,
+                                        edit: false,
+                                        review: false,
+                                   });
+                                   setIsSuccess("");
+                                   setIsSuccess("Pemilihan Asuransi Berhasil");
+                                   setRefreshTrigger(res.data[0]);
+                                   setTimeout(() => {
+                                        setIsSuccess("");
+                                   }, 5000);
+                                   setTimeout(() => {
+                                        setRefreshTrigger("");
+                                   }, 1000);
+                              }
+                         });
+                    } else {
+                         Swal.fire({
+                              title: "",
+                              text: res.data[1].original[0],
+                              icon: "question",
+                              showCancelButton: true,
+                              confirmButtonColor: "#3085d6",
+                              cancelButtonColor: "#d33",
+                              confirmButtonText: "Yes",
+                         }).then((result) => {
+                              if (result.isConfirmed) {
+                                   Inertia.visit("/prosesUnderwriting", {
+                                        data: {
+                                             filter: "Underwriting",
+                                        },
+                                   });
+                              } else {
+                                   setModalPengajuan({
+                                        add: false,
+                                        detail: false,
+                                        edit: false,
+                                        review: false,
+                                   });
+                                   setIsSuccess("");
+                                   setIsSuccess("Pemilihan Asuransi Berhasil");
+                                   setRefreshTrigger(res.data[0]);
+                                   setTimeout(() => {
+                                        setIsSuccess("");
+                                   }, 5000);
+                                   setTimeout(() => {
+                                        setRefreshTrigger("");
+                                   }, 1000);
+                              }
+                         });
+                    }
+               })
+               .catch((err) => {
+                    console.log(err);
+               });
+     };
+
+     const handleClickSelectInsurance = async (dataInsurance: any) => {
+          Swal.fire({
+               title: "Are you sure?",
+               text: "",
+               icon: "question",
+               showCancelButton: true,
+               confirmButtonColor: "#3085d6",
+               cancelButtonColor: "#d33",
+               confirmButtonText: "Yes",
+          }).then((result) => {
+               if (result.isConfirmed) {
+                    prosesSelectInsurance(dataInsurance);
+               }
+          });
+     };
 
      return (
           <>
@@ -60,7 +162,21 @@ export default function ViewPenawaran({
                                                             </div>
                                                             <div className="font-semibold">
                                                                  <span>
-                                                                      3.40
+                                                                      {new Intl.NumberFormat(
+                                                                           "en-US",
+                                                                           {
+                                                                                style: "decimal",
+                                                                                minimumFractionDigits: 2,
+                                                                                maximumFractionDigits: 2,
+                                                                           }
+                                                                      ).format(
+                                                                           dataInsurance
+                                                                                ?.offer_detail[
+                                                                                index
+                                                                           ][
+                                                                                "OFFER_DETAIL_RATE"
+                                                                           ]
+                                                                      )}
                                                                  </span>
                                                             </div>
                                                        </div>
@@ -72,8 +188,22 @@ export default function ViewPenawaran({
                                                             </div>
                                                             <div className="font-semibold">
                                                                  <span>
-                                                                      Rp.
-                                                                      1.500.000
+                                                                      Rp.{" "}
+                                                                      {new Intl.NumberFormat(
+                                                                           "en-US",
+                                                                           {
+                                                                                style: "decimal",
+                                                                                minimumFractionDigits: 2,
+                                                                                maximumFractionDigits: 2,
+                                                                           }
+                                                                      ).format(
+                                                                           dataInsurance
+                                                                                ?.offer_detail[
+                                                                                index
+                                                                           ][
+                                                                                "OFFER_DETAIL_AMOUNT"
+                                                                           ]
+                                                                      )}
                                                                  </span>
                                                             </div>
                                                        </div>
@@ -85,7 +215,14 @@ export default function ViewPenawaran({
                                                             </span>
                                                        </div>
                                                   </div>
-                                                  <div className="bg-slate-600 rounded-b-lg p-2 flex justify-center font-semibold text-white hover:cursor-pointer hover:bg-slate-400">
+                                                  <div
+                                                       className="bg-slate-600 rounded-b-lg p-2 flex justify-center font-semibold text-white hover:cursor-pointer hover:bg-slate-400"
+                                                       onClick={() => {
+                                                            handleClickSelectInsurance(
+                                                                 dataInsurance
+                                                            );
+                                                       }}
+                                                  >
                                                        <span>
                                                             Select Insurance
                                                        </span>

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\BankBranch;
 use App\Models\Document;
+use App\Models\Insurance;
 use App\Models\MOfferInsurance;
 use App\Models\RDocumentType;
 use App\Models\RTarifPayroll;
@@ -41,11 +42,14 @@ use function App\Helpers\getAllTotalPenutupan;
 use function App\Helpers\getAllTotalProses;
 use function App\Helpers\getAllTotalSetuju;
 use function App\Helpers\getAllTotalTolak;
+use function App\Helpers\getBankInsuranceEffective;
 use function App\Helpers\getCoverNoteNumber;
 use function App\Helpers\getCurrentEffectiveDate;
+use function App\Helpers\getCurrentEffectiveDateInsurance;
 use function App\Helpers\getDataCoverNoteById;
 use function App\Helpers\getDetailOfferAll;
 use function App\Helpers\getDetailOfferAllForBusiness;
+use function App\Helpers\getInsuranceById;
 use function App\Helpers\getInsuranceId;
 use function App\Helpers\getProdukAsuransiById;
 use function App\Helpers\getProdukSubProdukNew;
@@ -192,6 +196,8 @@ class PengajuanController extends Controller
         // $query->leftJoin('r_jenis_asuransi', 'r_jenis_asuransi.JENIS_ASURANSI_ID', '=', 't_share_effective_date.JENIS_ASURANSI_ID')
         $query->orderBy($sortColumn, $sortDirection);
         $query->orderBy('OFFER_UPDATED_DATE', 'DESC');
+        $query->where('t_offer.OFFER_IS_UNDERWRITING', 0);
+        $query->where('t_offer.OFFER_IS_PENAWARAN', 0);
 
         // for filter status
         if ($status != null) {
@@ -349,7 +355,7 @@ class PengajuanController extends Controller
                             "THE_INSURED_AGE"           => $arrDebitur['USIA_DEBITUR'],
                             "THE_INSURED_CREATED_BY"    => $user_id,
                             "THE_INSURED_CREATED_DATE"  => $date,
-                            "THE_INSURED_CIF"           => $arrDebitur['CIF_DEBITUR'],
+                            "THE_INSURED_CIF"           => isset($arrDebitur['CIF_DEBITUR']) ? $arrDebitur['CIF_DEBITUR'] : NULL,
                         ])->THE_INSURED_ID;
 
 
@@ -435,7 +441,7 @@ class PengajuanController extends Controller
                             "THE_INSURED_AGE"           => $arrDebitur['USIA_DEBITUR'],
                             "THE_INSURED_UPDATED_BY"    => $user_id,
                             "THE_INSURED_UPDATED_DATE"  => $date,
-                            "THE_INSURED_CIF"           => $arrDebitur['CIF_DEBITUR'],
+                            "THE_INSURED_CIF"           => isset($arrDebitur['CIF_DEBITUR']) ? $arrDebitur['CIF_DEBITUR'] : NULL,
                         ]);
 
                         if ($request->detail_insurance_life[0]['EMAIL_DEBITUR'] !== null && $request->detail_insurance_life[0]['GENDER_DEBITUR'] !== null && $request->detail_insurance_life[0]['WEIGHT_DEBITUR'] !== null && $request->detail_insurance_life[0]['HEIGHT_DEBITUR'] !== null && $request->detail_insurance_life[0]['MARITAL_STATUS'] !== null) {
@@ -735,90 +741,94 @@ class PengajuanController extends Controller
             }
             // end for upload ktp spajk dan mcu jika ada
 
+            // create offer detail
+            // // get data share effective
+            // $arrDataEffecvtive = getCurrentEffectiveDate($user->BANK_LIST_ID, $request->data_kredit[0]['JENIS_ASURANSI']['value']);
+            // $eff_id = $arrDataEffecvtive[0]["SHARE_EFFECTIVE_DATE_ID"];
+            // $arrInsurance = getShareConfigurationByEffectiveIdAndNoRedFlag($eff_id);
+
             // PROSES VERIFIKASI SEMUA ASURANSI TERHADAP PENGAJUAN
             // get insurance yang terdaftar
-            $arrInsurance = getAllInsurance();
-            for ($i = 0; $i < count($arrInsurance); $i++) {
-                $dataArrInsurance = $arrInsurance[$i];
+            // $arrInsurance = getAllInsurance();
 
+            $arrDataEffecvtive = getCurrentEffectiveDateInsurance();
+            $eff_id = $arrDataEffecvtive[0]["SHARE_EFFECTIVE_DATE_ID"];
+            $arrInsurance = getBankInsuranceEffective($eff_id);
+
+            for ($i = 0; $i < sizeof($arrInsurance); $i++) {
+                // get data offer untuk detailing
+                $arrOffer = TOffer::where('OFFER_ID', $createTOffer)->get();
+                $arrTheInsured = TTheInsured::where('THE_INSURED_ID', $arrOffer[0]['THE_INSURED_ID'])->get();
+
+                $reg["documenIdRate"] = $arrInsurance[$i]["RATE_MANAGE_ID"];
+                $reg["insurance_id"] = $arrInsurance[$i]["INSURANCE_ID"];
+                $reg["age"] = $arrTheInsured[0]['THE_INSURED_AGE'];
+                $reg["tenor_reg"] = $arrOffer[0]['OFFER_TENOR'];
+                $reg["birth_date"] = $arrTheInsured[0]['THE_INSURED_DATE_OF_BIRTH'];
+                $reg["plafond"] = $arrOffer[0]['OFFER_SUM_INSURED'];
+                $reg["jenis_rate"] = $arrOffer[0]['TARIF_PAYROLL_ID'];
+                $reg["tanggal_awal"] = $arrOffer[0]['OFFER_INCEPTION_DATE'];
+
+                $hasilPremiRate = calculateRatePremiAdeleSistem($reg);
+
+                $hasilTotal = $hasilPremiRate["premium"];
+
+                if ($hasilTotal > 0) {
+                    $arrayInsurance["BankInsuranceId"] = $arrInsurance[$i]["BANK_INSURANCE_ID"];
+                    $arrayInsurance["rateRegular"] = $hasilPremiRate["rate"];
+                    $arrayInsurance["premiRegular"] = $hasilPremiRate["premium"];
+                    $arrayInsurance["rateGP"] = '0';
+                    $arrayInsurance["premiGP"] = '0';
+                    $arrayInsurance["totalPremi"] =  $hasilTotal;
+                } else {
+                    $arrayInsurance["BankInsuranceId"] = $arrInsurance[$i]["BANK_INSURANCE_ID"];
+                    $arrayInsurance["rateRegular"] = '0';
+                    $arrayInsurance["premiRegular"] = '0';
+                    $arrayInsurance["rateGP"] = '0';
+                    $arrayInsurance["premiGP"] = '0';
+                    $arrayInsurance["totalPremi"] =  $hasilTotal;
+                }
+
+                // create data di t_offer_detail
+                $createTOfferDetail = TOfferDetail::create([
+                    "OFFER_ID"                      => $arrOffer[0]['OFFER_ID'],
+                    "BANK_INSURANCE_ID"             => $arrayInsurance["BankInsuranceId"],
+                    "OFFER_DETAIL_RATE"             => $arrayInsurance['rateRegular'],
+                    "OFFER_DETAIL_AMOUNT"           => $arrayInsurance['premiRegular'],
+                    "OFFER_DETAIL_CREATED_BY"       => $user_id,
+                    "OFFER_DETAIL_CREATED_DATE"     => $date
+                ])->OFFER_DETAIL_ID;
+
+
+                // PROSES VERIFIKASI SEMUA ASURANSI TERHADAP PENGAJUAN
                 // get data produk asuransi by id
-                $arrProdukAsuransi = getProdukAsuransiById($dataArrInsurance['PRODUK_ASURANSI_ID']);
+                $arrProdukAsuransi = getProdukAsuransiById($arrInsurance[$i]['PRODUK_ASURANSI_ID']);
                 // get data mekanisme produk
 
                 // Hardcode 
                 $batasUsia = 55;
                 $batasUangPinjaman = 500000000.00;
 
-                if ($request->data_debitur[0]['USIA_DEBITUR'] <= $batasUsia && $request->data_kredit[0]['SUM_INSURED'] <= $batasUangPinjaman) {
+                if ($arrTheInsured[0]['THE_INSURED_AGE'] <= $batasUsia && $arrOffer[0]['OFFER_SUM_INSURED'] <= $batasUangPinjaman) {
                     // simpan mapping asuransi dan t_offer
                     $createMOfferInsurance = MOfferInsurance::create([
-                        "OFFER_ID"      => $createTOffer,
-                        "INSURANCE_ID"  => $dataArrInsurance['INSURANCE_ID']
+                        "OFFER_ID"          => $arrOffer[0]['OFFER_ID'],
+                        "OFFER_DETAIL_ID"   => $createTOfferDetail,
+                        "INSURANCE_ID"      => $arrInsurance[$i]['INSURANCE_ID']
                     ]);
                 }
+
+                // create log
+                UserLog::create([
+                    'created_by' => $user->id,
+                    'action'     => json_encode([
+                        "description" => "Created (Pengajuan Detail)",
+                        "module"      => "Pengajuan",
+                        "id"          => $createTOfferDetail
+                    ]),
+                    'action_by'  => $user->user_login
+                ]);
             }
-
-            // create offer detail
-            // get data share effective
-            // $arrDataEffecvtive = getCurrentEffectiveDate($user->BANK_LIST_ID, $request->data_kredit[0]['JENIS_ASURANSI']['value']);
-            // $eff_id = $arrDataEffecvtive[0]["SHARE_EFFECTIVE_DATE_ID"];
-            // $arrInsurance = getShareConfigurationByEffectiveIdAndNoRedFlag($eff_id);
-
-            // for ($i = 0; $i < sizeof($arrInsurance); $i++) {
-            //     // get data offer untuk detailing
-            //     $arrOffer = TOffer::where('OFFER_ID', $createTOffer)->get();
-            //     $arrTheInsured = TTheInsured::where('THE_INSURED_ID', $arrOffer[0]['THE_INSURED_ID'])->get();
-
-            //     $reg["documenIdRate"] = $arrInsurance[$i]["RATE_MANAGE_ID"];
-            //     $reg["insurance_id"] = $arrInsurance[$i]["INSURANCE_ID"];
-            //     $reg["age"] = $arrTheInsured[0]['THE_INSURED_AGE'];
-            //     $reg["tenor_reg"] = $arrOffer[0]['OFFER_TENOR'];
-            //     $reg["birth_date"] = $arrTheInsured[0]['THE_INSURED_DATE_OF_BIRTH'];
-            //     $reg["plafond"] = $arrOffer[0]['OFFER_SUM_INSURED'];
-            //     $reg["jenis_rate"] = $arrOffer[0]['TARIF_PAYROLL_ID'];
-            //     $reg["tanggal_awal"] = $arrOffer[0]['OFFER_INCEPTION_DATE'];
-
-            //     $hasilPremiRate = calculateRatePremiAdeleSistem($reg);
-
-            //     $hasilTotal = $hasilPremiRate["premium"];
-
-            //     if ($hasilTotal > 0) {
-            //         $arrayInsurance["BankInsuranceId"] = $arrInsurance[$i]["BANK_INSURANCE_ID"];
-            //         $arrayInsurance["rateRegular"] = $hasilPremiRate["rate"];
-            //         $arrayInsurance["premiRegular"] = $hasilPremiRate["premium"];
-            //         $arrayInsurance["rateGP"] = '0';
-            //         $arrayInsurance["premiGP"] = '0';
-            //         $arrayInsurance["totalPremi"] =  $hasilTotal;
-            //     } else {
-            //         $arrayInsurance["BankInsuranceId"] = $arrInsurance[$i]["BANK_INSURANCE_ID"];
-            //         $arrayInsurance["rateRegular"] = '0';
-            //         $arrayInsurance["premiRegular"] = '0';
-            //         $arrayInsurance["rateGP"] = '0';
-            //         $arrayInsurance["premiGP"] = '0';
-            //         $arrayInsurance["totalPremi"] =  $hasilTotal;
-            //     }
-
-            //     // create data di t_offer_detail
-            //     $createTOfferDetail = TOfferDetail::create([
-            //         "OFFER_ID"                      => $arrOffer[0]['OFFER_ID'],
-            //         "BANK_INSURANCE_ID"             => $arrayInsurance["BankInsuranceId"],
-            //         "OFFER_DETAIL_RATE"             => $arrayInsurance['rateRegular'],
-            //         "OFFER_DETAIL_AMOUNT"           => $arrayInsurance['premiRegular'],
-            //         "OFFER_DETAIL_CREATED_BY"       => $user_id,
-            //         "OFFER_DETAIL_CREATED_DATE"     => $date
-            //     ])->OFFER_DETAIL_ID;
-
-            //     // create log
-            //     UserLog::create([
-            //         'created_by' => $user->id,
-            //         'action'     => json_encode([
-            //             "description" => "Created (Pengajuan Detail)",
-            //             "module"      => "Pengajuan",
-            //             "id"          => $createTOfferDetail
-            //         ]),
-            //         'action_by'  => $user->user_login
-            //     ]);
-            // }
             // end create offer detail
         });
 
@@ -941,7 +951,7 @@ class PengajuanController extends Controller
         // end for rate history
 
         // get insurance from offer id
-        $getMappingInsurance = MOfferInsurance::where('OFFER_ID', $request->idOffer)
+        $getMappingInsurance = MOfferInsurance::where('m_offer_insurance.OFFER_ID', $request->idOffer)
             ->leftJoin('t_insurance', 't_insurance.INSURANCE_ID', '=', 'm_offer_insurance.INSURANCE_ID')
             ->get();
 
@@ -1597,7 +1607,7 @@ class PengajuanController extends Controller
                             "THE_INSURED_AGE"           => $arrDebitur['USIA_DEBITUR'],
                             "THE_INSURED_UPDATED_BY"    => $user_id,
                             "THE_INSURED_UPDATED_DATE"  => $date,
-                            "THE_INSURED_CIF"           => $arrDebitur['CIF_DEBITUR'],
+                            "THE_INSURED_CIF"           => isset($arrDebitur['CIF_DEBITUR']) ? $arrDebitur['CIF_DEBITUR'] : NULL,
                         ]);
 
                         if ($request->detail_insurance_life[0]['EMAIL_DEBITUR'] !== null && $request->detail_insurance_life[0]['GENDER_DEBITUR'] !== null && $request->detail_insurance_life[0]['WEIGHT_DEBITUR'] !== null && $request->detail_insurance_life[0]['HEIGHT_DEBITUR'] !== null && $request->detail_insurance_life[0]['MARITAL_STATUS'] !== null) {
@@ -1777,7 +1787,7 @@ class PengajuanController extends Controller
                             "THE_INSURED_AGE"           => $arrDebitur['USIA_DEBITUR'],
                             "THE_INSURED_UPDATED_BY"    => $user_id,
                             "THE_INSURED_UPDATED_DATE"  => $date,
-                            "THE_INSURED_CIF"           => $arrDebitur['CIF_DEBITUR'],
+                            "THE_INSURED_CIF"           => isset($arrDebitur['CIF_DEBITUR']) ? $arrDebitur['CIF_DEBITUR'] : NULL,
 
                         ]);
 
@@ -3607,6 +3617,71 @@ class PengajuanController extends Controller
 
         return new JsonResponse([
             'Select Asuransi Pengajuan Success',
+            $result
+        ], 201, [
+            'X-Inertia' => true
+        ]);
+    }
+
+    public function selectInsurance(Request $request)
+    {
+        $result = DB::transaction(function () use ($request) {
+            // Data Auth
+            $user = Auth::user();
+            $user_id = $user->id;
+            $date = now();
+
+            // cek terlebih dulu, asuransi tersebut apakah ada underwriting, kalo gaada maka pindah ke proses penawaran, kalo ada lanjut proses underwriting
+            // get data insurance
+            $arrDataInsurance = getInsuranceById($request->dataInsurance['INSURANCE_ID']);
+            // dd($arrDataInsurance);
+            if ($arrDataInsurance->UNDERWRITING_ID === null || $arrDataInsurance->UNDERWRITING_ID === "") { // jika null atau kosong, masuk ke penawaran
+                // update t_offer masuk ke proses penawaran
+                TOffer::where('OFFER_ID', $request->dataInsurance['OFFER_ID'])
+                    ->update([
+                        "OFFER_IS_PENAWARAN"        => 1,
+                        "OFFER_UPDATED_BY"          => $user_id,
+                        "OFFER_UPDATED_DATE"        => $date
+                    ]);
+
+                TOfferDetail::where('OFFER_DETAIL_ID', $request->dataInsurance['OFFER_DETAIL_ID'])->update([
+                    'OFFER_DETAIL_IS_USED'             => 1,
+                    'OFFER_DETAIL_UPDATED_BY'          => $user_id,
+                    'OFFER_DETAIL_UPDATED_DATE'        => $date
+                ]);
+
+                return new JsonResponse([
+                    'Asuransi tidak ada proses underwting, maka akan dilanjutkan ke penawaran',
+                    "Penawaran"
+                ], 201, [
+                    'X-Inertia' => true
+                ]);
+            } else {
+                // update t_offer masuk ke proses penawaran
+                TOffer::where('OFFER_ID', $request->dataInsurance['OFFER_ID'])
+                    ->update([
+                        "OFFER_IS_UNDERWRITING"         => 1,
+                        "OFFER_UPDATED_BY"              => $user_id,
+                        "OFFER_UPDATED_DATE"            => $date
+                    ]);
+
+                TOfferDetail::where('OFFER_DETAIL_ID', $request->dataInsurance['OFFER_DETAIL_ID'])->update([
+                    'OFFER_DETAIL_IS_USED'             => 1,
+                    'OFFER_DETAIL_UPDATED_BY'          => $user_id,
+                    'OFFER_DETAIL_UPDATED_DATE'        => $date
+                ]);
+
+                return new JsonResponse([
+                    'Asuransi ada proses underwting, maka akan dilanjutkan ke underwriting',
+                    "Undwriting"
+                ], 201, [
+                    'X-Inertia' => true
+                ]);
+            }
+        });
+
+        return new JsonResponse([
+            'Terima Pengajuan Success',
             $result
         ], 201, [
             'X-Inertia' => true

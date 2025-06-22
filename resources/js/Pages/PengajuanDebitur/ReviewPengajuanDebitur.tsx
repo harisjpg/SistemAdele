@@ -1641,6 +1641,9 @@ export default function ReviewPengajuanDebitur({
                     <ViewPenawaran
                          arrInsurance={arrInsurance}
                          filterMekanis={filterMekanis}
+                         setIsSuccess={setIsSuccess}
+                         setModalPengajuan={setModalPengajuan}
+                         setRefreshTrigger={setRefreshTrigger}
                     />
                </>
                {/* End For Data Penawaran */}

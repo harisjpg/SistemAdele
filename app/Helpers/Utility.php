@@ -95,6 +95,33 @@ function getShareConfigurationByEffectiveIdAndNoRedFlag($idEffective)
     return $data;
 }
 
+function getCurrentEffectiveDateInsurance($bankId = "", $idAsuransi = NULL)
+{
+    $today = date("Y-m-d");
+
+    $query = $arrEffectiveDate = TShareEffectiveDate::query();
+    $query->where('SHARE_EFFECTIVE_DATE', '<=', $today);
+    // $query->where('JENIS_ASURANSI_ID', $idAsuransi);
+    $query->whereIn('JENIS_ASURANSI_ID', [1, 2, 3]);
+    $query->where('SHARE_EFFECTIVE_STATUS', 0);
+    if ($bankId != "") {
+        $query->where('BANK_LIST_ID', $bankId);
+    }
+    $query->orderBy('SHARE_EFFECTIVE_DATE', 'DESC');
+    $query->orderBy('SHARE_EFFECTIVE_CREATED', 'DESC');
+    $arrData = $query->get();
+
+    return $arrData;
+}
+
+
+function getBankInsuranceEffective($idEffective)
+{
+    $data = TBankInsurance::select('t_bank_insurance.*', 't_insurance.INSURANCE_SLUG', 't_insurance.INSURANCE_NAME')->where('t_bank_insurance.BANK_INSURANCE_REDFLAG', 'false')->leftJoin('t_insurance', 't_bank_insurance.INSURANCE_ID', '=', 't_insurance.INSURANCE_ID')->where('t_bank_insurance.SHARE_EFFECTIVE_DATE_ID', $idEffective)->get();
+
+    return $data;
+}
+
 function getRateManageSettingById($idRateManage)
 {
     $arrRateManage = RateSetting::where('RATE_MANAGE_ID', $idRateManage)
@@ -764,6 +791,14 @@ function getAllInsurance()
 function getProdukAsuransiById($asuransi_id)
 {
     $arrData = TProdukAsuransi::where('PRODUK_ASURANSI_ID', $asuransi_id)
+        ->first();
+
+    return $arrData;
+}
+
+function getInsuranceById($idInsurance)
+{
+    $arrData = Insurance::where('INSURANCE_ID', $idInsurance)
         ->first();
 
     return $arrData;
