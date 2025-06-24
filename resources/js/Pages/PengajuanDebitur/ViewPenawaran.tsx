@@ -25,6 +25,7 @@ import Swal from "sweetalert2";
 import { Inertia } from "@inertiajs/inertia";
 import CardCarousel from "@/Components/Carausel/Carausel";
 import ModalToAction from "@/Components/Modal/ModalToAction";
+import ModalDetailPenawaran from "@/Components/Modal/ModalDetailPenawaran";
 
 export default function ViewPenawaran({
      arrInsurance,
@@ -135,18 +136,21 @@ export default function ViewPenawaran({
      const [detailModal, setDetailModal] = useState<any>({
           detail: false,
      });
+     const [detailAsuransi, setDetailAsuransi] = useState<any>(null);
 
-     const handleClickDetialJaminan = async () => {
+     const handleClickDetialJaminan = async (dataInsurance: any) => {
+          setDetailAsuransi(dataInsurance);
           setDetailModal({
                ...detailModal,
                detail: true,
           });
      };
+     console.log(detailAsuransi);
 
      return (
           <>
                {/* for detail */}
-               <ModalToAction
+               <ModalDetailPenawaran
                     show={detailModal.detail}
                     onClose={() => {
                          setDetailModal({
@@ -154,7 +158,7 @@ export default function ViewPenawaran({
                               detail: false,
                          });
                     }}
-                    title={`Detail ${"Nama Asuransi"}`}
+                    title={`Detail Jaminan Asuransi ${detailAsuransi?.INSURANCE_NAME}`}
                     url={``}
                     data={""}
                     onSuccess={""}
@@ -167,9 +171,74 @@ export default function ViewPenawaran({
                     body={
                          <>
                               <div className="grid grid-cols-1">
-                                   <div className="bg-white">
-                                        <span>Aloo</span>
+                                   <div className="text-sm mb-2 font-semibold border-b-2 w-fit border-slate-700">
+                                        <span>
+                                             Jaminan / Pengecualian Produk
+                                             Asuransi
+                                        </span>
                                    </div>
+                                   {detailAsuransi?.product?.data_mekanisme_produk?.map(
+                                        (dataMekanisme: any, i: number) => (
+                                             <div key={i}>
+                                                  <div className="bg-white rounded-md p-2 flex justify-between text-sm mb-2">
+                                                       <div className="w-56">
+                                                            <span>
+                                                                 {
+                                                                      dataMekanisme.MEKANISME_PRODUK_ASURANSI_JAMINAN
+                                                                 }
+                                                            </span>
+                                                       </div>
+                                                       <div className="flex items-center justify-center">
+                                                            <span>
+                                                                 <CheckCircleIcon className="w-6" />
+                                                            </span>
+                                                       </div>
+                                                  </div>
+                                                  <div className="bg-white rounded-md p-2 flex justify-between text-sm mb-2">
+                                                       <div className="w-56">
+                                                            <span>
+                                                                 {
+                                                                      dataMekanisme.MEKANISME_PRODUK_ASURANSI_KAPASITAS
+                                                                 }
+                                                            </span>
+                                                       </div>
+                                                       <div className="flex items-center justify-center">
+                                                            <span>
+                                                                 <CheckCircleIcon className="w-6" />
+                                                            </span>
+                                                       </div>
+                                                  </div>
+                                                  <div className="bg-white rounded-md p-2 flex justify-between text-sm mb-2">
+                                                       <div className="w-56">
+                                                            <span>
+                                                                 {
+                                                                      dataMekanisme.MEKANISME_PRODUK_ASURANSI_GANTI_RUGI
+                                                                 }
+                                                            </span>
+                                                       </div>
+                                                       <div className="flex items-center justify-center">
+                                                            <span>
+                                                                 <CheckCircleIcon className="w-6" />
+                                                            </span>
+                                                       </div>
+                                                  </div>
+                                                  <div className="bg-white rounded-md p-2 flex justify-between text-sm mb-2">
+                                                       <div className="w-56">
+                                                            <span>
+                                                                 {
+                                                                      dataMekanisme.MEKANISME_PRODUK_ASURANSI_LIMIT_GANTI_RUGI
+                                                                 }
+                                                            </span>
+                                                       </div>
+                                                       <div className="flex items-center justify-center">
+                                                            <span>
+                                                                 <CheckCircleIcon className="w-6" />
+                                                            </span>
+                                                       </div>
+                                                  </div>
+                                             </div>
+                                        )
+                                   )}
                               </div>
                          </>
                     }
@@ -183,56 +252,127 @@ export default function ViewPenawaran({
                               </legend>
                               <section>
                                    <div className="grid grid-cols-1 p-4">
-                                        {/* card */}
-                                        <div className="bg-slate-600 text-white font-semibold rounded-t-md shadow-md p-2 flex justify-center items-center">
-                                             <span>Simulasi Premi</span>
-                                        </div>
-                                        <div className="bg-white p-2 rounded-b-md shadow-md gap-2">
-                                             <div className="text-center font-semibold mb-5">
-                                                  <span>Nama Asuransi</span>
-                                             </div>
-                                             <div>
-                                                  {/* Rate */}
-                                                  <div className="flex justify-between">
-                                                       <div className="">
-                                                            Rate
+                                        {arrInsurance?.map(
+                                             (
+                                                  dataInsurance: any,
+                                                  index: number
+                                             ) => (
+                                                  <>
+                                                       <div
+                                                            key={index}
+                                                            className="mb-4"
+                                                       >
+                                                            {/* card */}
+                                                            <div className="bg-slate-600 text-white font-semibold rounded-t-md shadow-md p-2 flex justify-center items-center">
+                                                                 <span>
+                                                                      Simulasi
+                                                                      Premi
+                                                                 </span>
+                                                            </div>
+                                                            <div className="bg-white p-2 rounded-b-md shadow-md gap-2">
+                                                                 <div className="text-center font-semibold mb-5">
+                                                                      <span>
+                                                                           {
+                                                                                dataInsurance?.INSURANCE_NAME
+                                                                           }
+                                                                      </span>
+                                                                 </div>
+                                                                 <div>
+                                                                      {/* Rate */}
+                                                                      <div className="flex justify-between">
+                                                                           <div className="">
+                                                                                Rate
+                                                                           </div>
+                                                                           <div className="font-semibold">
+                                                                                <span>
+                                                                                     {new Intl.NumberFormat(
+                                                                                          "en-US",
+                                                                                          {
+                                                                                               style: "decimal",
+                                                                                               minimumFractionDigits: 2,
+                                                                                               maximumFractionDigits: 2,
+                                                                                          }
+                                                                                     ).format(
+                                                                                          dataInsurance
+                                                                                               ?.offer_detail[
+                                                                                               index
+                                                                                          ][
+                                                                                               "OFFER_DETAIL_RATE"
+                                                                                          ]
+                                                                                     )}
+                                                                                </span>
+                                                                           </div>
+                                                                      </div>
+                                                                      {/* Premi */}
+                                                                      <div className="flex justify-between">
+                                                                           <div className="">
+                                                                                Premi
+                                                                           </div>
+                                                                           <div className="font-semibold">
+                                                                                <span>
+                                                                                     Rp.{" "}
+                                                                                     {new Intl.NumberFormat(
+                                                                                          "en-US",
+                                                                                          {
+                                                                                               style: "decimal",
+                                                                                               minimumFractionDigits: 2,
+                                                                                               maximumFractionDigits: 2,
+                                                                                          }
+                                                                                     ).format(
+                                                                                          dataInsurance
+                                                                                               ?.offer_detail[
+                                                                                               index
+                                                                                          ][
+                                                                                               "OFFER_DETAIL_AMOUNT"
+                                                                                          ]
+                                                                                     )}
+                                                                                </span>
+                                                                           </div>
+                                                                      </div>
+                                                                 </div>
+                                                                 <div className="text-xs mt-4 text-left italic text-slate-400">
+                                                                      <span>
+                                                                           *Simulasi
+                                                                           di
+                                                                           atas
+                                                                           ini
+                                                                           belum
+                                                                           merupakan
+                                                                           penawaran
+                                                                           resmi,
+                                                                           namun
+                                                                           masih
+                                                                           membutuhkan
+                                                                           proses
+                                                                           underwriting.
+                                                                      </span>
+                                                                 </div>
+                                                                 <div className="mt-5 bg-slate-600 p-2 rounded-md text-white text-center">
+                                                                      <span>
+                                                                           Select
+                                                                           Insurance
+                                                                      </span>
+                                                                 </div>
+                                                                 <div
+                                                                      className="mt-2 rounded-md text-center font-semibold hover:text-slate-500"
+                                                                      onClick={() => {
+                                                                           handleClickDetialJaminan(
+                                                                                dataInsurance
+                                                                           );
+                                                                      }}
+                                                                 >
+                                                                      <span>
+                                                                           Klik
+                                                                           Untuk
+                                                                           Detail
+                                                                      </span>
+                                                                 </div>
+                                                            </div>
+                                                            {/* card */}
                                                        </div>
-                                                       <div className="font-semibold">
-                                                            3.50
-                                                       </div>
-                                                  </div>
-                                                  {/* Premi */}
-                                                  <div className="flex justify-between">
-                                                       <div className="">
-                                                            Premi
-                                                       </div>
-                                                       <div className="font-semibold">
-                                                            Rp. 4.200.000,00
-                                                       </div>
-                                                  </div>
-                                             </div>
-                                             <div className="text-xs mt-4 text-left italic text-slate-400">
-                                                  <span>
-                                                       *Simulasi di atas ini
-                                                       belum merupakan penawaran
-                                                       resmi, namun masih
-                                                       membutuhkan proses
-                                                       underwriting.
-                                                  </span>
-                                             </div>
-                                             <div className="mt-5 bg-slate-600 p-2 rounded-md text-white text-center">
-                                                  <span>Select Insurance</span>
-                                             </div>
-                                             <div
-                                                  className="mt-2 rounded-md text-center font-semibold hover:text-slate-500"
-                                                  onClick={() => {
-                                                       handleClickDetialJaminan();
-                                                  }}
-                                             >
-                                                  <span>Klik Untuk Detail</span>
-                                             </div>
-                                        </div>
-                                        {/* card */}
+                                                  </>
+                                             )
+                                        )}
                                    </div>
                               </section>
                          </fieldset>
