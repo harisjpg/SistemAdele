@@ -29,6 +29,7 @@ import SelectTailwind from "react-tailwindcss-select";
 import Loader from "@/Components/Loader";
 import Breadcrumbs from "@/Components/Breadcrumbs";
 import TextSearch from "@/Components/TextSearch";
+import DetailProsesUnderwriting from "./DetailProsesUnderwriting";
 
 export default function ProsesUnderwriting({ auth }: any) {
      const {}: any = usePage().props;
@@ -48,8 +49,28 @@ export default function ProsesUnderwriting({ auth }: any) {
           detail: false,
      });
 
+     // for loader
+     const [loaderFetch, setLoaderFetch] = useState<any>(true);
+     const [detailOfferProsesUnderwriting, setDetailOfferProsesUnderwriting] =
+          useState<any>([]);
+
+     // for get data detail proses underwriting
+     const getDetailProsesUnderwriting = async (idOffer: any) => {
+          setLoaderFetch(true);
+          await axios
+               .post(`/getDetailProsesUnderwriting`, { idOffer })
+               .then((res) => {
+                    setLoaderFetch(false);
+                    setDetailOfferProsesUnderwriting(res.data.pengajuanDetail);
+               })
+               .catch((err) => {
+                    console.log(err);
+               });
+     };
+
      // for click detail
      const handleClickDetailUnderwriting = async (idOffer: any) => {
+          getDetailProsesUnderwriting(idOffer);
           setModal({
                detail: true,
           });
@@ -87,7 +108,19 @@ export default function ProsesUnderwriting({ auth }: any) {
                          "relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg lg:max-w-[90%]"
                     }
                     submitButtonName={""}
-                    body={<></>}
+                    body={
+                         <>
+                              {loaderFetch === true ? (
+                                   <Loader />
+                              ) : (
+                                   <DetailProsesUnderwriting
+                                        detailProsesUnderwriting={
+                                             detailOfferProsesUnderwriting
+                                        }
+                                   />
+                              )}
+                         </>
+                    }
                />
                {/* modal action */}
                {/* section for index Proses underwriting debitur  */}

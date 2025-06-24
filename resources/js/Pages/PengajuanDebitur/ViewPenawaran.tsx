@@ -23,6 +23,8 @@ import {
 } from "@heroicons/react/20/solid";
 import Swal from "sweetalert2";
 import { Inertia } from "@inertiajs/inertia";
+import CardCarousel from "@/Components/Carausel/Carausel";
+import ModalToAction from "@/Components/Modal/ModalToAction";
 
 export default function ViewPenawaran({
      arrInsurance,
@@ -130,236 +132,184 @@ export default function ViewPenawaran({
           });
      };
 
+     const [detailModal, setDetailModal] = useState<any>({
+          detail: false,
+     });
+
+     const handleClickDetialJaminan = async () => {
+          setDetailModal({
+               ...detailModal,
+               detail: true,
+          });
+     };
+
      return (
           <>
-               <fieldset className="pb-10 pt-0 xs:mt-60 lg:mt-2 rounded-lg border-2">
-                    <legend className="ml-5 px-3 font-semibold">
-                         Penawaran Insurance
-                    </legend>
-                    <section className="min-w-20 overflow-x-auto custom-scrollbar">
-                         {/* for lopping insurance */}
-                         <div className="mr-4 mt-4 mb-4 pr-4 pl-4 flex justify-start gap-5">
-                              <div className="flex gap-1 flex-col w-full justify-end ml-5">
-                                   <div className="font-semibold text-lg border-b-2 w-fit border-slate-700">
-                                        <span>Produk Asuransi</span>
+               {/* for detail */}
+               <ModalToAction
+                    show={detailModal.detail}
+                    onClose={() => {
+                         setDetailModal({
+                              ...detailModal,
+                              detail: false,
+                         });
+                    }}
+                    title={`Detail ${"Nama Asuransi"}`}
+                    url={``}
+                    data={""}
+                    onSuccess={""}
+                    method={""}
+                    headers={null}
+                    classPanel={
+                         "relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg lg:max-w-[95%]"
+                    }
+                    submitButtonName={""}
+                    body={
+                         <>
+                              <div className="grid grid-cols-1">
+                                   <div className="bg-white">
+                                        <span>Aloo</span>
                                    </div>
                               </div>
-                              {arrInsurance?.map(
-                                   (dataInsurance: any, index: number) => (
-                                        <>
-                                             <div key={index}>
-                                                  <div className="p-4 bg-white shadow-lg rounded-t-lg w-60">
-                                                       {/* nama asuransi */}
-                                                       <div className="text-lg mb-10 font-semibold text-center">
-                                                            <span>
-                                                                 {
-                                                                      dataInsurance?.INSURANCE_NAME
-                                                                 }
-                                                            </span>
+                         </>
+                    }
+               />
+               {/* end for detail */}
+               {window.innerWidth < 1024 ? (
+                    <>
+                         <fieldset className="pb-10 pt-0 xs:mt-2 lg:mt-2 rounded-lg border-2 ">
+                              <legend className="ml-5 px-3 font-semibold">
+                                   Penawaran Insurance
+                              </legend>
+                              <section>
+                                   <div className="grid grid-cols-1 p-4">
+                                        {/* card */}
+                                        <div className="bg-slate-600 text-white font-semibold rounded-t-md shadow-md p-2 flex justify-center items-center">
+                                             <span>Simulasi Premi</span>
+                                        </div>
+                                        <div className="bg-white p-2 rounded-b-md shadow-md gap-2">
+                                             <div className="text-center font-semibold mb-5">
+                                                  <span>Nama Asuransi</span>
+                                             </div>
+                                             <div>
+                                                  {/* Rate */}
+                                                  <div className="flex justify-between">
+                                                       <div className="">
+                                                            Rate
                                                        </div>
-                                                       {/* nama asuransi */}
-                                                       <div className="flex justify-between">
-                                                            <div className="text-slate-600">
-                                                                 <span>
-                                                                      Rate
-                                                                 </span>
-                                                            </div>
-                                                            <div className="font-semibold">
-                                                                 <span>
-                                                                      {new Intl.NumberFormat(
-                                                                           "en-US",
-                                                                           {
-                                                                                style: "decimal",
-                                                                                minimumFractionDigits: 2,
-                                                                                maximumFractionDigits: 2,
-                                                                           }
-                                                                      ).format(
-                                                                           dataInsurance
-                                                                                ?.offer_detail[
-                                                                                index
-                                                                           ][
-                                                                                "OFFER_DETAIL_RATE"
-                                                                           ]
-                                                                      )}
-                                                                 </span>
-                                                            </div>
-                                                       </div>
-                                                       <div className="flex justify-between">
-                                                            <div className="text-slate-600">
-                                                                 <span>
-                                                                      Premi
-                                                                 </span>
-                                                            </div>
-                                                            <div className="font-semibold">
-                                                                 <span>
-                                                                      Rp.{" "}
-                                                                      {new Intl.NumberFormat(
-                                                                           "en-US",
-                                                                           {
-                                                                                style: "decimal",
-                                                                                minimumFractionDigits: 2,
-                                                                                maximumFractionDigits: 2,
-                                                                           }
-                                                                      ).format(
-                                                                           dataInsurance
-                                                                                ?.offer_detail[
-                                                                                index
-                                                                           ][
-                                                                                "OFFER_DETAIL_AMOUNT"
-                                                                           ]
-                                                                      )}
-                                                                 </span>
-                                                            </div>
-                                                       </div>
-                                                       <div className="text-[11px] mt-5 italic text-slate-400">
-                                                            <span>
-                                                                 *Perhitungan
-                                                                 diatas adalah
-                                                                 hasil simulasi
-                                                            </span>
+                                                       <div className="font-semibold">
+                                                            3.50
                                                        </div>
                                                   </div>
-                                                  <div
-                                                       className="bg-slate-600 rounded-b-lg p-2 flex justify-center font-semibold text-white hover:cursor-pointer hover:bg-slate-400"
-                                                       onClick={() => {
-                                                            handleClickSelectInsurance(
-                                                                 dataInsurance
-                                                            );
-                                                       }}
-                                                  >
+                                                  {/* Premi */}
+                                                  <div className="flex justify-between">
+                                                       <div className="">
+                                                            Premi
+                                                       </div>
+                                                       <div className="font-semibold">
+                                                            Rp. 4.200.000,00
+                                                       </div>
+                                                  </div>
+                                             </div>
+                                             <div className="text-xs mt-4 text-left italic text-slate-400">
+                                                  <span>
+                                                       *Simulasi di atas ini
+                                                       belum merupakan penawaran
+                                                       resmi, namun masih
+                                                       membutuhkan proses
+                                                       underwriting.
+                                                  </span>
+                                             </div>
+                                             <div className="mt-5 bg-slate-600 p-2 rounded-md text-white text-center">
+                                                  <span>Select Insurance</span>
+                                             </div>
+                                             <div
+                                                  className="mt-2 rounded-md text-center font-semibold hover:text-slate-500"
+                                                  onClick={() => {
+                                                       handleClickDetialJaminan();
+                                                  }}
+                                             >
+                                                  <span>Klik Untuk Detail</span>
+                                             </div>
+                                        </div>
+                                        {/* card */}
+                                   </div>
+                              </section>
+                         </fieldset>
+                    </>
+               ) : (
+                    <>
+                         <fieldset className="pb-10 pt-0 xs:mt-2 lg:mt-2 rounded-lg border-2 ">
+                              <legend className="ml-5 px-3 font-semibold">
+                                   Penawaran Insurance
+                              </legend>
+                              <section className="">
+                                   <div className="w-full">
+                                        <div className="grid grid-cols-5">
+                                             <div className="col-span-2 ml-4">
+                                                  {/* for jaminan */}
+                                                  <div className="h-[296px]"></div>
+                                                  <div className="text-sm font-semibold mb-2 border-b-2 w-fit border-slate-500">
                                                        <span>
-                                                            Select Insurance
+                                                            Jaminan /
+                                                            Pengecualian Produk
+                                                            Asuransi
                                                        </span>
                                                   </div>
+                                                  <div className="flex gap-1 flex-col w-full">
+                                                       {filterMekanis?.map(
+                                                            (
+                                                                 dataMekanisme: any,
+                                                                 index: number
+                                                            ) => (
+                                                                 <div
+                                                                      key={
+                                                                           index
+                                                                      }
+                                                                      className="flex flex-col gap-1"
+                                                                 >
+                                                                      {/* Card: Jaminan */}
+                                                                      <div className="p-2 bg-white rounded-md shadow-md min-h-16">
+                                                                           {
+                                                                                dataMekanisme.MEKANISME_PRODUK_ASURANSI_JAMINAN
+                                                                           }
+                                                                      </div>
+                                                                      <div className="p-2 bg-white rounded-md shadow-md min-h-16">
+                                                                           {
+                                                                                dataMekanisme.MEKANISME_PRODUK_ASURANSI_KAPASITAS
+                                                                           }
+                                                                      </div>
+                                                                      <div className="p-2 bg-white rounded-md shadow-md min-h-16">
+                                                                           {
+                                                                                dataMekanisme.MEKANISME_PRODUK_ASURANSI_GANTI_RUGI
+                                                                           }
+                                                                      </div>
+                                                                      <div className="p-2 bg-white rounded-md shadow-md min-h-16">
+                                                                           {
+                                                                                dataMekanisme.MEKANISME_PRODUK_ASURANSI_LIMIT_GANTI_RUGI
+                                                                           }
+                                                                      </div>
+                                                                 </div>
+                                                            )
+                                                       )}
+                                                  </div>
                                              </div>
-                                        </>
-                                   )
-                              )}
-                         </div>
-                         {/* end for looping insurance */}
-                         {/* for table */}
-                         <div className="mt-2 mr-4 ml-4 pr-4 pl-4 flex justify-between gap-2">
-                              <div className="flex gap-1 flex-col w-full">
-                                   {filterMekanis?.map(
-                                        (dataMekanisme: any, index: number) => (
-                                             <div
-                                                  key={index}
-                                                  className="flex flex-col gap-1"
-                                             >
-                                                  {/* Card: Jaminan */}
-                                                  <div className="p-2 bg-white rounded-md shadow-md min-h-16">
-                                                       {
-                                                            dataMekanisme.MEKANISME_PRODUK_ASURANSI_JAMINAN
+                                             <div className="col-span-3">
+                                                  <CardCarousel
+                                                       arrInsurance={
+                                                            arrInsurance
                                                        }
-                                                  </div>
-                                                  <div className="p-2 bg-white rounded-md shadow-md min-h-16">
-                                                       {
-                                                            dataMekanisme.MEKANISME_PRODUK_ASURANSI_KAPASITAS
+                                                       filterMekanis={
+                                                            filterMekanis
                                                        }
-                                                  </div>
-                                                  <div className="p-2 bg-white rounded-md shadow-md min-h-16">
-                                                       {
-                                                            dataMekanisme.MEKANISME_PRODUK_ASURANSI_GANTI_RUGI
-                                                       }
-                                                  </div>
-                                                  <div className="p-2 bg-white rounded-md shadow-md min-h-16">
-                                                       {
-                                                            dataMekanisme.MEKANISME_PRODUK_ASURANSI_LIMIT_GANTI_RUGI
-                                                       }
-                                                  </div>
+                                                  />
                                              </div>
-                                        )
-                                   )}
-                              </div>
-                              {/* baris 2 */}
-                              <div className="flex gap-5">
-                                   {arrInsurance?.map(
-                                        (dataInsurance: any, index: number) => (
-                                             <div key={index} className="mb-8">
-                                                  {/* Loop mekanisme */}
-                                                  {dataInsurance?.product?.data_mekanisme_produk?.map(
-                                                       (
-                                                            mekanisme: any,
-                                                            i: number
-                                                       ) => (
-                                                            <div
-                                                                 key={i}
-                                                                 className="flex flex-col gap-1"
-                                                            >
-                                                                 {filterMekanis?.map(
-                                                                      (
-                                                                           dataMekanisme: any,
-                                                                           a: number
-                                                                      ) => (
-                                                                           <div
-                                                                                key={
-                                                                                     a
-                                                                                }
-                                                                                className="flex flex-col gap-1"
-                                                                           >
-                                                                                {/* Card: Jaminan */}
-                                                                                <div className="p-2 bg-white rounded-md shadow-md w-60 flex justify-center min-h-16 items-center">
-                                                                                     {dataMekanisme.MEKANISME_PRODUK_ASURANSI_JAMINAN ===
-                                                                                     mekanisme.MEKANISME_PRODUK_ASURANSI_JAMINAN ? (
-                                                                                          <span>
-                                                                                               <CheckCircleIcon className="w-6" />
-                                                                                          </span>
-                                                                                     ) : (
-                                                                                          <span>
-                                                                                               <MinusCircleIcon className="w-6 text-slate-400" />
-                                                                                          </span>
-                                                                                     )}
-                                                                                </div>
-                                                                                <div className="p-2 bg-white rounded-md shadow-md w-60 flex justify-center min-h-16 items-center">
-                                                                                     {dataMekanisme.MEKANISME_PRODUK_ASURANSI_KAPASITAS ===
-                                                                                     mekanisme.MEKANISME_PRODUK_ASURANSI_KAPASITAS ? (
-                                                                                          <span>
-                                                                                               <CheckCircleIcon className="w-6" />
-                                                                                          </span>
-                                                                                     ) : (
-                                                                                          <span>
-                                                                                               <MinusCircleIcon className="w-6 text-slate-400" />
-                                                                                          </span>
-                                                                                     )}
-                                                                                </div>
-                                                                                <div className="p-2 bg-white rounded-md shadow-md w-60 flex justify-center min-h-16 items-center">
-                                                                                     {dataMekanisme.MEKANISME_PRODUK_ASURANSI_GANTI_RUGI ===
-                                                                                     mekanisme.MEKANISME_PRODUK_ASURANSI_GANTI_RUGI ? (
-                                                                                          <span>
-                                                                                               <CheckCircleIcon className="w-6" />
-                                                                                          </span>
-                                                                                     ) : (
-                                                                                          <span>
-                                                                                               <MinusCircleIcon className="w-6 text-slate-400" />
-                                                                                          </span>
-                                                                                     )}
-                                                                                </div>
-                                                                                <div className="p-2 bg-white rounded-md shadow-md w-60 flex justify-center min-h-16 items-center">
-                                                                                     {dataMekanisme.MEKANISME_PRODUK_ASURANSI_LIMIT_GANTI_RUGI ===
-                                                                                     mekanisme.MEKANISME_PRODUK_ASURANSI_LIMIT_GANTI_RUGI ? (
-                                                                                          <span>
-                                                                                               <CheckCircleIcon className="w-6" />
-                                                                                          </span>
-                                                                                     ) : (
-                                                                                          <span>
-                                                                                               <MinusCircleIcon className="w-6 text-slate-400" />
-                                                                                          </span>
-                                                                                     )}
-                                                                                </div>
-                                                                           </div>
-                                                                      )
-                                                                 )}
-                                                            </div>
-                                                       )
-                                                  )}
-                                             </div>
-                                        )
-                                   )}
-                              </div>
-                         </div>
-                         {/* end for table */}
-                    </section>
-               </fieldset>
+                                        </div>
+                                   </div>
+                              </section>
+                         </fieldset>
+                    </>
+               )}
           </>
      );
 }

@@ -1085,7 +1085,7 @@ export default function AddPengajuanDebitur({
                                         </legend>
                                         <div className="px-4 py-2">
                                              <div className="grid grid-cols-1 mt-2 gap-4">
-                                                  <div>
+                                                  <div className="hidden">
                                                        <InputLabel
                                                             value="Pilih Jenis Asuransi"
                                                             required={true}

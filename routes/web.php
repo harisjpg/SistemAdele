@@ -247,6 +247,8 @@ Route::middleware('auth')->group(function () {
     // Proses Underwriting
     Route::get('/prosesUnderwriting', [ProsesUnderwritingController::class, 'index'])->name('prosesUnderwriting');
     Route::get('/getOfferUnderwriting', [ProsesUnderwritingController::class, 'getOfferUnderwriting'])->name('getOfferUnderwriting');
+    Route::post('/getDetailProsesUnderwriting', [ProsesUnderwritingController::class, 'getDetailProsesUnderwriting'])->name('getDetailProsesUnderwriting');
+
 
 
 

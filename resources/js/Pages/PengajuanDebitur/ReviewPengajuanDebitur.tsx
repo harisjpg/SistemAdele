@@ -1206,433 +1206,227 @@ export default function ReviewPengajuanDebitur({
 
                {/* end for detail of insurance */}
                {/* For data Document dan Catatan */}
-               <div
-                    className={`grid xs:grid-cols-1 gap-4 mix-h-[300px] ${
-                         auth.user.user_type_id === 4
-                              ? `lg:grid-cols-3`
-                              : `lg:grid-cols-2`
-                    }`}
-               >
-                    {auth.user.user_type_id === 4 ? (
-                         <>
-                              <fieldset className="pb-10 pt-0 rounded-lg border-2">
-                                   <legend className="ml-5 px-3 font-semibold">
-                                        Extra Premi
-                                   </legend>
-                                   <div className="px-5 py-3 relative h-full">
-                                        {/* judul */}
-                                        <div className="grid grid-cols-3 gap-3">
-                                             <div></div>
-                                             <div className="text-sm flex justify-end font-semibold">
-                                                  <span>Premi Original</span>
-                                             </div>
-                                             <div className="text-sm flex justify-end font-semibold">
-                                                  <span>Premi Update</span>
-                                             </div>
+               <div className="grid lg:grid-cols-2 xs:grid-cols-1 gap-2">
+                    <div>
+                         <fieldset className="pb-10 pt-0 rounded-lg border-2">
+                              <legend className="ml-5 px-3 font-semibold">
+                                   Dokumen
+                              </legend>
+                              <div className="px-5 py-3 relative h-full">
+                                   <div className="grid grid-cols-14 gap-2 bg-white shadow-md rounded-md p-2">
+                                        <div className="col-span-2 text-center">
+                                             No.
                                         </div>
-                                        <div className="grid grid-cols-3 gap-3 mt-10">
-                                             <div className="text-sm flex justify-start">
-                                                  <span>Tenor Regular</span>
-                                             </div>
-                                             <div className="text-sm flex justify-end">
-                                                  <span>
-                                                       {rateHistory.length === 0
-                                                            ? Math.ceil(
-                                                                   dataReviewPengajuan?.OFFER_TENOR /
-                                                                        12
-                                                              ) + " Tahun"
-                                                            : Math.ceil(
-                                                                   rateHistory[0]
-                                                                        ?.rate_history_tenor_regular /
-                                                                        12
-                                                              ) + " Tahun"}
-                                                  </span>
-                                             </div>
-                                             <div className="text-sm flex justify-end">
-                                                  <span>
-                                                       {Math.ceil(
-                                                            dataReviewPengajuan?.OFFER_TENOR /
-                                                                 12
-                                                       ) + " Tahun"}
-                                                  </span>
-                                             </div>
-                                        </div>
-                                        <div className="grid grid-cols-3 gap-3 mt-10">
-                                             <div className="text-sm flex justify-start">
-                                                  <span>Rate Regular</span>
-                                             </div>
-                                             <div className="text-sm flex justify-end">
-                                                  <span>
-                                                       {rateHistory.length === 0
-                                                            ? new Intl.NumberFormat(
-                                                                   "en-US",
-                                                                   {
-                                                                        style: "decimal",
-                                                                        minimumFractionDigits: 2,
-                                                                        maximumFractionDigits: 2,
-                                                                   }
-                                                              ).format(
-                                                                   getOfferDetail?.OFFER_DETAIL_RATE
-                                                              )
-                                                            : new Intl.NumberFormat(
-                                                                   "en-US",
-                                                                   {
-                                                                        style: "decimal",
-                                                                        minimumFractionDigits: 2,
-                                                                        maximumFractionDigits: 2,
-                                                                   }
-                                                              ).format(
-                                                                   rateHistory[0]
-                                                                        ?.rate_history_rate_regular
-                                                              )}
-                                                  </span>
-                                             </div>
-                                             <div className="text-sm flex justify-end">
-                                                  <span>
-                                                       {new Intl.NumberFormat(
-                                                            "en-US",
-                                                            {
-                                                                 style: "decimal",
-                                                                 minimumFractionDigits: 2,
-                                                                 maximumFractionDigits: 2,
-                                                            }
-                                                       ).format(
-                                                            getOfferDetail?.OFFER_DETAIL_RATE
-                                                       )}
-                                                  </span>
-                                             </div>
-                                        </div>
-                                        <div className="grid grid-cols-3 gap-3 mt-10">
-                                             <div className="text-sm flex justify-start">
-                                                  <span>Premi Regular</span>
-                                             </div>
-                                             <div className="text-sm flex justify-end">
-                                                  <span>
-                                                       {rateHistory.length === 0
-                                                            ? new Intl.NumberFormat(
-                                                                   "en-US",
-                                                                   {
-                                                                        style: "decimal",
-                                                                        minimumFractionDigits: 2,
-                                                                        maximumFractionDigits: 2,
-                                                                   }
-                                                              ).format(
-                                                                   getOfferDetail?.OFFER_DETAIL_AMOUNT
-                                                              )
-                                                            : new Intl.NumberFormat(
-                                                                   "en-US",
-                                                                   {
-                                                                        style: "decimal",
-                                                                        minimumFractionDigits: 2,
-                                                                        maximumFractionDigits: 2,
-                                                                   }
-                                                              ).format(
-                                                                   rateHistory[0]
-                                                                        ?.rate_history_premium_regular
-                                                              )}
-                                                  </span>
-                                             </div>
-                                             <div className="text-sm flex justify-end">
-                                                  <span>
-                                                       {new Intl.NumberFormat(
-                                                            "en-US",
-                                                            {
-                                                                 style: "decimal",
-                                                                 minimumFractionDigits: 2,
-                                                                 maximumFractionDigits: 2,
-                                                            }
-                                                       ).format(
-                                                            getOfferDetail?.OFFER_DETAIL_AMOUNT
-                                                       )}
-                                                  </span>
-                                             </div>
-                                        </div>
-                                        <div className="grid grid-cols-3 gap-3 mt-10">
-                                             <div className="text-sm flex justify-start">
-                                                  <span>Extra Premi</span>
-                                             </div>
-                                             <div className="text-sm flex justify-end">
-                                                  <span>0.00</span>
-                                             </div>
-                                             <div className="text-sm flex justify-end">
-                                                  <span>
-                                                       {new Intl.NumberFormat(
-                                                            "en-US",
-                                                            {
-                                                                 style: "decimal",
-                                                                 minimumFractionDigits: 2,
-                                                                 maximumFractionDigits: 2,
-                                                            }
-                                                       ).format(
-                                                            getOfferDetail?.OFFER_DETAIL_AMOUNT_EXTRA_PREMI
-                                                       )}
-                                                  </span>
-                                             </div>
-                                        </div>
-                                        <div className="grid grid-cols-3 gap-3 mt-10">
-                                             <div className="text-sm flex justify-start font-semibold">
-                                                  <span>Total Premi</span>
-                                             </div>
-                                             <div className="text-sm flex justify-end font-semibold">
-                                                  <span>
-                                                       {new Intl.NumberFormat(
-                                                            "en-US",
-                                                            {
-                                                                 style: "decimal",
-                                                                 minimumFractionDigits: 2,
-                                                                 maximumFractionDigits: 2,
-                                                            }
-                                                       ).format(
-                                                            getOfferDetail?.OFFER_DETAIL_AMOUNT
-                                                       )}
-                                                  </span>
-                                             </div>
-                                             <div className="text-sm flex justify-end font-semibold">
-                                                  <span>
-                                                       {new Intl.NumberFormat(
-                                                            "en-US",
-                                                            {
-                                                                 style: "decimal",
-                                                                 minimumFractionDigits: 2,
-                                                                 maximumFractionDigits: 2,
-                                                            }
-                                                       ).format(totalPremi())}
-                                                  </span>
-                                             </div>
-                                        </div>
-                                        <div
-                                             className="absolute bottom-0 right-0 px-5 text-primary-adele cursor-pointer"
-                                             onClick={(e) => {
-                                                  handleEditExtraPremi(
-                                                       e,
-                                                       getOfferDetail?.OFFER_DETAIL_ID
-                                                  );
-                                             }}
-                                        >
-                                             <div className="bg-primary-adele p-2 text-white w-fit rounded-md shadow-md hover:bg-blue-700 text-sm">
-                                                  <span>Edit Extra Premi</span>
-                                             </div>
+                                        <div className="col-span-5">Action</div>
+                                        <div className="col-span-7">
+                                             Tipe Dokumen
                                         </div>
                                    </div>
-                              </fieldset>
-                         </>
-                    ) : null}
-                    <fieldset className="pb-10 pt-0 rounded-lg border-2">
-                         <legend className="ml-5 px-3 font-semibold">
-                              Dokumen
-                         </legend>
-                         <div className="px-5 py-3 relative h-full">
-                              <div className="grid grid-cols-14 gap-2 bg-white shadow-md rounded-md p-2">
-                                   <div className="col-span-2 text-center">
-                                        No.
-                                   </div>
-                                   <div className="col-span-5">Action</div>
-                                   <div className="col-span-7">
-                                        Tipe Dokumen
-                                   </div>
-                              </div>
 
-                              {arrDoc?.map((dataDoc: any, index: number) => {
-                                   return (
-                                        <div key={index}>
-                                             <div className="grid grid-cols-14 gap-2 p-2">
-                                                  <div className="col-span-1 text-center">
-                                                       {index + 1}.
-                                                  </div>
-                                                  <div className="col-span-6">
-                                                       <div className="flex gap-2">
-                                                            <span>
-                                                                 <ArrowDownTrayIcon
-                                                                      onClick={() => {
-                                                                           handleFileDownloadFile(
-                                                                                dataDoc.DOCUMENT_ID
-                                                                           );
-                                                                      }}
-                                                                      className="w-5 hover:cursor-pointer hover:text-primary-adele"
-                                                                      title="Download"
-                                                                 />
-                                                            </span>
-                                                            <span>
-                                                                 <EyeIcon
-                                                                      onClick={() => {
-                                                                           handleFileViewFile(
-                                                                                dataDoc.DOCUMENT_ID
-                                                                           );
-                                                                      }}
-                                                                      className="w-5 hover:cursor-pointer hover:text-primary-adele"
-                                                                      title="Lihat"
-                                                                 />
-                                                            </span>
-                                                            {auth.user
-                                                                 .user_type_id !==
-                                                                 4 && (
-                                                                 <span>
-                                                                      <PencilSquareIcon
-                                                                           onClick={(
-                                                                                e
-                                                                           ) => {
-                                                                                handleEditDocument(
-                                                                                     e,
-                                                                                     dataDoc
-                                                                                );
-                                                                           }}
-                                                                           className="w-5 hover:cursor-pointer hover:text-primary-adele"
-                                                                           title="Edit"
-                                                                      />
-                                                                 </span>
-                                                            )}
+                                   {arrDoc?.map(
+                                        (dataDoc: any, index: number) => {
+                                             return (
+                                                  <div key={index}>
+                                                       <div className="grid grid-cols-14 gap-2 p-2">
+                                                            <div className="col-span-1 text-center">
+                                                                 {index + 1}.
+                                                            </div>
+                                                            <div className="col-span-6">
+                                                                 <div className="flex gap-2">
+                                                                      <span>
+                                                                           <ArrowDownTrayIcon
+                                                                                onClick={() => {
+                                                                                     handleFileDownloadFile(
+                                                                                          dataDoc.DOCUMENT_ID
+                                                                                     );
+                                                                                }}
+                                                                                className="w-5 hover:cursor-pointer hover:text-primary-adele"
+                                                                                title="Download"
+                                                                           />
+                                                                      </span>
+                                                                      <span>
+                                                                           <EyeIcon
+                                                                                onClick={() => {
+                                                                                     handleFileViewFile(
+                                                                                          dataDoc.DOCUMENT_ID
+                                                                                     );
+                                                                                }}
+                                                                                className="w-5 hover:cursor-pointer hover:text-primary-adele"
+                                                                                title="Lihat"
+                                                                           />
+                                                                      </span>
+                                                                      {auth.user
+                                                                           .user_type_id !==
+                                                                           4 && (
+                                                                           <span>
+                                                                                <PencilSquareIcon
+                                                                                     onClick={(
+                                                                                          e
+                                                                                     ) => {
+                                                                                          handleEditDocument(
+                                                                                               e,
+                                                                                               dataDoc
+                                                                                          );
+                                                                                     }}
+                                                                                     className="w-5 hover:cursor-pointer hover:text-primary-adele"
+                                                                                     title="Edit"
+                                                                                />
+                                                                           </span>
+                                                                      )}
+                                                                 </div>
+                                                            </div>
+                                                            <div className="col-span-7">
+                                                                 {
+                                                                      dataDoc.DOCUMENT_TYPE_NAME
+                                                                 }
+                                                            </div>
                                                        </div>
                                                   </div>
-                                                  <div className="col-span-7">
-                                                       {
-                                                            dataDoc.DOCUMENT_TYPE_NAME
-                                                       }
-                                                  </div>
-                                             </div>
-                                        </div>
-                                   );
-                              })}
-                              <div
-                                   className="absolute bottom-0 right-0 px-5 text-primary-adele cursor-pointer"
-                                   onClick={(e) => {
-                                        handleUploadDocument(e);
-                                   }}
-                              >
-                                   <PlusCircleIcon className="w-10" />
+                                             );
+                                        }
+                                   )}
+                                   <div
+                                        className="absolute bottom-0 right-0 px-5 text-primary-adele cursor-pointer"
+                                        onClick={(e) => {
+                                             handleUploadDocument(e);
+                                        }}
+                                   >
+                                        <PlusCircleIcon className="w-10" />
+                                   </div>
                               </div>
-                         </div>
-                    </fieldset>
-                    <fieldset className="pb-0 pt-0 rounded-lg border-2">
-                         <legend className="ml-5 px-3 font-semibold">
-                              Catatan
-                         </legend>
-                         <div className="px-5 py-4">
-                              {auth.user.user_type_id === 2 ||
-                              auth.user.user_type_id === 3 ? (
-                                   <fieldset
-                                        className={`pb-10 pt-0 rounded-lg border-2 relative ${
-                                             auth.user.user_type_id === 2
-                                                  ? "xs:h-[300px] lg:h-[520px]"
-                                                  : "h-[260px]"
-                                        }`}
-                                   >
-                                        <legend className="ml-5 px-3 font-semibold text-xs">
-                                             Catatan From Bank
-                                        </legend>
-                                        <div className="h-full overflow-y-auto custom-scrollbar px-4">
-                                             {arrCatatan?.map(
-                                                  (
-                                                       dataCatatan: any,
-                                                       index: number
-                                                  ) => {
-                                                       return dataCatatan?.CATATAN_BROKER_FOR.toString() ===
-                                                            "0" ? (
-                                                            <div
-                                                                 key={index}
-                                                                 className={`p-1 rounded-md shadow-md mt-2 ${
-                                                                      auth.user.id.toString() ===
-                                                                      dataCatatan.CATATAN_BROKER_CREATED_BY.toString()
-                                                                           ? `bg-blue-300`
-                                                                           : `bg-white`
-                                                                 }`}
-                                                            >
-                                                                 <p className="text-xs">
-                                                                      {
-                                                                           dataCatatan?.CATATAN_BROKER_ISI
+                         </fieldset>
+                    </div>
+                    <div>
+                         <fieldset className="pb-0 pt-0 rounded-lg border-2">
+                              <legend className="ml-5 px-3 font-semibold">
+                                   Catatan
+                              </legend>
+                              <div className="px-5 py-4">
+                                   {auth.user.user_type_id === 2 ||
+                                   auth.user.user_type_id === 3 ? (
+                                        <fieldset className="pb-10 pt-0 rounded-lg border-2 relative">
+                                             <legend className="ml-5 px-3 font-semibold text-xs">
+                                                  Catatan From Bank
+                                             </legend>
+                                             <div className="h-full overflow-y-auto custom-scrollbar px-4">
+                                                  {arrCatatan?.map(
+                                                       (
+                                                            dataCatatan: any,
+                                                            index: number
+                                                       ) => {
+                                                            return dataCatatan?.CATATAN_BROKER_FOR.toString() ===
+                                                                 "0" ? (
+                                                                 <div
+                                                                      key={
+                                                                           index
                                                                       }
-                                                                 </p>
-                                                                 <div className="flex justify-end text-xs italic">
-                                                                      <span>
+                                                                      className={`p-1 rounded-md shadow-md mt-2 ${
+                                                                           auth.user.id.toString() ===
+                                                                           dataCatatan.CATATAN_BROKER_CREATED_BY.toString()
+                                                                                ? `bg-blue-300`
+                                                                                : `bg-white`
+                                                                      }`}
+                                                                 >
+                                                                      <p className="text-xs">
                                                                            {
-                                                                                dataCatatan.user_login
+                                                                                dataCatatan?.CATATAN_BROKER_ISI
                                                                            }
-                                                                           {
-                                                                                ", "
-                                                                           }
-                                                                           {
-                                                                                dataCatatan.CATATAN_BROKER_CREATED_DATE
-                                                                           }
-                                                                      </span>
+                                                                      </p>
+                                                                      <div className="flex justify-end text-xs italic">
+                                                                           <span>
+                                                                                {
+                                                                                     dataCatatan.user_login
+                                                                                }
+                                                                                {
+                                                                                     ", "
+                                                                                }
+                                                                                {
+                                                                                     dataCatatan.CATATAN_BROKER_CREATED_DATE
+                                                                                }
+                                                                           </span>
+                                                                      </div>
                                                                  </div>
-                                                            </div>
-                                                       ) : null;
-                                                  }
-                                             )}
-                                        </div>
-                                        <div
-                                             className="absolute bottom-0 right-0 px-5 text-primary-adele cursor-pointer"
-                                             onClick={(e) => {
-                                                  handleAddCatatan(e, 0);
-                                             }}
+                                                            ) : null;
+                                                       }
+                                                  )}
+                                             </div>
+                                             <div
+                                                  className="absolute bottom-0 right-0 px-5 text-primary-adele cursor-pointer"
+                                                  onClick={(e) => {
+                                                       handleAddCatatan(e, 0);
+                                                  }}
+                                             >
+                                                  <PlusCircleIcon className="w-10" />
+                                             </div>
+                                        </fieldset>
+                                   ) : null}
+                                   {auth.user.user_type_id === 4 ||
+                                   auth.user.user_type_id === 3 ? (
+                                        <fieldset
+                                             className={`pb-10 pt-0 rounded-lg border-2 relative ${
+                                                  auth.user.user_type_id === 4
+                                                       ? "xs:h-[300px] lg:h-[520px]"
+                                                       : "h-[260px]"
+                                             }`}
                                         >
-                                             <PlusCircleIcon className="w-10" />
-                                        </div>
-                                   </fieldset>
-                              ) : null}
-                              {auth.user.user_type_id === 4 ||
-                              auth.user.user_type_id === 3 ? (
-                                   <fieldset
-                                        className={`pb-10 pt-0 rounded-lg border-2 relative ${
-                                             auth.user.user_type_id === 4
-                                                  ? "xs:h-[300px] lg:h-[520px]"
-                                                  : "h-[260px]"
-                                        }`}
-                                   >
-                                        <legend className="ml-5 px-3 font-semibold text-xs">
-                                             Catatan From Insurance
-                                        </legend>
-                                        <div className="h-full overflow-y-auto custom-scrollbar px-4">
-                                             {arrCatatan?.map(
-                                                  (
-                                                       dataCatatan: any,
-                                                       index: number
-                                                  ) => {
-                                                       return dataCatatan?.CATATAN_BROKER_FOR.toString() ===
-                                                            "1" ? (
-                                                            <div
-                                                                 key={index}
-                                                                 className={`p-1 rounded-md shadow-md mt-2 ${
-                                                                      auth.user.id.toString() ===
-                                                                      dataCatatan.CATATAN_BROKER_CREATED_BY.toString()
-                                                                           ? `bg-blue-300`
-                                                                           : `bg-white`
-                                                                 }`}
-                                                            >
-                                                                 <p className="text-xs">
-                                                                      {
-                                                                           dataCatatan?.CATATAN_BROKER_ISI
+                                             <legend className="ml-5 px-3 font-semibold text-xs">
+                                                  Catatan From Insurance
+                                             </legend>
+                                             <div className="h-full overflow-y-auto custom-scrollbar px-4">
+                                                  {arrCatatan?.map(
+                                                       (
+                                                            dataCatatan: any,
+                                                            index: number
+                                                       ) => {
+                                                            return dataCatatan?.CATATAN_BROKER_FOR.toString() ===
+                                                                 "1" ? (
+                                                                 <div
+                                                                      key={
+                                                                           index
                                                                       }
-                                                                 </p>
-                                                                 <div className="flex justify-end text-xs italic">
-                                                                      <span>
+                                                                      className={`p-1 rounded-md shadow-md mt-2 ${
+                                                                           auth.user.id.toString() ===
+                                                                           dataCatatan.CATATAN_BROKER_CREATED_BY.toString()
+                                                                                ? `bg-blue-300`
+                                                                                : `bg-white`
+                                                                      }`}
+                                                                 >
+                                                                      <p className="text-xs">
                                                                            {
-                                                                                dataCatatan.user_login
+                                                                                dataCatatan?.CATATAN_BROKER_ISI
                                                                            }
-                                                                           {
-                                                                                ", "
-                                                                           }
-                                                                           {
-                                                                                dataCatatan.CATATAN_BROKER_CREATED_DATE
-                                                                           }
-                                                                      </span>
+                                                                      </p>
+                                                                      <div className="flex justify-end text-xs italic">
+                                                                           <span>
+                                                                                {
+                                                                                     dataCatatan.user_login
+                                                                                }
+                                                                                {
+                                                                                     ", "
+                                                                                }
+                                                                                {
+                                                                                     dataCatatan.CATATAN_BROKER_CREATED_DATE
+                                                                                }
+                                                                           </span>
+                                                                      </div>
                                                                  </div>
-                                                            </div>
-                                                       ) : null;
-                                                  }
-                                             )}
-                                        </div>
-                                        <div
-                                             className="absolute bottom-0 right-0 px-5 text-primary-adele cursor-pointer"
-                                             onClick={(e) => {
-                                                  handleAddCatatan(e, 1);
-                                             }}
-                                        >
-                                             <PlusCircleIcon className="w-10" />
-                                        </div>
-                                   </fieldset>
-                              ) : null}
-                         </div>
-                    </fieldset>
+                                                            ) : null;
+                                                       }
+                                                  )}
+                                             </div>
+                                             <div
+                                                  className="absolute bottom-0 right-0 px-5 text-primary-adele cursor-pointer"
+                                                  onClick={(e) => {
+                                                       handleAddCatatan(e, 1);
+                                                  }}
+                                             >
+                                                  <PlusCircleIcon className="w-10" />
+                                             </div>
+                                        </fieldset>
+                                   ) : null}
+                              </div>
+                         </fieldset>
+                    </div>
                </div>
                {/* End For data Document dan Catatan */}
 

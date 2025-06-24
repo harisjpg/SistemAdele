@@ -164,4 +164,50 @@ class ProsesUnderwritingController extends Controller
         // Return hasil pencarian
         return response()->json($arrData);
     }
+
+    public function getDetailProsesUnderwriting(Request $request)
+    {
+        $arrOffer = TOffer::select(
+            't_theinsured.THE_INSURED_NAME',
+            't_theinsured.THE_INSURED_DATE_OF_BIRTH',
+            't_theinsured.THE_INSURED_ID_NUMBER',
+            't_theinsured.THE_INSURED_AGE',
+            't_theinsured.THE_INSURED_CIF',
+            't_theinsured.THE_INSURED_GENDER',
+            't_theinsured.THE_INSURED_WEIGHT',
+            't_theinsured.THE_INSURED_HEIGHT',
+            't_theinsured.THE_INSURED_EMAIL',
+            'r_marital_status.MARITAL_STATUS_NAME',
+            'r_jenis_asuransi.JENIS_ASURANSI_NAME',
+            'r_jenis_asuransi.JENIS_ASURANSI_ID',
+            't_offer.OFFER_BANK_OFFICE_NAME',
+            't_offer.OFFER_ID',
+            't_offer.OFFER_STAGING_ID',
+            'r_tarif_payroll.TARIF_PAYROLL_NAME',
+            't_loan_type.loan_type_name',
+            't_offer.OFFER_SUM_INSURED',
+            't_offer.OFFER_INCEPTION_DATE',
+            't_offer.OFFER_TENOR',
+            't_offer.OFFER_DUE_DATE',
+            't_offer.KODE_AO',
+            't_offer.OFFER_AGE_ON_DUE_DATE',
+            't_insurance.INSURANCE_NAME'
+        )
+            ->leftJoin('t_theinsured', 't_theinsured.THE_INSURED_ID', '=', 't_offer.THE_INSURED_ID')
+            ->leftJoin('r_marital_status', 'r_marital_status.MARITAL_STATUS_SELECT', '=', 't_theinsured.MARITAL_STATUS_ID')
+            ->leftJoin('r_jenis_asuransi', 'r_jenis_asuransi.JENIS_ASURANSI_ID', '=', 't_offer.JENIS_ASURANSI_ID')
+            ->leftJoin('r_tarif_payroll', 'r_tarif_payroll.TARIF_PAYROLL_ID', '=', 't_offer.TARIF_PAYROLL_ID')
+            ->leftJoin('t_loan_type', 't_loan_type.loan_type_id', '=', 't_offer.LOAN_TYPE_ID')
+            ->leftJoin('t_user', 't_user.id', '=', 't_offer.USER_BANK_ID')
+            ->leftJoin('t_offer_detail', 't_offer_detail.OFFER_ID', '=', 't_offer.OFFER_ID')
+            ->leftJoin('t_bank_insurance', 't_bank_insurance.BANK_INSURANCE_ID', '=', 't_offer_Detail.BANK_INSURANCE_ID')
+            ->leftJoin('t_insurance', 't_insurance.INSURANCE_ID', '=', 't_bank_insurance.INSURANCE_ID')
+            ->where('t_offer.OFFER_ID', $request->idOffer)
+            ->where('t_offer_detail.OFFER_DETAIL_IS_USED', 1)
+            ->first();
+
+        return array(
+            "pengajuanDetail"       => $arrOffer,
+        );
+    }
 }

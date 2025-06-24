@@ -308,14 +308,14 @@ class PengajuanController extends Controller
     {
         // dd($request);
         $validateData = Validator::make($request->all(), [
-            'data_kredit.*.JENIS_ASURANSI'              => 'required',
+            // 'data_kredit.*.JENIS_ASURANSI'              => 'required',
             'data_kredit.*.NAMA_KANTOR'                 => 'required',
             'data_kredit.*.TARIF_PAYROLL'               => 'required',
             'data_kredit.*.LOAN_TYPE'                   => 'required',
             'data_debitur.*.TGL_LAHIR'                   => 'required',
             'data_kredit.*.RENCANA_TANGGAL_PENCAIRAN'   => 'required',
         ], [
-            'data_kredit.*.JENIS_ASURANSI'              => 'Jenis Asuransi is required!',
+            // 'data_kredit.*.JENIS_ASURANSI'              => 'Jenis Asuransi is required!',
             'data_kredit.*.NAMA_KANTOR'                 => 'Nama Kantor is required!',
             'data_kredit.*.TARIF_PAYROLL'               => 'Tarif Payroll is required!',
             'data_kredit.*.LOAN_TYPE'                   => 'Loan Type is required!',
@@ -566,7 +566,7 @@ class PengajuanController extends Controller
                     "OFFER_CREATED_BY"          => $user_id,
                     "OFFER_CREATED_DATE"        => $date,
                     "TARIF_PAYROLL_ID"          => $arrKredit['TARIF_PAYROLL']['value'],
-                    "JENIS_ASURANSI_ID"         => $arrKredit['JENIS_ASURANSI']['value'],
+                    // "JENIS_ASURANSI_ID"         => $arrKredit['JENIS_ASURANSI']['value'],
                     "OFFER_STATUS_ID"           => 2,
                     "OFFER_STAGING_ID"          => 2,
                     "KODE_AO"                   => $request->detail_insurance_life[0]['KODE_AO'] !== null ? $request->detail_insurance_life[0]['KODE_AO'] : NULL,
