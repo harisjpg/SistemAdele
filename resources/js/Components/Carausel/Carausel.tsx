@@ -26,6 +26,8 @@ const Carousel: React.FC<CarouselProps> = ({ arrInsurance, filterMekanis }) => {
      const slidesPerView = 3;
      const showNavigation = arrInsurance.length > slidesPerView;
 
+     console.log(arrInsurance, "<< arrInsurance");
+
      return (
           <div className="w-full max-w-4xl mx-auto p-4 relative">
                <div className="absolute z-50 w-[737px] top-36">
@@ -96,7 +98,10 @@ const Carousel: React.FC<CarouselProps> = ({ arrInsurance, filterMekanis }) => {
                          <div className="flex"> */}
                     {arrInsurance?.map((dataInsurance: any, index: number) => (
                          <>
-                              <SwiperSlide key={dataInsurance.INSURANCE_ID}>
+                              <SwiperSlide
+                                   key={dataInsurance.INSURANCE_ID}
+                                   className="mb-2"
+                              >
                                    <div className="bg-slate-600 rounded-t-lg p-2 flex justify-center font-semibold text-white hover:cursor-pointer hover:bg-slate-400 w-50">
                                         <span>Simulasi Premi</span>
                                    </div>
@@ -169,14 +174,25 @@ const Carousel: React.FC<CarouselProps> = ({ arrInsurance, filterMekanis }) => {
                                         </div>
                                    </div>
                                    <div
-                                        className="bg-slate-600 rounded-b-lg p-2 flex justify-center font-semibold text-white hover:cursor-pointer hover:bg-slate-400 w-50 mb-2"
+                                        className="bg-slate-600 rounded-b-lg p-2 flex justify-center font-semibold text-white hover:cursor-pointer hover:bg-slate-400 w-50 mb-2 text-sm"
                                         onClick={() => {
                                              // handleClickSelectInsurance(
                                              //      dataInsurance
                                              // );
                                         }}
                                    >
-                                        <span>Select Insurance</span>
+                                        {dataInsurance?.UNDERWRITING_ID ===
+                                        null ? (
+                                             <>
+                                                  <span>Proses Penawaran</span>
+                                             </>
+                                        ) : (
+                                             <>
+                                                  <span>
+                                                       Proses Underwriting
+                                                  </span>
+                                             </>
+                                        )}
                                    </div>
 
                                    {dataInsurance?.product?.data_mekanisme_produk?.map(

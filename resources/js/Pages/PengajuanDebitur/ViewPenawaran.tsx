@@ -145,7 +145,6 @@ export default function ViewPenawaran({
                detail: true,
           });
      };
-     console.log(detailAsuransi);
 
      return (
           <>
@@ -284,7 +283,7 @@ export default function ViewPenawaran({
                                                                                 Rate
                                                                            </div>
                                                                            <div className="font-semibold">
-                                                                                <span>
+                                                                                {/* <span>
                                                                                      {new Intl.NumberFormat(
                                                                                           "en-US",
                                                                                           {
@@ -300,7 +299,7 @@ export default function ViewPenawaran({
                                                                                                "OFFER_DETAIL_RATE"
                                                                                           ]
                                                                                      )}
-                                                                                </span>
+                                                                                </span> */}
                                                                            </div>
                                                                       </div>
                                                                       {/* Premi */}
@@ -309,7 +308,7 @@ export default function ViewPenawaran({
                                                                                 Premi
                                                                            </div>
                                                                            <div className="font-semibold">
-                                                                                <span>
+                                                                                {/* <span>
                                                                                      Rp.{" "}
                                                                                      {new Intl.NumberFormat(
                                                                                           "en-US",
@@ -326,7 +325,7 @@ export default function ViewPenawaran({
                                                                                                "OFFER_DETAIL_AMOUNT"
                                                                                           ]
                                                                                      )}
-                                                                                </span>
+                                                                                </span> */}
                                                                            </div>
                                                                       </div>
                                                                  </div>
@@ -348,10 +347,22 @@ export default function ViewPenawaran({
                                                                       </span>
                                                                  </div>
                                                                  <div className="mt-5 bg-slate-600 p-2 rounded-md text-white text-center">
-                                                                      <span>
-                                                                           Select
-                                                                           Insurance
-                                                                      </span>
+                                                                      {dataInsurance?.UNDERWRITING_ID ===
+                                                                      null ? (
+                                                                           <>
+                                                                                <span>
+                                                                                     Proses
+                                                                                     Penawaran
+                                                                                </span>
+                                                                           </>
+                                                                      ) : (
+                                                                           <>
+                                                                                <span>
+                                                                                     Proses
+                                                                                     Underwriting
+                                                                                </span>
+                                                                           </>
+                                                                      )}
                                                                  </div>
                                                                  <div
                                                                       className="mt-2 rounded-md text-center font-semibold hover:text-slate-500"
@@ -388,7 +399,7 @@ export default function ViewPenawaran({
                                         <div className="grid grid-cols-5">
                                              <div className="col-span-2 ml-4">
                                                   {/* for jaminan */}
-                                                  <div className="h-[296px]"></div>
+                                                  <div className="h-[290px]"></div>
                                                   <div className="text-sm font-semibold mb-2 border-b-2 w-fit border-slate-500">
                                                        <span>
                                                             Jaminan /
