@@ -24,5 +24,15 @@ class Insurance extends Model
         return $this->hasOne(Document::class, 'DOCUMENT_ID', 'INSURANCE_LOGO');
     }
 
+    public function TInsuranceBundling()
+    {
+        return $this->hasMany(TInsuranceBundling::class, 'INSURANCE_ID', 'INSURANCE_ID');
+    }
+
+    public function TInsuranceProdukBundling()
+    {
+        return $this->hasMany(TInsuranceProductBundling::class, 'INSURANCE_ID', 'INSURANCE_ID');
+    }
+
     public $timestamps = false;
 }

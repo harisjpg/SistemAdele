@@ -143,9 +143,13 @@ Route::middleware('auth')->group(function () {
     // Insurance
     Route::get('/insuranceList', [InsuranceController::class, 'index'])->name('insuranceList');
     Route::post('/addInsuranceList', [InsuranceController::class, 'addInsuranceList'])->name('addInsuranceList');
+    Route::post('/addInsuranceBundling', [InsuranceController::class, 'addInsuranceBundling'])->name('addInsuranceBundling');
     Route::get('/getInsuranceList', [InsuranceController::class, 'getInsuranceList'])->name('getInsuranceList');
     Route::post('/getProdukAsuransi', [InsuranceController::class, 'getProdukAsuransi'])->name('getProdukAsuransi');
     Route::post('/editInsuranceList/{id}', [InsuranceController::class, 'editInsuranceList'])->name('editInsuranceList');
+    Route::post('/getInsuranceTypeProduct', [InsuranceController::class, 'getInsuranceType'])->name('getInsuranceTypeProduct');
+    Route::post('/getInsuranceTypeBundling', [InsuranceController::class, 'getInsuranceTypeBundling'])->name('getInsuranceTypeBundling');
+
 
     // Share Configuration
     Route::get('/share', [ShareEffectiveController::class, 'index'])->name('share');

@@ -102,7 +102,7 @@ function getCurrentEffectiveDateInsurance($bankId = "", $idAsuransi = NULL)
     $query = $arrEffectiveDate = TShareEffectiveDate::query();
     $query->where('SHARE_EFFECTIVE_DATE', '<=', $today);
     // $query->where('JENIS_ASURANSI_ID', $idAsuransi);
-    $query->whereIn('JENIS_ASURANSI_ID', [1, 2, 3]);
+    $query->whereIn('JENIS_ASURANSI_ID', [1, 2, 3, 4]);
     $query->where('SHARE_EFFECTIVE_STATUS', 0);
     if ($bankId != "") {
         $query->where('BANK_LIST_ID', $bankId);
@@ -110,6 +110,7 @@ function getCurrentEffectiveDateInsurance($bankId = "", $idAsuransi = NULL)
     $query->orderBy('SHARE_EFFECTIVE_DATE', 'DESC');
     $query->orderBy('SHARE_EFFECTIVE_CREATED', 'DESC');
     $arrData = $query->get();
+    // dd($arrData);
 
     return $arrData;
 }
@@ -377,6 +378,10 @@ function calculateRatePremiAdeleSistem($reg)
             return $hasil;
             break;
         case "3":
+            $hasil = calculatePremiRateJamkrida($reg);
+            return $hasil;
+            break;
+        case "4":
             $hasil = calculatePremiRateJamkrida($reg);
             return $hasil;
             break;

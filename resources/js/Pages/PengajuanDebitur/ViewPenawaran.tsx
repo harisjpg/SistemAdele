@@ -283,7 +283,7 @@ export default function ViewPenawaran({
                                                                                 Rate
                                                                            </div>
                                                                            <div className="font-semibold">
-                                                                                {/* <span>
+                                                                                <span>
                                                                                      {new Intl.NumberFormat(
                                                                                           "en-US",
                                                                                           {
@@ -299,7 +299,7 @@ export default function ViewPenawaran({
                                                                                                "OFFER_DETAIL_RATE"
                                                                                           ]
                                                                                      )}
-                                                                                </span> */}
+                                                                                </span>
                                                                            </div>
                                                                       </div>
                                                                       {/* Premi */}
@@ -308,7 +308,7 @@ export default function ViewPenawaran({
                                                                                 Premi
                                                                            </div>
                                                                            <div className="font-semibold">
-                                                                                {/* <span>
+                                                                                <span>
                                                                                      Rp.{" "}
                                                                                      {new Intl.NumberFormat(
                                                                                           "en-US",
@@ -325,7 +325,7 @@ export default function ViewPenawaran({
                                                                                                "OFFER_DETAIL_AMOUNT"
                                                                                           ]
                                                                                      )}
-                                                                                </span> */}
+                                                                                </span>
                                                                            </div>
                                                                       </div>
                                                                  </div>

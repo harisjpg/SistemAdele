@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Document;
 use App\Models\Insurance;
+use App\Models\RJenisAsuransi;
+use App\Models\TInsuranceBundling;
+use App\Models\TInsuranceProductBundling;
 use App\Models\TProdukAsuransi;
 use App\Models\TUnderWriting;
 use App\Models\UserLog;
@@ -78,7 +81,7 @@ class InsuranceController extends Controller
         //     $status = null;
         // }
         // Mulai query Insurance List
-        $listInsurance = Insurance::when($search, function ($query, $search) {
+        $listInsurance = Insurance::with('TInsuranceBundling')->with('TInsuranceProdukBundling')->when($search, function ($query, $search) {
             return $query->where('INSURANCE_NAME', 'like', "%{$search}%")
                 ->orWhere('JENIS_ASURANSI_NAME', 'like', "%{$search}%");
         })
@@ -88,6 +91,78 @@ class InsuranceController extends Controller
 
         // Return hasil pencarian
         return response()->json($listInsurance);
+    }
+
+    public function getInsuranceType()
+    {
+        $data = RJenisAsuransi::where('JENIS_ASURANSI_IS_BUNDLING', 0)->get();
+
+        return response()->json($data);
+    }
+
+    public function getInsuranceTypeBundling()
+    {
+        $data = RJenisAsuransi::where('JENIS_ASURANSI_IS_BUNDLING', 1)->get();
+
+        return response()->json($data);
+    }
+
+    public function addInsuranceBundling(Request $request)
+    {
+        $result = DB::transaction(function () use ($request) {
+            $insuranceName              = $request->INSURANCE_NAME;
+            $INSURANCE_TYPE_ID          = $request->INSURANCE_TYPE_ID['value'];
+            $INSURANCE_BUNDLING_ID      = $request->INSURANCE_BUNDLING_ID;
+            $INSURANCE_LEADER_BUNDLING  = $request->INSURANCE_LEADER_BUNDLING['value'];
+            $PRODUK_ASURANSI_ID         = $request->PRODUK_ASURANSI_ID;
+            $insuranceSlug              = Str::slug($insuranceName);
+
+            // add insurance
+            $insuranceList = Insurance::create([
+                "INSURANCE_NAME"            => $insuranceName,
+                "INSURANCE_TYPE_ID"         => $INSURANCE_TYPE_ID,
+                "INSURANCE_SLUG"            => $insuranceSlug,
+                "INSURANCE_CREATED_BY"      => Auth::user()->id,
+                "INSURANCE_CREATED_DATE"    => now(),
+            ]);
+
+            // ADD INSURANCE BUNDLING
+            $isLeader = "";
+            for ($i = 0; $i < count($INSURANCE_BUNDLING_ID); $i++) {
+                $dataInsuranceBundling = $INSURANCE_BUNDLING_ID[$i];
+                if ($dataInsuranceBundling['value'] === $INSURANCE_LEADER_BUNDLING) {
+                    $isLeader = $dataInsuranceBundling['value'];
+                } else {
+                    $isLeader = NULL;
+                }
+
+                $insuranceBundling = TInsuranceBundling::create([
+                    "INSURANCE_ID"                      => $insuranceList->INSURANCE_ID,
+                    "INSURANCE_BUNDLING"                => $dataInsuranceBundling['value'],
+                    "INSURANCE_BUNDLING_LEADER"         => $isLeader,
+                    "INSURANCE_BUNDLING_CREATED_BY"     => Auth::user()->id,
+                    "INSURANCE_BUNDLING_UPDATED_BY"     => now(),
+                ]);
+            }
+
+            // ADD INSURANCE PRODUK
+            for ($i = 0; $i < count($PRODUK_ASURANSI_ID); $i++) {
+                $dataInsuranceBundlingProduct = $PRODUK_ASURANSI_ID[$i];
+
+                $insuranceBundlingProduct = TInsuranceProductBundling::create([
+                    "INSURANCE_ID"                              => $insuranceList->INSURANCE_ID,
+                    "PRODUK_ID"                                 => $dataInsuranceBundlingProduct['value'],
+                    "INSURANCE_PRODUCT_BUNDLING_CREATED_BY"     => Auth::user()->id,
+                    "INSURANCE_PRODUCT_BUNDLING_CREATED_DATE"   => now(),
+                ]);
+            }
+        });
+
+        return new JsonResponse([
+            'New Insurance List Success Created '
+        ], 201, [
+            'X-Inertia' => true
+        ]);
     }
 
     public function addInsuranceList(Request $request)

@@ -14,6 +14,8 @@ import TextSearch from "@/Components/TextSearch";
 import Breadcrumbs from "@/Components/Breadcrumbs";
 import axios from "axios";
 import { ArrowPathIcon } from "@heroicons/react/20/solid";
+import AddInsuranceBundling from "./AddInsuranceBundling";
+import DetailEditInsuranceBundling from "./DetailEditInsuranceBundling";
 
 export default function InsuranceList({ auth }: any) {
      const { comboInsurance, comboUnderwriting }: any = usePage().props;
@@ -22,6 +24,7 @@ export default function InsuranceList({ auth }: any) {
           add: false,
           edit: false,
           detail: false,
+          bundling: false,
      });
 
      // for search datatable
@@ -55,9 +58,24 @@ export default function InsuranceList({ auth }: any) {
      const [insuranceType, setInsuranceType] = useState<any>([]);
      const getInsuranceType = async () => {
           await axios
-               .post(`/getInsuranceType`, {})
+               .post(`/getInsuranceTypeProduct`, {})
                .then((res) => {
                     setInsuranceType(res.data);
+               })
+               .catch((err) => {
+                    console.log(err);
+               });
+     };
+
+     // for get insurance bundling
+     const [insuranceTypeBundling, setInsuranceTypeBundling] = useState<any>(
+          []
+     );
+     const getInsuranceTypeBundling = async () => {
+          await axios
+               .post(`/getInsuranceTypeBundling`, {})
+               .then((res) => {
+                    setInsuranceTypeBundling(res.data);
                })
                .catch((err) => {
                     console.log(err);
@@ -133,7 +151,7 @@ export default function InsuranceList({ auth }: any) {
           });
      };
 
-     // VARIABEL FOR DATA BANK EDIT
+     // VARIABEL FOR DATA INSURANCE EDIT
      const [dataEditInsurance, setDataEditInsurance] = useState<any>({
           INSURANCE_NAME: "",
           INSURANCE_TYPE_ID: null,
@@ -147,6 +165,32 @@ export default function InsuranceList({ auth }: any) {
           INSURANCE_CREATED_BY: "",
           INSURANCE_CREATED_DATE: "",
      });
+
+     // VARIABEL FOR INSURANCE BUNDLING
+     const [dataInsuranceBundling, setDataInsuranceBundling] = useState<any>({
+          INSURANCE_NAME: "",
+          INSURANCE_TYPE_ID: null,
+          INSURANCE_BUNDLING_ID: null,
+          INSURANCE_LEADER_BUNDLING: null,
+          PRODUK_ASURANSI_ID: null,
+          UNDERWRITING_ID: null,
+          INSURANCE_SLUG: "",
+          INSURANCE_CREATED_BY: "",
+          INSURANCE_CREATED_DATE: "",
+     });
+
+     // VARIABEL FOR DETAIL INSURANCE BUNDLING
+     const [dataEditInsuranceBundling, setDataEditInsuranceBundling] =
+          useState<any>({
+               INSURANCE_NAME: "",
+               JENIS_ASURANSI_ID: null,
+               t_insurance_bundling: null,
+               t_insurance_produk_bundling: null,
+          });
+
+     const [insuranceBundling, setInsuranceBundling] = useState<any>([]);
+     const [insuranceBundlingProduk, setInsuranceBundlingProduk] =
+          useState<any>([]);
 
      // for double click bank name
      const handleDoubleClick = async (data: any) => {
@@ -162,6 +206,14 @@ export default function InsuranceList({ auth }: any) {
                INSURANCE_CODE: data.INSURANCE_CODE,
                INSURANCE_LOGO: "",
           });
+          setDataEditInsuranceBundling({
+               INSURANCE_NAME: data.INSURANCE_NAME,
+               JENIS_ASURANSI_ID: data.t_insurance_bundling,
+               t_insurance_bundling: null,
+               t_insurance_produk_bundling: null,
+          });
+          setInsuranceBundling(data.t_insurance_bundling);
+          setInsuranceBundlingProduk(data.t_insurance_produk_bundling);
           setModalInsurance({
                add: false,
                edit: false,
@@ -170,9 +222,18 @@ export default function InsuranceList({ auth }: any) {
           setTextButton({
                textButton: "Edit",
           });
-          setTextTitle({
-               textTitle: "Detail Insurance List",
-          });
+          if (
+               data.t_insurance_bundling.length === 0 &&
+               data.t_insurance_produk_bundling.length === 0
+          ) {
+               setTextTitle({
+                    textTitle: "Detail Insurance List",
+               });
+          } else {
+               setTextTitle({
+                    textTitle: "Detail Insurance Bundling",
+               });
+          }
      };
 
      // for handle success edit Insurance List
@@ -215,6 +276,7 @@ export default function InsuranceList({ auth }: any) {
                               add: false,
                               edit: false,
                               detail: false,
+                              bundling: false,
                          })
                     }
                     title={"Add Insurance List"}
@@ -237,6 +299,40 @@ export default function InsuranceList({ auth }: any) {
                />
                {/* End Modal Add */}
 
+               {/* modal add insurance bundling */}
+               <ModalToAdd
+                    buttonAddOns={""}
+                    show={modalInsurance.bundling}
+                    onClose={() =>
+                         setModalInsurance({
+                              add: false,
+                              edit: false,
+                              detail: false,
+                              bundling: false,
+                         })
+                    }
+                    title={"Add Insurance Bundling"}
+                    url={`/addInsuranceBundling`}
+                    data={dataInsuranceBundling}
+                    onSuccess={handleSuccessAddInsuranceList}
+                    classPanel={
+                         "relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg lg:max-w-[40%]"
+                    }
+                    body={
+                         <AddInsuranceBundling
+                              dataInsuranceBundling={dataInsuranceBundling}
+                              setDataInsuranceBundling={
+                                   setDataInsuranceBundling
+                              }
+                              insuranceType={insuranceTypeBundling}
+                              produkAsuransi={produkAsuransi}
+                              comboInsurance={comboInsurance}
+                              comboUnderwriting={comboUnderwriting}
+                         />
+                    }
+               />
+               {/* end modal add insurance bundling */}
+
                {/* Modal Detail */}
                <ModalToAction
                     show={modalInsurance.detail}
@@ -245,6 +341,7 @@ export default function InsuranceList({ auth }: any) {
                               add: false,
                               edit: false,
                               detail: false,
+                              bundling: false,
                          });
                     }}
                     buttonEdit={textButton}
@@ -263,15 +360,33 @@ export default function InsuranceList({ auth }: any) {
                     }
                     body={
                          <>
-                              <DetailEditInsuranceList
-                                   textButton={textButton}
-                                   dataEditInsurance={dataEditInsurance}
-                                   setDataEditInsurance={setDataEditInsurance}
-                                   insuranceType={insuranceType}
-                                   produkAsuransi={produkAsuransi}
-                                   comboInsurance={comboInsurance}
-                                   comboUnderwriting={comboUnderwriting}
-                              />
+                              {insuranceBundling.length === 0 &&
+                              insuranceBundlingProduk.length === 0 ? (
+                                   <DetailEditInsuranceList
+                                        textButton={textButton}
+                                        dataEditInsurance={dataEditInsurance}
+                                        setDataEditInsurance={
+                                             setDataEditInsurance
+                                        }
+                                        insuranceType={insuranceType}
+                                        produkAsuransi={produkAsuransi}
+                                        comboInsurance={comboInsurance}
+                                        comboUnderwriting={comboUnderwriting}
+                                   />
+                              ) : (
+                                   <DetailEditInsuranceBundling
+                                        textButton={textButton}
+                                        dataEditInsurance={dataEditInsurance}
+                                        setDataEditInsurance={
+                                             setDataEditInsurance
+                                        }
+                                        insuranceType={insuranceType}
+                                        produkAsuransi={produkAsuransi}
+                                        comboInsurance={comboInsurance}
+                                        comboUnderwriting={comboUnderwriting}
+                                   />
+                              )}
+
                               {/* <DetailReminder
                             dataDetailReminder={dataDetailReminder}
                             setDataDetailReminder={setDataDetailReminder}
@@ -293,20 +408,37 @@ export default function InsuranceList({ auth }: any) {
                               </span>
                               <Breadcrumbs forBreadcrumbs={forBreadcrumbs} />
                          </div>
-
-                         <div
-                              className="p-3 bg-[#0A47FF] text-xs text-white rounded-md shadow-lg hover:cursor-pointer hover:bg-blue-800"
-                              onClick={() => {
-                                   setModalInsurance({
-                                        add: true,
-                                        edit: false,
-                                        detail: false,
-                                   });
-                                   getInsuranceType();
-                                   getProdukAsuransi();
-                              }}
-                         >
-                              <span>Tambah Asuransi</span>
+                         <div className="flex gap-2">
+                              <div
+                                   className="p-3 bg-[#0A47FF] text-xs text-white rounded-md shadow-lg hover:cursor-pointer hover:bg-blue-800"
+                                   onClick={() => {
+                                        setModalInsurance({
+                                             add: false,
+                                             edit: false,
+                                             detail: false,
+                                             bundling: true,
+                                        });
+                                        getInsuranceTypeBundling();
+                                        getProdukAsuransi();
+                                   }}
+                              >
+                                   <span>Tambah Asuransi Bundling</span>
+                              </div>
+                              <div
+                                   className="p-3 bg-[#0A47FF] text-xs text-white rounded-md shadow-lg hover:cursor-pointer hover:bg-blue-800"
+                                   onClick={() => {
+                                        setModalInsurance({
+                                             add: true,
+                                             edit: false,
+                                             detail: false,
+                                             bundling: false,
+                                        });
+                                        getInsuranceType();
+                                        getProdukAsuransi();
+                                   }}
+                              >
+                                   <span>Tambah Asuransi</span>
+                              </div>
                          </div>
                     </div>
                     {/* End Header */}
@@ -423,6 +555,7 @@ export default function InsuranceList({ auth }: any) {
                                              add: true,
                                              edit: false,
                                              detail: false,
+                                             bundling: false,
                                         });
                                    }}
                               >

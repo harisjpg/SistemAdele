@@ -30,7 +30,7 @@ const Carousel: React.FC<CarouselProps> = ({ arrInsurance, filterMekanis }) => {
 
      return (
           <div className="w-full max-w-4xl mx-auto p-4 relative">
-               <div className="absolute z-50 w-[737px] top-36">
+               <div className="absolute z-50 w-full top-36">
                     <div className="flex justify-between">
                          <div>
                               <button
@@ -120,7 +120,7 @@ const Carousel: React.FC<CarouselProps> = ({ arrInsurance, filterMekanis }) => {
                                                   <span>Rate</span>
                                              </div>
                                              <div className="font-semibold">
-                                                  {/* <span>
+                                                  <span>
                                                        {new Intl.NumberFormat(
                                                             "en-US",
                                                             {
@@ -136,7 +136,7 @@ const Carousel: React.FC<CarouselProps> = ({ arrInsurance, filterMekanis }) => {
                                                                  "OFFER_DETAIL_RATE"
                                                             ]
                                                        )}
-                                                  </span> */}
+                                                  </span>
                                              </div>
                                         </div>
                                         <div className="flex justify-between">
@@ -144,7 +144,7 @@ const Carousel: React.FC<CarouselProps> = ({ arrInsurance, filterMekanis }) => {
                                                   <span>Premi</span>
                                              </div>
                                              <div className="font-semibold">
-                                                  {/* <span>
+                                                  <span>
                                                        Rp.{" "}
                                                        {new Intl.NumberFormat(
                                                             "en-US",
@@ -161,7 +161,7 @@ const Carousel: React.FC<CarouselProps> = ({ arrInsurance, filterMekanis }) => {
                                                                  "OFFER_DETAIL_AMOUNT"
                                                             ]
                                                        )}
-                                                  </span> */}
+                                                  </span>
                                              </div>
                                         </div>
                                         <div className="text-xs mt-5 text-left italic text-slate-400">
