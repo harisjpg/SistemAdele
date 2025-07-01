@@ -118,7 +118,7 @@ export default function ShareEffective({ auth }: any) {
                });
      };
 
-     const [refreshTrigger, setRefreshTrigger] = useState<string>("");
+     const [refreshTrigger, setRefreshTrigger] = useState<string>("ada");
 
      const handleSuccessShareEffective = (message: any) => {
           setIsSuccess("");
@@ -462,7 +462,7 @@ export default function ShareEffective({ auth }: any) {
                                    </div>
                                    {/* end button create */}
                               </div>
-                              <div className="col col-span-4 bg-white shadow-md rounded-md p-3 ag-grid-layouts">
+                              <div className="col col-span-4 bg-white shadow-md rounded-md p-3">
                                    <div className="border-b border-gray-200 dark:border-gray-700">
                                         <ul className="flex flex-wrap -mb-px text-sm font-medium text-center text-gray-500 dark:text-gray-400">
                                              <li className="me-2">
@@ -628,7 +628,7 @@ export default function ShareEffective({ auth }: any) {
                                                                         effectiveDateBundling,
                                                                         "dd mmm yyyy"
                                                                    )}`
-                                                                 : "(Please, Create share configuration Asuransi Jiwa first)"}
+                                                                 : "(Please, Create share configuration Asuransi Umum first)"}
                                                        </span>
                                                        <div className="">
                                                             <DataTables

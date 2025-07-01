@@ -397,9 +397,9 @@ export default function ViewPenawaran({
                               <section className="">
                                    <div className="w-full">
                                         <div className="grid grid-cols-5">
-                                             <div className="col-span-2 ml-4">
+                                             <div className="col-span-2 ml-4 ">
                                                   {/* for jaminan */}
-                                                  <div className="h-[290px]"></div>
+                                                  <div className="h-[300px]"></div>
                                                   <div className="text-sm font-semibold mb-2 border-b-2 w-fit border-slate-500">
                                                        <span>
                                                             Jaminan /
@@ -452,6 +452,15 @@ export default function ViewPenawaran({
                                                        }
                                                        filterMekanis={
                                                             filterMekanis
+                                                       }
+                                                       setIsSuccess={
+                                                            setIsSuccess
+                                                       }
+                                                       setModalPengajuan={
+                                                            setIsSuccess
+                                                       }
+                                                       setRefreshTrigger={
+                                                            setIsSuccess
                                                        }
                                                   />
                                              </div>

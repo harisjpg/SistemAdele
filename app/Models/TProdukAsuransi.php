@@ -19,10 +19,15 @@ class TProdukAsuransi extends Model
 
     public $timestamps = false;
 
-    public $with = ['data_mekanisme_produk'];
+    public $with = ['data_mekanisme_produk', 'documentTemplate'];
 
     public function data_mekanisme_produk()
     {
         return $this->hasMany(TMekanismeProdukAsuransi::class, 'PRODUK_ASURANSI_ID', 'PRODUK_ASURANSI_ID');
+    }
+
+    public function documentTemplate()
+    {
+        return $this->hasOne(Document::class, 'DOCUMENT_ID', 'PRODUK_ASURANSI_DOCUMENT_ID');
     }
 }

@@ -1187,6 +1187,7 @@ export default function PengajuanDebitur({ auth }: any) {
                                              selector: (row: any) =>
                                                   row.THE_INSURED_NAME,
                                              sortable: true,
+                                             width: "240px",
                                         },
                                         {
                                              name: "Status Pengajuan",

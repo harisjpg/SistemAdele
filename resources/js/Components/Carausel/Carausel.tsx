@@ -10,13 +10,25 @@ import {
      ChevronRightIcon,
      MinusCircleIcon,
 } from "@heroicons/react/20/solid";
+import Swal from "sweetalert2";
+import axios from "axios";
+import { Inertia } from "@inertiajs/inertia";
 
 type CarouselProps = {
      arrInsurance: any;
      filterMekanis: any;
+     setIsSuccess: any;
+     setModalPengajuan: any;
+     setRefreshTrigger: any;
 };
 
-const Carousel: React.FC<CarouselProps> = ({ arrInsurance, filterMekanis }) => {
+const Carousel: React.FC<CarouselProps> = ({
+     arrInsurance,
+     filterMekanis,
+     setIsSuccess,
+     setModalPengajuan,
+     setRefreshTrigger,
+}) => {
      const prevRef = useRef(null);
      const nextRef = useRef(null);
 
@@ -26,7 +38,96 @@ const Carousel: React.FC<CarouselProps> = ({ arrInsurance, filterMekanis }) => {
      const slidesPerView = 3;
      const showNavigation = arrInsurance.length > slidesPerView;
 
-     console.log(arrInsurance, "<< arrInsurance");
+     const prosesSelectInsurance = async (dataInsurance: any) => {
+          await axios
+               .post(`/selectInsurance`, { dataInsurance })
+               .then((res) => {
+                    if (res.data[1].original[1] === "Penawaran") {
+                         Swal.fire({
+                              title: "",
+                              text: res.data[1].original[0],
+                              icon: "question",
+                              showCancelButton: true,
+                              confirmButtonColor: "#3085d6",
+                              cancelButtonColor: "#d33",
+                              confirmButtonText: "Yes",
+                         }).then((result) => {
+                              if (result.isConfirmed) {
+                                   alert("lannjut proses penawaran");
+                              } else {
+                                   setModalPengajuan({
+                                        add: false,
+                                        detail: false,
+                                        edit: false,
+                                        review: false,
+                                   });
+                                   setIsSuccess("");
+                                   setIsSuccess("Pemilihan Asuransi Berhasil");
+                                   setRefreshTrigger(res.data[0]);
+                                   setTimeout(() => {
+                                        setIsSuccess("");
+                                   }, 5000);
+                                   setTimeout(() => {
+                                        setRefreshTrigger("");
+                                   }, 1000);
+                              }
+                         });
+                    } else {
+                         Swal.fire({
+                              title: "",
+                              text: res.data[1].original[0],
+                              icon: "question",
+                              showCancelButton: true,
+                              confirmButtonColor: "#3085d6",
+                              cancelButtonColor: "#d33",
+                              confirmButtonText: "Yes",
+                         }).then((result) => {
+                              if (result.isConfirmed) {
+                                   Inertia.visit("/prosesUnderwriting", {
+                                        data: {
+                                             filter: "Underwriting",
+                                        },
+                                   });
+                              } else {
+                                   setModalPengajuan({
+                                        add: false,
+                                        detail: false,
+                                        edit: false,
+                                        review: false,
+                                   });
+                                   setIsSuccess("");
+                                   setIsSuccess("Pemilihan Asuransi Berhasil");
+                                   setRefreshTrigger(res.data[0]);
+                                   setTimeout(() => {
+                                        setIsSuccess("");
+                                   }, 5000);
+                                   setTimeout(() => {
+                                        setRefreshTrigger("");
+                                   }, 1000);
+                              }
+                         });
+                    }
+               })
+               .catch((err) => {
+                    console.log(err);
+               });
+     };
+
+     const handleClickSelectInsurance = async (dataInsurance: any) => {
+          // Swal.fire({
+          //      title: "Are you sure?",
+          //      text: "",
+          //      icon: "question",
+          //      showCancelButton: true,
+          //      confirmButtonColor: "#3085d6",
+          //      cancelButtonColor: "#d33",
+          //      confirmButtonText: "Yes",
+          // }).then((result) => {
+          //      if (result.isConfirmed) {
+          prosesSelectInsurance(dataInsurance);
+          //      }
+          // });
+     };
 
      return (
           <div className="w-full max-w-4xl mx-auto p-4 relative">
@@ -105,7 +206,7 @@ const Carousel: React.FC<CarouselProps> = ({ arrInsurance, filterMekanis }) => {
                                    <div className="bg-slate-600 rounded-t-lg p-2 flex justify-center font-semibold text-white hover:cursor-pointer hover:bg-slate-400 w-50">
                                         <span>Simulasi Premi</span>
                                    </div>
-                                   <div className="p-4 bg-white shadow-lg w-50 relative">
+                                   <div className="p-4 bg-white shadow-lg w-50 relative max-h-[300px]">
                                         {/* nama asuransi */}
                                         <div className="text-sm mb-10 font-semibold text-center">
                                              <span>
@@ -176,13 +277,18 @@ const Carousel: React.FC<CarouselProps> = ({ arrInsurance, filterMekanis }) => {
                                    <div
                                         className="bg-slate-600 rounded-b-lg p-2 flex justify-center font-semibold text-white hover:cursor-pointer hover:bg-slate-400 w-50 mb-2 text-sm"
                                         onClick={() => {
-                                             // handleClickSelectInsurance(
-                                             //      dataInsurance
-                                             // );
+                                             if (
+                                                  dataInsurance?.product
+                                                       .UNDERWRITING_ID !== null
+                                             ) {
+                                                  handleClickSelectInsurance(
+                                                       dataInsurance
+                                                  );
+                                             }
                                         }}
                                    >
-                                        {dataInsurance?.UNDERWRITING_ID ===
-                                        null ? (
+                                        {dataInsurance?.product
+                                             .UNDERWRITING_ID === null ? (
                                              <>
                                                   <span>Proses Penawaran</span>
                                              </>

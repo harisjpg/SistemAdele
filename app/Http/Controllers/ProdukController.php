@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Document;
 use App\Models\TMekanismeProdukAsuransi;
 use App\Models\TProdukAsuransi;
 use App\Models\TUnderWriting;
@@ -10,7 +11,9 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
+use Illuminate\Support\Str;
 
 class ProdukController extends Controller
 {
@@ -22,6 +25,41 @@ class ProdukController extends Controller
         return Inertia::render('Produk/index', [
             "comboUnderwriting" => $dataUnderwriting
         ]);
+    }
+
+    public function RemoveSpecialChar($str)
+    {
+        $replace = Str::of($str)->replace(
+            [
+                '`',
+                '~',
+                ' ',
+                '!',
+                '@',
+                '#',
+                '$',
+                '%',
+                '^',
+                '&',
+                '*',
+                '(',
+                ')',
+                '+',
+                '=',
+                '<',
+                '>',
+                '{',
+                '}',
+                '[',
+                ']',
+                '?',
+                '/',
+                ':',
+                ';'
+            ],
+            '-'
+        );
+        return $replace;
     }
 
     public function getProdukAsuransi(Request $request)
@@ -82,8 +120,9 @@ class ProdukController extends Controller
             $date = now();
 
             $PRODUK_ASURANSI_NAME                = $request->PRODUK_ASURANSI_NAME;
-            $UNDERWRITING_ID                     = $request->UNDERWRITING_ID['value'];
+            $UNDERWRITING_ID                     = isset($request->UNDERWRITING_ID['value']) ? $request->UNDERWRITING_ID['value'] : NULL;
             $DATA_MEKANISME_PRODUK               = $request->DATA_MEKANISME_PRODUK;
+            $fileUploadProduk                    = $request->file('UPLOAD_FILE_PRODUK');
 
             // insert data into t_produk_asuransi
             $produkAsuransi = TProdukAsuransi::create([
@@ -131,6 +170,45 @@ class ProdukController extends Controller
                     ]);
                 }
             }
+
+            // for upload document
+            for ($i = 0; $i < sizeof($fileUploadProduk); $i++) {
+
+                // Create Folder For Insurance Document
+                $parentDir = ((floor(($produkAsuransi->PRODUK_ASURANSI_ID) / 1000)) * 1000) . '/';
+                $insuranceID = $produkAsuransi->PRODUK_ASURANSI_ID . '/';
+                $typeDir = "";
+                $uploadPath = 'document/PRODUCT/DOCUMENT_PRODUCT/' . $parentDir . $insuranceID . $typeDir;
+
+
+                // get Data Document
+                $documentOriginalName = $this->RemoveSpecialChar($fileUploadProduk[$i]->getClientOriginalName());
+                $documentFileName = $produkAsuransi->PRODUK_ASURANSI_ID . "-" . $this->RemoveSpecialChar($fileUploadProduk[$i]->getClientOriginalName());
+                $documentDirName = $uploadPath;
+                $documentFileType = $fileUploadProduk[$i]->getMimeType();
+                $documentFileSize = $fileUploadProduk[$i]->getSize();
+
+                // create folder in directory laravel
+                Storage::makeDirectory($uploadPath, 0777, true, true);
+                Storage::disk('public')->putFileAs($uploadPath, $fileUploadProduk[$i], $produkAsuransi->PRODUK_ASURANSI_ID . "-" . $this->RemoveSpecialChar($fileUploadProduk[$i]->getClientOriginalName()));
+
+                // masukan data file ke database
+                $document = Document::create([
+                    'DOCUMENT_ORIGINAL_NAME'        => $documentOriginalName,
+                    'DOCUMENT_FILENAME'             => $documentFileName,
+                    'DOCUMENT_DIRNAME'              => $documentDirName,
+                    'DOCUMENT_FILETYPE'             => $documentFileType,
+                    'DOCUMENT_FILESIZE'             => $documentFileSize,
+                    'DOCUMENT_CREATED_BY'           => Auth::user()->id
+                ])->DOCUMENT_ID;
+
+                if ($document) {
+                    TProdukAsuransi::where('PRODUK_ASURANSI_ID', $produkAsuransi->PRODUK_ASURANSI_ID)
+                        ->update([
+                            'PRODUK_ASURANSI_DOCUMENT_ID'    => $document
+                        ]);
+                }
+            }
         });
 
         return new JsonResponse([
@@ -172,6 +250,7 @@ class ProdukController extends Controller
 
             $PRODUK_ASURANSI_NAME                = $request->PRODUK_ASURANSI_NAME;
             $DATA_MEKANISME_PRODUK               = $request->DATA_MEKANISME_PRODUK;
+            $fileUploadProduk                    = $request->file('UPLOAD_FILE_PRODUK');
 
             // insert data into t_produk_asuransi
             $produkAsuransi = TProdukAsuransi::where('PRODUK_ASURANSI_ID', $request->PRODUK_ASURANSI_ID)->update([
@@ -222,6 +301,44 @@ class ProdukController extends Controller
                         ]),
                         'action_by'  => $user->user_login
                     ]);
+                }
+            }
+
+            for ($i = 0; $i < sizeof($fileUploadProduk); $i++) {
+
+                // Create Folder For Insurance Document
+                $parentDir = ((floor(($request->PRODUK_ASURANSI_ID) / 1000)) * 1000) . '/';
+                $insuranceID = $request->PRODUK_ASURANSI_ID . '/';
+                $typeDir = "";
+                $uploadPath = 'document/PRODUCT/DOCUMENT_PRODUCT/' . $parentDir . $insuranceID . $typeDir;
+
+
+                // get Data Document
+                $documentOriginalName = $this->RemoveSpecialChar($fileUploadProduk[$i]->getClientOriginalName());
+                $documentFileName = $request->PRODUK_ASURANSI_ID . "-" . $this->RemoveSpecialChar($fileUploadProduk[$i]->getClientOriginalName());
+                $documentDirName = $uploadPath;
+                $documentFileType = $fileUploadProduk[$i]->getMimeType();
+                $documentFileSize = $fileUploadProduk[$i]->getSize();
+
+                // create folder in directory laravel
+                Storage::makeDirectory($uploadPath, 0777, true, true);
+                Storage::disk('public')->putFileAs($uploadPath, $fileUploadProduk[$i], $request->PRODUK_ASURANSI_ID . "-" . $this->RemoveSpecialChar($fileUploadProduk[$i]->getClientOriginalName()));
+
+                // masukan data file ke database
+                $document = Document::create([
+                    'DOCUMENT_ORIGINAL_NAME'        => $documentOriginalName,
+                    'DOCUMENT_FILENAME'             => $documentFileName,
+                    'DOCUMENT_DIRNAME'              => $documentDirName,
+                    'DOCUMENT_FILETYPE'             => $documentFileType,
+                    'DOCUMENT_FILESIZE'             => $documentFileSize,
+                    'DOCUMENT_CREATED_BY'           => Auth::user()->id
+                ])->DOCUMENT_ID;
+
+                if ($document) {
+                    TProdukAsuransi::where('PRODUK_ASURANSI_ID', $request->PRODUK_ASURANSI_ID)
+                        ->update([
+                            'PRODUK_ASURANSI_DOCUMENT_ID'    => $document
+                        ]);
                 }
             }
         });

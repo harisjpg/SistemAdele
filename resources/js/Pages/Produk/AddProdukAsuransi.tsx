@@ -30,7 +30,7 @@ export default function AddProdukAsuransi({
           },
           {
                id: "2",
-               name: "Bali Debet + (1 x Bunga)",
+               name: "Baki Debet + (1 x Bunga)",
           },
           {
                id: "3",
@@ -162,6 +162,27 @@ export default function AddProdukAsuransi({
                                                   "bg-[var(--dynamic-color)]"
                                              }
                                         />
+                                   </div>
+                                   <div>
+                                        <InputLabel
+                                             value="Upload File"
+                                             required={true}
+                                        />
+                                        <div className="w-full mt-1">
+                                             <input
+                                                  className="block w-full text-sm text-gray-600 border bg-[var(--dynamic-color)] rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-600 dark:border-gray-600 dark:placeholder-gray-400"
+                                                  id="file_input"
+                                                  type="file"
+                                                  required
+                                                  onChange={(e: any) => {
+                                                       setDataProdukAsuransi({
+                                                            ...dataProdukAsuransi,
+                                                            UPLOAD_FILE_PRODUK:
+                                                                 e.target.files,
+                                                       });
+                                                  }}
+                                             ></input>
+                                        </div>
                                    </div>
                               </div>
                          </div>

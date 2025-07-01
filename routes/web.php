@@ -149,6 +149,10 @@ Route::middleware('auth')->group(function () {
     Route::post('/editInsuranceList/{id}', [InsuranceController::class, 'editInsuranceList'])->name('editInsuranceList');
     Route::post('/getInsuranceTypeProduct', [InsuranceController::class, 'getInsuranceType'])->name('getInsuranceTypeProduct');
     Route::post('/getInsuranceTypeBundling', [InsuranceController::class, 'getInsuranceTypeBundling'])->name('getInsuranceTypeBundling');
+    Route::get('/getInsuranceBundling', [InsuranceController::class, 'getInsuranceBundling'])->name('getInsuranceBundling');
+    Route::post('/saveBundlingInsurance', [InsuranceController::class, 'saveBundlingInsurance'])->name('saveBundlingInsurance');
+    
+
 
 
     // Share Configuration

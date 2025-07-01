@@ -13,6 +13,7 @@ import dateFormat from "dateformat";
 import SelectTailwind from "react-tailwindcss-select";
 import { XMarkIcon } from "@heroicons/react/20/solid";
 import { text } from "stream/consumers";
+import axios from "axios";
 
 export default function DetailEditProdukAsuransi({
      setDataEditProdukAsuransi,
@@ -109,6 +110,30 @@ export default function DetailEditProdukAsuransi({
                );
                return selected[0]?.label;
           }
+     };
+
+     const handleFileDownloadProduct = async (idDocument: any) => {
+          await axios({
+               url: `/downloadRate/${idDocument}`,
+               method: "GET",
+               responseType: "blob",
+          })
+               .then((response) => {
+                    const url = window.URL.createObjectURL(
+                         new Blob([response.data])
+                    );
+                    const link = document.createElement("a");
+                    link.href = url;
+                    link.setAttribute("download", response.headers.filename);
+                    document.body.appendChild(link);
+                    link.click();
+               })
+               .catch((err) => {
+                    console.log(err);
+                    if (err.response.status === 404) {
+                         alert("File not Found");
+                    }
+               });
      };
 
      return (
@@ -219,6 +244,57 @@ export default function DetailEditProdukAsuransi({
                                                   "bg-[var(--dynamic-color)]"
                                              }
                                         />
+                                   </div>
+                                   <div>
+                                        <InputLabel
+                                             value="Upload File"
+                                             required={true}
+                                        />
+                                        <div
+                                             className="text-xs text-blue-600 hover:cursor-pointer hover:text-blue-400 hover:underline w-fit"
+                                             onClick={(e) =>
+                                                  handleFileDownloadProduct(
+                                                       dataEditProdukAsuransi.PRODUK_ASURANSI_DOCUMENT_ID
+                                                  )
+                                             }
+                                        >
+                                             <span>
+                                                  {
+                                                       dataEditProdukAsuransi
+                                                            .DOCUMENT
+                                                            .DOCUMENT_FILENAME
+                                                  }
+                                             </span>
+                                        </div>
+                                        <div className="w-full mt-1">
+                                             <input
+                                                  className={
+                                                       textButton.textButton ===
+                                                       "Edit"
+                                                            ? "bg-gray-300 text-black block w-full text-sm border bg-[var(--dynamic-color)] rounded-lg dark:text-gray-400 focus:outline-none dark:bg-gray-600 dark:border-gray-600 dark:placeholder-gray-400"
+                                                            : "block w-full text-sm text-gray-600 border bg-[var(--dynamic-color)] rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-600 dark:border-gray-600 dark:placeholder-gray-400"
+                                                  }
+                                                  id="file_input"
+                                                  type="file"
+                                                  required
+                                                  onChange={(e: any) => {
+                                                       setDataEditProdukAsuransi(
+                                                            {
+                                                                 ...dataEditProdukAsuransi,
+                                                                 UPLOAD_FILE_PRODUK:
+                                                                      e.target
+                                                                           .files,
+                                                            }
+                                                       );
+                                                  }}
+                                                  disabled={
+                                                       textButton.textButton ===
+                                                       "Edit"
+                                                            ? true
+                                                            : false
+                                                  }
+                                             ></input>
+                                        </div>
                                    </div>
                               </div>
                          </div>

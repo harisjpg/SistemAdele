@@ -18,4 +18,11 @@ class TInsuranceBundling extends Model
     ];
 
     public $timestamps = false;
+
+    public $with = ['nameInsurance'];
+
+    public function nameInsurance()
+    {
+        return $this->hasOne(Insurance::class, 'INSURANCE_ID', 'INSURANCE_BUNDLING_LEADER');
+    }
 }

@@ -56,6 +56,8 @@ export default function AddInsuranceList({
                label: query.UNDERWRITING_NAME,
           };
      });
+     console.log(comboInsuranceParent, "comboInsuranceParent");
+
      return (
           <>
                <section>

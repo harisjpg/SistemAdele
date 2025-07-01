@@ -53,6 +53,7 @@ export default function MasterProduk({ auth }: any) {
      const [dataProdukAsuransi, setDataProdukAsuransi] = useState<any>({
           PRODUK_ASURANSI_NAME: "",
           UNDERWRITING_ID: "",
+          UPLOAD_FILE_PRODUK: "",
           DATA_MEKANISME_PRODUK: [
                {
                     JAMINAN_ASURANSI: "",
@@ -137,6 +138,9 @@ export default function MasterProduk({ auth }: any) {
                UNDERWRITING_ID: data.UNDERWRITING_ID,
                PRODUK_ASURANSI_NAME: data.PRODUK_ASURANSI_NAME,
                DATA_MEKANISME_PRODUK: data.data_mekanisme_produk,
+               PRODUK_ASURANSI_DOCUMENT_ID: data.PRODUK_ASURANSI_DOCUMENT_ID,
+               DOCUMENT: data.document_template,
+               UPLOAD_FILE_PRODUK: "",
           });
           setModalAction({
                ...modalAction,

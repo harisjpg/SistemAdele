@@ -3634,8 +3634,11 @@ class PengajuanController extends Controller
             // cek terlebih dulu, asuransi tersebut apakah ada underwriting, kalo gaada maka pindah ke proses penawaran, kalo ada lanjut proses underwriting
             // get data insurance
             $arrDataInsurance = getInsuranceById($request->dataInsurance['INSURANCE_ID']);
+            $productId = $arrDataInsurance->PRODUK_ASURANSI_ID;
+            // GET PRODUKNYA
+            $arrDataProduk = getProdukAsuransiById($productId);
             // dd($arrDataInsurance);
-            if ($arrDataInsurance->UNDERWRITING_ID === null || $arrDataInsurance->UNDERWRITING_ID === "") { // jika null atau kosong, masuk ke penawaran
+            if ($arrDataProduk->UNDERWRITING_ID === null || $arrDataProduk->UNDERWRITING_ID === "") { // jika null atau kosong, masuk ke penawaran
                 // update t_offer masuk ke proses penawaran
                 TOffer::where('OFFER_ID', $request->dataInsurance['OFFER_ID'])
                     ->update([

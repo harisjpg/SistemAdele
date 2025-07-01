@@ -29,7 +29,7 @@ function get_number($day, $year, $month)
 {
     $arr_data = DB::table('t_offer')
         ->select(DB::raw('MAX(RIGHT(OFFER_SUBMISSION_CODE, 5)) AS MAX_NUMBER'))
-        ->where('OFFER_SUBMISSION_CODE', 'REGEXP', 'FPM[0-9]{6}' . $month . $year . '[0-9]{5}')
+        ->where('OFFER_SUBMISSION_CODE', 'REGEXP', '[0-4]{4}' . $month . $year . '[0-4]{5}')
         ->get();
     $max_number = $arr_data[0]->MAX_NUMBER;
     if (trim($max_number) != null || trim($max_number) != '') {

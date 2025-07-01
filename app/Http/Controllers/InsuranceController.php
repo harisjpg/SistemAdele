@@ -69,6 +69,31 @@ class InsuranceController extends Controller
         return $replace;
     }
 
+    public function getInsuranceBundling(Request $request)
+    {
+        $perPage = $request->input('per_page', 10);
+        $sortColumn = $request->input('sort_column', 'INSURANCE_ID');
+        $sortDirection = $request->input('sort_direction', 'desc');
+        $search = json_decode($request->input('search', ''));
+        // $status = $request->input('filter', null);  // Tambahkan status filter
+        // dd($status);
+        // if ($status === 'null') {
+        //     $status = null;
+        // }
+        // Mulai query Insurance List
+        $listInsurance = Insurance::with('TInsuranceBundling')->with('TInsuranceProdukBundling')->when($search, function ($query, $search) {
+            return $query->where('INSURANCE_NAME', 'like', "%{$search}%")
+                ->orWhere('JENIS_ASURANSI_NAME', 'like', "%{$search}%");
+        })
+            ->whereNotIn('t_insurance.INSURANCE_TYPE_ID', [1, 2])
+            ->leftJoin('r_jenis_asuransi', 'r_jenis_asuransi.JENIS_ASURANSI_ID', '=', 't_insurance.INSURANCE_TYPE_ID')
+            ->orderBy($sortColumn, $sortDirection)
+            ->paginate($perPage, ['*'], 'page', $request->input('page', 1));
+
+        // Return hasil pencarian
+        return response()->json($listInsurance);
+    }
+
     public function getInsuranceList(Request $request)
     { // Ambil query parameters
         $perPage = $request->input('per_page', 10);
@@ -85,6 +110,7 @@ class InsuranceController extends Controller
             return $query->where('INSURANCE_NAME', 'like', "%{$search}%")
                 ->orWhere('JENIS_ASURANSI_NAME', 'like', "%{$search}%");
         })
+            ->whereIn('t_insurance.INSURANCE_TYPE_ID', [1, 2])
             ->leftJoin('r_jenis_asuransi', 'r_jenis_asuransi.JENIS_ASURANSI_ID', '=', 't_insurance.INSURANCE_TYPE_ID')
             ->orderBy($sortColumn, $sortDirection)
             ->paginate($perPage, ['*'], 'page', $request->input('page', 1));
@@ -165,6 +191,107 @@ class InsuranceController extends Controller
         ]);
     }
 
+    public function saveBundlingInsurance(Request $request)
+    {
+        // $dataRequest = $request;
+        // // dd($dataRequest);
+        $result = DB::transaction(function () use ($request) {
+            $insuranceName              = $request->INSURANCE_NAME;
+            $INSURANCE_TYPE_ID          = $request->INSURANCE_TYPE_ID['value'];
+            $INSURANCE_BUNDLING_ID      = $request->INSURANCE_BUNDLING_ID;
+            $INSURANCE_LEADER_BUNDLING  = $request->INSURANCE_LEADER_BUNDLING['value'];
+            $PRODUK_ASURANSI_ID         = $request->PRODUK_ASURANSI_ID;
+            $insuranceSlug              = Str::slug($insuranceName);
+            $bundlingDocument           = $request->file('UPLOAD_FILE_BUNDLING');
+
+            // add insurance
+            $insuranceList = Insurance::create([
+                "INSURANCE_NAME"            => $insuranceName,
+                "INSURANCE_TYPE_ID"         => $INSURANCE_TYPE_ID,
+                "INSURANCE_SLUG"            => $insuranceSlug,
+                "INSURANCE_CREATED_BY"      => Auth::user()->id,
+                "INSURANCE_CREATED_DATE"    => now(),
+            ]);
+
+            // ADD INSURANCE BUNDLING
+            $isLeader = "";
+            for ($i = 0; $i < count($INSURANCE_BUNDLING_ID); $i++) {
+                $dataInsuranceBundling = $INSURANCE_BUNDLING_ID[$i];
+                if ($dataInsuranceBundling['value'] === $INSURANCE_LEADER_BUNDLING) {
+                    $isLeader = $dataInsuranceBundling['value'];
+                } else {
+                    $isLeader = NULL;
+                }
+
+                $insuranceBundling = TInsuranceBundling::create([
+                    "INSURANCE_ID"                      => $insuranceList->INSURANCE_ID,
+                    "INSURANCE_BUNDLING"                => $dataInsuranceBundling['value'],
+                    "INSURANCE_BUNDLING_LEADER"         => $isLeader,
+                    "INSURANCE_BUNDLING_CREATED_BY"     => Auth::user()->id,
+                    "INSURANCE_BUNDLING_UPDATED_BY"     => now(),
+                ]);
+            }
+
+            // ADD INSURANCE PRODUK
+            for ($i = 0; $i < count($PRODUK_ASURANSI_ID); $i++) {
+                $dataInsuranceBundlingProduct = $PRODUK_ASURANSI_ID[$i];
+
+                $insuranceBundlingProduct = TInsuranceProductBundling::create([
+                    "INSURANCE_ID"                              => $insuranceList->INSURANCE_ID,
+                    "PRODUK_ID"                                 => $dataInsuranceBundlingProduct['value'],
+                    "INSURANCE_PRODUCT_BUNDLING_CREATED_BY"     => Auth::user()->id,
+                    "INSURANCE_PRODUCT_BUNDLING_CREATED_DATE"   => now(),
+                ]);
+            }
+
+
+            // for upload document
+            for ($i = 0; $i < sizeof($bundlingDocument); $i++) {
+
+                // Create Folder For Insurance Document
+                $parentDir = ((floor(($insuranceBundling->INSURANCE_BUNDLING_ID) / 1000)) * 1000) . '/';
+                $insuranceID = $insuranceBundling->INSURANCE_BUNDLING_ID . '/';
+                $typeDir = "";
+                $uploadPath = 'document/INSURANCE/DOCUMENT_BUNDLING/' . $parentDir . $insuranceID . $typeDir;
+
+
+                // get Data Document
+                $documentOriginalName = $this->RemoveSpecialChar($bundlingDocument[$i]->getClientOriginalName());
+                $documentFileName = $insuranceBundling->INSURANCE_BUNDLING_ID . "-" . $this->RemoveSpecialChar($bundlingDocument[$i]->getClientOriginalName());
+                $documentDirName = $uploadPath;
+                $documentFileType = $bundlingDocument[$i]->getMimeType();
+                $documentFileSize = $bundlingDocument[$i]->getSize();
+
+                // create folder in directory laravel
+                Storage::makeDirectory($uploadPath, 0777, true, true);
+                Storage::disk('public')->putFileAs($uploadPath, $bundlingDocument[$i], $insuranceBundling->INSURANCE_BUNDLING_ID . "-" . $this->RemoveSpecialChar($bundlingDocument[$i]->getClientOriginalName()));
+
+                // masukan data file ke database
+                $document = Document::create([
+                    'DOCUMENT_ORIGINAL_NAME'        => $documentOriginalName,
+                    'DOCUMENT_FILENAME'             => $documentFileName,
+                    'DOCUMENT_DIRNAME'              => $documentDirName,
+                    'DOCUMENT_FILETYPE'             => $documentFileType,
+                    'DOCUMENT_FILESIZE'             => $documentFileSize,
+                    'DOCUMENT_CREATED_BY'           => Auth::user()->id
+                ])->DOCUMENT_ID;
+
+                if ($document) {
+                    TInsuranceBundling::where('INSURANCE_BUNDLING_ID', $insuranceBundling->INSURANCE_BUNDLING_ID)
+                        ->update([
+                            'INSURANCE_BUNDLING_DOCUMENT'    => $document
+                        ]);
+                }
+            }
+        });
+
+        return new JsonResponse([
+            'New Insurance List Success Created '
+        ], 201, [
+            'X-Inertia' => true
+        ]);
+    }
+
     public function addInsuranceList(Request $request)
     {
         $insuranceName        = $request->INSURANCE_NAME;
@@ -177,7 +304,7 @@ class InsuranceController extends Controller
             "INSURANCE_TYPE_ID"         => $request->INSURANCE_TYPE_ID['value'],
             "PRODUK_ASURANSI_ID"        => $request->PRODUK_ASURANSI_ID['value'],
             "INSURANCE_PARENT_ID"       => $request->INSURANCE_PARENT_ID === null ? NULL : $request->INSURANCE_PARENT_ID['value'],
-            "UNDERWRITING_ID"           => $request->UNDERWRITING_ID['value'],
+            "UNDERWRITING_ID"           => isset($request->UNDERWRITING_ID['value']) ? $request->UNDERWRITING_ID['value'] : NULL,
             "INSURANCE_CODE"            => $insuranceCode,
             "INSURANCE_SLUG"            => $insuranceSlug,
             "INSURANCE_CREATED_BY"      => Auth::user()->id,

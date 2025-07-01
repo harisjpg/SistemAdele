@@ -16,6 +16,7 @@ import axios from "axios";
 import { ArrowPathIcon } from "@heroicons/react/20/solid";
 import AddInsuranceBundling from "./AddInsuranceBundling";
 import DetailEditInsuranceBundling from "./DetailEditInsuranceBundling";
+import ModalInsuranceBundling from "./ModalInsuranceBundling";
 
 export default function InsuranceList({ auth }: any) {
      const { comboInsurance, comboUnderwriting }: any = usePage().props;
@@ -252,6 +253,11 @@ export default function InsuranceList({ auth }: any) {
      };
      // end for handle success edit Insurance List
 
+     // for modal insurance bundling
+     const [modalBundling, setModalBundling] = useState<any>({
+          modal: false,
+     });
+
      // for Breadcrumbs
      const forBreadcrumbs = [{ name: "Asuransi", href: "#", current: true }];
      return (
@@ -316,7 +322,7 @@ export default function InsuranceList({ auth }: any) {
                     data={dataInsuranceBundling}
                     onSuccess={handleSuccessAddInsuranceList}
                     classPanel={
-                         "relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg lg:max-w-[40%]"
+                         "relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg lg:max-w-[45%]"
                     }
                     body={
                          <AddInsuranceBundling
@@ -398,6 +404,40 @@ export default function InsuranceList({ auth }: any) {
                />
                {/* End Modal Detail */}
 
+               {/* Modal Bundling Insurance */}
+               <ModalToAction
+                    show={modalBundling.modal}
+                    onClose={() => {
+                         setModalBundling({
+                              modal: false,
+                         });
+                    }}
+                    buttonEdit={""}
+                    actionEdit={""}
+                    title={"Bundling Insurance"}
+                    url={``}
+                    data={""}
+                    onSuccess={""}
+                    method={""}
+                    headers={null}
+                    classPanel={
+                         "relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg lg:max-w-[95%]"
+                    }
+                    submitButtonName={""}
+                    body={
+                         <>
+                              <ModalInsuranceBundling
+                                   insuranceType={insuranceTypeBundling}
+                                   produkAsuransi={produkAsuransi}
+                                   comboInsurance={comboInsurance}
+                                   comboUnderwriting={comboUnderwriting}
+                                   setIsSuccess={setIsSuccess}
+                              />
+                         </>
+                    }
+               />
+               {/* End Modal Bundling Insurance */}
+
                {/* SECTION Insurance List */}
                <section>
                     {/* Header */}
@@ -412,17 +452,20 @@ export default function InsuranceList({ auth }: any) {
                               <div
                                    className="p-3 bg-[#0A47FF] text-xs text-white rounded-md shadow-lg hover:cursor-pointer hover:bg-blue-800"
                                    onClick={() => {
-                                        setModalInsurance({
-                                             add: false,
-                                             edit: false,
-                                             detail: false,
-                                             bundling: true,
+                                        setModalBundling({
+                                             modal: true,
                                         });
+                                        // setModalInsurance({
+                                        //      add: true,
+                                        //      edit: false,
+                                        //      detail: false,
+                                        //      bundling: true,
+                                        // });
                                         getInsuranceTypeBundling();
                                         getProdukAsuransi();
                                    }}
                               >
-                                   <span>Tambah Asuransi Bundling</span>
+                                   <span>Asuransi Bundling</span>
                               </div>
                               <div
                                    className="p-3 bg-[#0A47FF] text-xs text-white rounded-md shadow-lg hover:cursor-pointer hover:bg-blue-800"
