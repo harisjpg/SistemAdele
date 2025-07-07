@@ -158,7 +158,7 @@ export default function LaporanPengajuan({ auth }: any) {
                                         classNames={{
                                              // Menggunakan truncate dan max-w-full pada menuButton untuk memastikan teks tidak keluar dari input
                                              menuButton: () =>
-                                                  `flex text-sm ring-1 text-gray-500 rounded-md shadow-sm transition-all duration-300 focus:outline-none bg-white hover:border-gray-400 text-wrap max-w-full truncate`, // Menambahkan truncate dan max-w-full
+                                                  `flex text-sm ring-1 ring-primary-adele text-gray-500 rounded-md shadow-sm transition-all duration-300 focus:outline-none bg-white hover:border-gray-400 text-wrap max-w-full truncate`, // Menambahkan truncate dan max-w-full
 
                                              // Menu dropdown tetap sama, jika ada masalah pada dropdown, kamu bisa sesuaikan lagi
                                              menu: "absolute text-left z-20 w-full bg-white shadow-lg border rounded py-1 mt-1.5 text-sm text-gray-700 h-50 overflow-y-auto custom-scrollbar",
@@ -167,8 +167,8 @@ export default function LaporanPengajuan({ auth }: any) {
                                              listItem: ({ isSelected }: any) =>
                                                   `block transition duration-200 px-2 py-2 cursor-pointer select-none truncate rounded ${
                                                        isSelected
-                                                            ? `text-white bg-[var(--dynamic-color)]`
-                                                            : `text-gray-500 hover:bg-[var(--dynamic-color)] hover:text-white`
+                                                            ? `text-white bg-primary-adele`
+                                                            : `text-gray-500 hover:bg-primary-adele hover:text-white`
                                                   }`,
                                         }}
                                         options={selectInsurance}
@@ -182,9 +182,7 @@ export default function LaporanPengajuan({ auth }: any) {
                                                   JENIS_INSURANCE: e,
                                              });
                                         }}
-                                        primaryColor={
-                                             "bg-[var(--dynamic-color)]"
-                                        }
+                                        primaryColor={"bg-primary-adele"}
                                    />
                               </div>
                               <div className="mt-2">
@@ -193,7 +191,7 @@ export default function LaporanPengajuan({ auth }: any) {
                                         classNames={{
                                              // Menggunakan truncate dan max-w-full pada menuButton untuk memastikan teks tidak keluar dari input
                                              menuButton: () =>
-                                                  `flex text-sm ring-1 text-gray-500 rounded-md shadow-sm transition-all duration-300 focus:outline-none bg-white hover:border-gray-400 text-wrap max-w-full truncate`, // Menambahkan truncate dan max-w-full
+                                                  `flex text-sm ring-1 ring-primary-adele text-gray-500 rounded-md shadow-sm transition-all duration-300 focus:outline-none bg-white hover:border-gray-400 text-wrap max-w-full truncate`, // Menambahkan truncate dan max-w-full
 
                                              // Menu dropdown tetap sama, jika ada masalah pada dropdown, kamu bisa sesuaikan lagi
                                              menu: "absolute text-left z-20 w-full bg-white shadow-lg border rounded py-1 mt-1.5 text-sm text-gray-700 h-50 overflow-y-auto custom-scrollbar",
@@ -202,8 +200,8 @@ export default function LaporanPengajuan({ auth }: any) {
                                              listItem: ({ isSelected }: any) =>
                                                   `block transition duration-200 px-2 py-2 cursor-pointer select-none truncate rounded ${
                                                        isSelected
-                                                            ? `text-white bg-[var(--dynamic-color)]`
-                                                            : `text-gray-500 hover:bg-[var(--dynamic-color)] hover:text-white`
+                                                            ? `text-white bg-primary-adele`
+                                                            : `text-gray-500 hover:bg-primary-adele hover:text-white`
                                                   }`,
                                         }}
                                         options={selectPengajuan}
@@ -217,9 +215,7 @@ export default function LaporanPengajuan({ auth }: any) {
                                                   STATUS_PENGAJUAN: e,
                                              });
                                         }}
-                                        primaryColor={
-                                             "bg-[var(--dynamic-color)]"
-                                        }
+                                        primaryColor={"bg-primary-adele"}
                                    />
                               </div>
                               <div className="mt-2">
@@ -228,7 +224,7 @@ export default function LaporanPengajuan({ auth }: any) {
                                         classNames={{
                                              // Menggunakan truncate dan max-w-full pada menuButton untuk memastikan teks tidak keluar dari input
                                              menuButton: () =>
-                                                  `flex text-sm ring-1 text-gray-500 rounded-md shadow-sm transition-all duration-300 focus:outline-none bg-white hover:border-gray-400 text-wrap max-w-full truncate`, // Menambahkan truncate dan max-w-full
+                                                  `flex text-sm ring-1 ring-primary-adele text-gray-500 rounded-md shadow-sm transition-all duration-300 focus:outline-none bg-white hover:border-gray-400 text-wrap max-w-full truncate`, // Menambahkan truncate dan max-w-full
 
                                              // Menu dropdown tetap sama, jika ada masalah pada dropdown, kamu bisa sesuaikan lagi
                                              menu: "absolute text-left z-20 w-full bg-white shadow-lg border rounded py-1 mt-1.5 text-sm text-gray-700 h-50 overflow-y-auto custom-scrollbar",
@@ -237,8 +233,8 @@ export default function LaporanPengajuan({ auth }: any) {
                                              listItem: ({ isSelected }: any) =>
                                                   `block transition duration-200 px-2 py-2 cursor-pointer select-none truncate rounded ${
                                                        isSelected
-                                                            ? `text-white bg-[var(--dynamic-color)]`
-                                                            : `text-gray-500 hover:bg-[var(--dynamic-color)] hover:text-white`
+                                                            ? `text-white bg-primary-adele`
+                                                            : `text-gray-500 hover:bg-primary-adele hover:text-white`
                                                   }`,
                                         }}
                                         options={selectStatusProses}
@@ -252,9 +248,7 @@ export default function LaporanPengajuan({ auth }: any) {
                                                   STATUS_PROSES: e,
                                              });
                                         }}
-                                        primaryColor={
-                                             "bg-[var(--dynamic-color)]"
-                                        }
+                                        primaryColor={"bg-primary-adele"}
                                    />
                               </div>
                               <div className="flex justify-end gap-1 mt-2">

@@ -128,14 +128,14 @@ export default function ProsesUnderwriting({ auth }: any) {
                     {/* Header */}
                     <div className="flex justify-between items-center">
                          <div className="">
-                              <span className="text-lg font-bold text-[#0A47FF]">
+                              <span className="text-lg font-bold text-primary-adele">
                                    Proses underwriting
                               </span>
                               <Breadcrumbs forBreadcrumbs={forBreadcrumbs} />
                          </div>
                          <div className="flex gap-2">
                               {/* <div
-                                   className="p-3 bg-[#0A47FF] text-xs text-white rounded-md shadow-lg hover:cursor-pointer hover:bg-blue-800"
+                                   className="p-3 bg-primary-adele text-xs text-white rounded-md shadow-lg hover:cursor-pointer hover:bg-primary-hover-adele"
                                    // onClick={(e: any) => {
                                    //      handleProses underwritingDebitur(e);
                                    // }}
@@ -152,7 +152,7 @@ export default function ProsesUnderwriting({ auth }: any) {
                               <div className="w-full">
                                    <TextSearch
                                         type="text"
-                                        className="ring-1"
+                                        className="ring-1 ring-primary-adele focus:ring-primary-adele"
                                         placeholder="Search for Kode Aplikasi, Nama Nasabah, Status dll"
                                         value={searchProsesUnderwriting}
                                         onChange={(e: any) => {

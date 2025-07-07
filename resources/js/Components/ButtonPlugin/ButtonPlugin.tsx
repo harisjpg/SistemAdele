@@ -87,7 +87,7 @@ export default function ButtonPlugin({}: PropsWithChildren<{}>) {
                                              placeholder="#000000"
                                         />
                                         <div className="flex justify-end mt-2">
-                                             <div className="text-xs bg-[var(--dynamic-color)] w-fit">
+                                             <div className="text-xs bg-primary-adele w-fit">
                                                   <PrimaryButton
                                                        className="text-xs"
                                                        disabled={isProcessing}

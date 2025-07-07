@@ -17,7 +17,7 @@ export default function Button({
                     } ${
                          className.includes("bg-")
                               ? className
-                              : "bg-[var(--dynamic-color)]"
+                              : "bg-primary-adele"
                     } ${
                          className.includes("text") ? className : "text-white"
                     } ${

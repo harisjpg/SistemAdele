@@ -23,7 +23,11 @@ import AddProdukAsuransi from "./AddProdukAsuransi";
 import DetailEditProdukAsuransi from "./DetailEditProdukAsuransi";
 
 export default function MasterProduk({ auth }: any) {
-     const { comboUnderwriting }: any = usePage().props;
+     const {
+          comboUnderwriting,
+          dataParameterProduk,
+          dataParameterCategory,
+     }: any = usePage().props;
 
      // for success alert
      const [isSuccess, setIsSuccess] = useState<string>("");
@@ -54,13 +58,12 @@ export default function MasterProduk({ auth }: any) {
           PRODUK_ASURANSI_NAME: "",
           UNDERWRITING_ID: "",
           UPLOAD_FILE_PRODUK: "",
+          PARAMETER_PRODUK_ID: "",
+          PARAMETER_CATEGORY_ID: "",
           DATA_MEKANISME_PRODUK: [
                {
-                    JAMINAN_ASURANSI: "",
-                    MAX_GANTI_RUGI: "",
-                    MAX_GANTI_RUGI_CHOOSE: "",
-                    LIMIT_GANTI_RUGI: "",
-                    KAPASITAS: "",
+                    PARAMETER_PRODUK_ID: "",
+                    PARAMETER_CATEGORY_ID: "",
                },
           ],
      });
@@ -74,13 +77,11 @@ export default function MasterProduk({ auth }: any) {
                setDataProdukAsuransi({
                     PRODUK_ASURANSI_NAME: "",
                     UNDERWRITING_ID: "",
+                    UPLOAD_FILE_PRODUK: "",
                     DATA_MEKANISME_PRODUK: [
                          {
-                              JAMINAN_ASURANSI: "",
-                              MAX_GANTI_RUGI: "",
-                              MAX_GANTI_RUGI_CHOOSE: "",
-                              LIMIT_GANTI_RUGI: "",
-                              KAPASITAS: "",
+                              PARAMETER_PRODUK_ID: "",
+                              PARAMETER_CATEGORY_ID: "",
                          },
                     ],
                });
@@ -114,9 +115,15 @@ export default function MasterProduk({ auth }: any) {
           });
      };
 
-     const [dataEditProdukAsuransi, setDataEditProdukAsuransi] = useState<any>(
-          []
-     );
+     const [dataEditProdukAsuransi, setDataEditProdukAsuransi] = useState<any>({
+          PRODUK_ASURANSI_ID: "",
+          UNDERWRITING_ID: "",
+          PRODUK_ASURANSI_NAME: "",
+          DATA_MEKANISME_PRODUK: "",
+          PRODUK_ASURANSI_DOCUMENT_ID: "",
+          DOCUMENT: "",
+          UPLOAD_FILE_PRODUK: "",
+     });
      const handleSuccessEditProdukAsuransi = async (message: any) => {
           setIsSuccess("");
           if (message != "") {
@@ -195,6 +202,8 @@ export default function MasterProduk({ auth }: any) {
                                    setDataProdukAsuransi={setDataProdukAsuransi}
                                    dataProdukAsuransi={dataProdukAsuransi}
                                    comboUnderwriting={comboUnderwriting}
+                                   dataParameterProduk={dataParameterProduk}
+                                   dataParameterCategory={dataParameterCategory}
                               />
                          </>
                     }
@@ -208,6 +217,15 @@ export default function MasterProduk({ auth }: any) {
                          setModalAction({
                               ...modalAction,
                               detail: false,
+                         });
+                         setDataEditProdukAsuransi({
+                              PRODUK_ASURANSI_ID: "",
+                              UNDERWRITING_ID: "",
+                              PRODUK_ASURANSI_NAME: "",
+                              DATA_MEKANISME_PRODUK: [],
+                              PRODUK_ASURANSI_DOCUMENT_ID: "",
+                              DOCUMENT: "",
+                              UPLOAD_FILE_PRODUK: "",
                          });
                     }}
                     buttonEdit={textButton}
@@ -235,6 +253,8 @@ export default function MasterProduk({ auth }: any) {
                                    }
                                    textButton={textButton}
                                    comboUnderwriting={comboUnderwriting}
+                                   dataParameterCategory={dataParameterCategory}
+                                   dataParameterProduk={dataParameterProduk}
                               />
                               {/* <DetailEditProduk
                                    textButton={textButton}
@@ -253,7 +273,7 @@ export default function MasterProduk({ auth }: any) {
                          {/* Header */}
                          <div className="flex justify-between items-center">
                               <div className="">
-                                   <span className="text-lg font-bold text-[#0A47FF]">
+                                   <span className="text-lg font-bold text-primary-adele">
                                         Produk Asuransi
                                    </span>
                                    <Breadcrumbs
@@ -262,7 +282,7 @@ export default function MasterProduk({ auth }: any) {
                               </div>
                               <div className="flex gap-2">
                                    <div
-                                        className="p-3 bg-[#0A47FF] text-xs text-white rounded-md shadow-lg hover:cursor-pointer hover:bg-blue-800"
+                                        className="p-3 bg-primary-adele text-xs text-white rounded-md shadow-lg hover:cursor-pointer hover:bg-primary-hover-adele"
                                         onClick={() => {
                                              handleClickAddProdukAsuransi();
                                         }}
@@ -279,7 +299,7 @@ export default function MasterProduk({ auth }: any) {
                                    <div className="w-full">
                                         <TextSearch
                                              type="text"
-                                             className="ring-1"
+                                             className="ring-1 ring-primary-adele focus:ring-ring-adele"
                                              placeholder="Search for Nama Produk Asuransi dll"
                                              value={search}
                                              onChange={(e: any) => {

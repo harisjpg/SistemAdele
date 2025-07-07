@@ -580,8 +580,8 @@ export default function ReviewPengajuanDebitur({
                                                   }: any) =>
                                                        `block transition duration-200 px-2 py-2 cursor-pointer select-none truncate rounded ${
                                                             isSelected
-                                                                 ? `text-white bg-[var(--dynamic-color)]`
-                                                                 : `text-gray-500 hover:bg-[var(--dynamic-color)] hover:text-white`
+                                                                 ? `text-white bg-primary-adele`
+                                                                 : `text-gray-500 hover:bg-primary-adele hover:text-white`
                                                        }`,
                                              }}
                                              options={
@@ -600,15 +600,13 @@ export default function ReviewPengajuanDebitur({
                                                             dataReviewPengajuan.OFFER_ID,
                                                   });
                                              }}
-                                             primaryColor={
-                                                  "bg-[var(--dynamic-color)]"
-                                             }
+                                             primaryColor={"bg-primary-adele"}
                                         />
                                    </div>
                                    <div className="grid grid-cols-1 mt-2">
                                         <InputLabel value="Jenis Dokumen" />
                                         <input
-                                             className="block w-full text-sm text-gray-600 border bg-[var(--dynamic-color)] rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-600 dark:border-gray-600 dark:placeholder-gray-400"
+                                             className="block w-full text-sm text-gray-600 border bg-primary-adele rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-600 dark:border-gray-600 dark:placeholder-gray-400"
                                              id="file_input"
                                              type="file"
                                              required
@@ -658,8 +656,8 @@ export default function ReviewPengajuanDebitur({
                                                   }: any) =>
                                                        `block transition duration-200 px-2 py-2 cursor-pointer select-none truncate rounded ${
                                                             isSelected
-                                                                 ? `text-white bg-[var(--dynamic-color)]`
-                                                                 : `text-gray-500 hover:bg-[var(--dynamic-color)] hover:text-white`
+                                                                 ? `text-white bg-primary-adele`
+                                                                 : `text-gray-500 hover:bg-primary-adele hover:text-white`
                                                        }`,
                                              }}
                                              options={selectDocumentCategory}
@@ -676,15 +674,13 @@ export default function ReviewPengajuanDebitur({
                                                             dataReviewPengajuan.OFFER_ID,
                                                   });
                                              }}
-                                             primaryColor={
-                                                  "bg-[var(--dynamic-color)]"
-                                             }
+                                             primaryColor={"bg-primary-adele"}
                                         />
                                    </div>
                                    <div className="grid grid-cols-1 mt-2">
                                         <InputLabel value="Jenis Dokumen" />
                                         <input
-                                             className="block w-full text-sm text-gray-600 border bg-[var(--dynamic-color)] rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-600 dark:border-gray-600 dark:placeholder-gray-400"
+                                             className="block w-full text-sm text-gray-600 border bg-primary-adele rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-600 dark:border-gray-600 dark:placeholder-gray-400"
                                              id="file_input"
                                              type="file"
                                              required
@@ -794,7 +790,7 @@ export default function ReviewPengajuanDebitur({
                                              }
                                         </span>
                                         <input
-                                             className="block w-full text-sm text-gray-600 border bg-[var(--dynamic-color)] rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-600 dark:border-gray-600 dark:placeholder-gray-400"
+                                             className="block w-full text-sm text-gray-600 border bg-primary-adele rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-600 dark:border-gray-600 dark:placeholder-gray-400"
                                              id="file_input"
                                              type="file"
                                              required
@@ -844,8 +840,8 @@ export default function ReviewPengajuanDebitur({
                                                   }: any) =>
                                                        `block transition duration-200 px-2 py-2 cursor-pointer select-none truncate rounded ${
                                                             isSelected
-                                                                 ? `text-white bg-[var(--dynamic-color)]`
-                                                                 : `text-gray-500 hover:bg-[var(--dynamic-color)] hover:text-white`
+                                                                 ? `text-white bg-primary-adele`
+                                                                 : `text-gray-500 hover:bg-primary-adele hover:text-white`
                                                        }`,
                                              }}
                                              options={selectInsurance}
@@ -862,15 +858,13 @@ export default function ReviewPengajuanDebitur({
                                                             dataReviewPengajuan.OFFER_ID,
                                                   });
                                              }}
-                                             primaryColor={
-                                                  "bg-[var(--dynamic-color)]"
-                                             }
+                                             primaryColor={"bg-primary-adele"}
                                         />
                                    </div>
                                    <div className="grid grid-cols-1 mt-2">
                                         <InputLabel value="Jenis Dokumen" />
                                         <input
-                                             className="block w-full text-sm text-gray-600 border bg-[var(--dynamic-color)] rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-600 dark:border-gray-600 dark:placeholder-gray-400"
+                                             className="block w-full text-sm text-gray-600 border bg-primary-adele rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-600 dark:border-gray-600 dark:placeholder-gray-400"
                                              id="file_input"
                                              type="file"
                                              required

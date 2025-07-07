@@ -593,8 +593,8 @@ export default function UserManagement({ auth, type }: any) {
                                                   }: any) =>
                                                        `block transition duration-200 px-2 py-2 cursor-pointer select-none truncate rounded ${
                                                             isSelected
-                                                                 ? `text-white bg-[var(--dynamic-color)]`
-                                                                 : `text-gray-500 hover:bg-[var(--dynamic-color)] hover:text-white`
+                                                                 ? `text-white bg-primary-adele`
+                                                                 : `text-gray-500 hover:bg-primary-adele hover:text-white`
                                                        }`,
                                              }}
                                              options={selectInsurance}
@@ -609,9 +609,7 @@ export default function UserManagement({ auth, type }: any) {
                                                        insurance_id: e,
                                                   });
                                              }}
-                                             primaryColor={
-                                                  "bg-[var(--dynamic-color)]"
-                                             }
+                                             primaryColor={"bg-primary-adele"}
                                         />
                                    </>
                               ) : null}
@@ -700,8 +698,8 @@ export default function UserManagement({ auth, type }: any) {
                                                   }: any) =>
                                                        `block transition duration-200 px-2 py-2 cursor-pointer select-none truncate rounded ${
                                                             isSelected
-                                                                 ? `text-white bg-[var(--dynamic-color)]`
-                                                                 : `text-gray-500 hover:bg-[var(--dynamic-color)] hover:text-white`
+                                                                 ? `text-white bg-primary-adele`
+                                                                 : `text-gray-500 hover:bg-primary-adele hover:text-white`
                                                        }`,
                                              }}
                                              options={selectComboBranch}
@@ -716,9 +714,7 @@ export default function UserManagement({ auth, type }: any) {
                                                        branch_id: e,
                                                   });
                                              }}
-                                             primaryColor={
-                                                  "bg-[var(--dynamic-color)]"
-                                             }
+                                             primaryColor={"bg-primary-adele"}
                                         />
                                    </>
                               ) : null}
@@ -846,8 +842,8 @@ export default function UserManagement({ auth, type }: any) {
                                                   }: any) =>
                                                        `block transition duration-200 px-2 py-2 cursor-pointer select-none truncate rounded ${
                                                             isSelected
-                                                                 ? `text-white bg-[var(--dynamic-color)]`
-                                                                 : `text-gray-500 hover:bg-[var(--dynamic-color)] hover:text-white`
+                                                                 ? `text-white bg-primary-adele`
+                                                                 : `text-gray-500 hover:bg-primary-adele hover:text-white`
                                                        }`,
                                              }}
                                              options={selectRUpload}
@@ -863,9 +859,7 @@ export default function UserManagement({ auth, type }: any) {
                                                        upload_type_id: e,
                                                   });
                                              }}
-                                             primaryColor={
-                                                  "bg-[var(--dynamic-color)]"
-                                             }
+                                             primaryColor={"bg-primary-adele"}
                                         />
                                         {/* for upload type */}
                                    </>
@@ -1008,8 +1002,8 @@ export default function UserManagement({ auth, type }: any) {
                                                        }: any) =>
                                                             `block transition duration-200 px-2 py-2 cursor-pointer select-none truncate rounded ${
                                                                  isSelected
-                                                                      ? `text-white bg-[var(--dynamic-color)]`
-                                                                      : `text-gray-500 hover:bg-[var(--dynamic-color)] hover:text-white`
+                                                                      ? `text-white bg-primary-adele`
+                                                                      : `text-gray-500 hover:bg-primary-adele hover:text-white`
                                                             }`,
                                                   }}
                                                   options={selectInsurance}
@@ -1031,7 +1025,7 @@ export default function UserManagement({ auth, type }: any) {
                                                        });
                                                   }}
                                                   primaryColor={
-                                                       "bg-[var(--dynamic-color)]"
+                                                       "bg-primary-adele"
                                                   }
                                              />
                                         </>
@@ -1153,8 +1147,8 @@ export default function UserManagement({ auth, type }: any) {
                                                        }: any) =>
                                                             `block transition duration-200 px-2 py-2 cursor-pointer select-none truncate rounded ${
                                                                  isSelected
-                                                                      ? `text-white bg-[var(--dynamic-color)]`
-                                                                      : `text-gray-500 hover:bg-[var(--dynamic-color)] hover:text-white`
+                                                                      ? `text-white bg-primary-adele`
+                                                                      : `text-gray-500 hover:bg-primary-adele hover:text-white`
                                                             }`,
                                                   }}
                                                   options={selectComboBranch}
@@ -1176,7 +1170,7 @@ export default function UserManagement({ auth, type }: any) {
                                                        });
                                                   }}
                                                   primaryColor={
-                                                       "bg-[var(--dynamic-color)]"
+                                                       "bg-primary-adele"
                                                   }
                                              />
                                         </>
@@ -1203,8 +1197,8 @@ export default function UserManagement({ auth, type }: any) {
                                                        }: any) =>
                                                             `block transition duration-200 px-2 py-2 cursor-pointer select-none truncate rounded ${
                                                                  isSelected
-                                                                      ? `text-white bg-[var(--dynamic-color)]`
-                                                                      : `text-gray-500 hover:bg-[var(--dynamic-color)] hover:text-white`
+                                                                      ? `text-white bg-primary-adele`
+                                                                      : `text-gray-500 hover:bg-primary-adele hover:text-white`
                                                             }`,
                                                   }}
                                                   options={selectRUpload}
@@ -1226,7 +1220,7 @@ export default function UserManagement({ auth, type }: any) {
                                                        });
                                                   }}
                                                   primaryColor={
-                                                       "bg-[var(--dynamic-color)]"
+                                                       "bg-primary-adele"
                                                   }
                                              />
                                              {/* for upload type */}
@@ -1322,7 +1316,7 @@ export default function UserManagement({ auth, type }: any) {
                                                        handleUserStatusChange
                                                   }
                                              />
-                                             <div className="w-11 h-6 bg-gray-200 rounded-full peer-checked:bg-[var(--dynamic-color)] peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border after:border-gray-300 after:rounded-full after:h-5 after:w-5 after:transition-all"></div>
+                                             <div className="w-11 h-6 bg-gray-200 rounded-full peer-checked:bg-primary-adele peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border after:border-gray-300 after:rounded-full after:h-5 after:w-5 after:transition-all"></div>
                                         </label>
                                    </div>
                                    {/* end isActive user */}
@@ -1394,7 +1388,7 @@ export default function UserManagement({ auth, type }: any) {
                     <div className="flex flex-col">
                          <div className="bg-white mb-4 rounded-md p-4">
                               <div
-                                   className="bg-[var(--dynamic-color)] w-fit p-2 rounded-md text-white hover:bg-primary-hover-adele hover:cursor-pointer"
+                                   className="bg-primary-adele w-fit p-2 rounded-md text-white hover:bg-primary-hover-adele hover:cursor-pointer"
                                    onClick={(e) => addRolePopup(e)}
                               >
                                    <span>Add User</span>
@@ -1446,7 +1440,7 @@ export default function UserManagement({ auth, type }: any) {
                               />
                               <div className="mt-4 flex justify-end gap-2">
                                    <div
-                                        className="bg-[var(--dynamic-color)] text-white p-2 w-fit rounded-md text-center hover:bg-primary-hover-adele cursor-pointer"
+                                        className="bg-primary-adele text-white p-2 w-fit rounded-md text-center hover:bg-primary-hover-adele cursor-pointer"
                                         onClick={() => {
                                              if (
                                                   searchUser.user_search[0]
@@ -1472,7 +1466,7 @@ export default function UserManagement({ auth, type }: any) {
                                         Search
                                    </div>
                                    <div
-                                        className="bg-[var(--dynamic-color)] text-white p-2 w-fit rounded-md text-center hover:bg-primary-hover-adele cursor-pointer"
+                                        className="bg-primary-adele text-white p-2 w-fit rounded-md text-center hover:bg-primary-hover-adele cursor-pointer"
                                         onClick={(e) => clearSearchUser(e)}
                                    >
                                         Clear Search

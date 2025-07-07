@@ -79,8 +79,8 @@ export default function AddBankBranch({
                          listItem: ({ isSelected }: any) =>
                               `block transition duration-200 px-2 py-2 cursor-pointer select-none truncate rounded ${
                                    isSelected
-                                        ? `text-white bg-[var(--dynamic-color)]`
-                                        : `text-gray-500 hover:bg-[var(--dynamic-color)] hover:text-white`
+                                        ? `text-white bg-primary-adele`
+                                        : `text-gray-500 hover:bg-primary-adele hover:text-white`
                               }`,
                     }}
                     options={comboParentBranch}
@@ -93,7 +93,7 @@ export default function AddBankBranch({
                               BANK_BRANCH_PARENT_ID: e,
                          });
                     }}
-                    primaryColor={"bg-[var(--dynamic-color)]"}
+                    primaryColor={"bg-primary-adele"}
                />
 
                {/* for kanwil */}
@@ -111,8 +111,8 @@ export default function AddBankBranch({
                          listItem: ({ isSelected }: any) =>
                               `block transition duration-200 px-2 py-2 cursor-pointer select-none truncate rounded ${
                                    isSelected
-                                        ? `text-white bg-[var(--dynamic-color)]`
-                                        : `text-gray-500 hover:bg-[var(--dynamic-color)] hover:text-white`
+                                        ? `text-white bg-primary-adele`
+                                        : `text-gray-500 hover:bg-primary-adele hover:text-white`
                               }`,
                     }}
                     options={selectKanwil}
@@ -125,7 +125,7 @@ export default function AddBankBranch({
                               BANK_BRANCH_KANWIL: e,
                          });
                     }}
-                    primaryColor={"bg-[var(--dynamic-color)]"}
+                    primaryColor={"bg-primary-adele"}
                />
 
                {/* for Branch Name */}

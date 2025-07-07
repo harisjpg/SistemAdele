@@ -123,14 +123,14 @@ export default function Penutupan({ auth }: any) {
                     {/* Header */}
                     <div className="flex justify-between items-center">
                          <div className="">
-                              <span className="text-lg font-bold text-[#0A47FF]">
+                              <span className="text-lg font-bold text-primary-adele">
                                    Penutupan
                               </span>
                               <Breadcrumbs forBreadcrumbs={forBreadcrumbs} />
                          </div>
                          <div className="flex gap-2">
                               {/* <div
-                                   className="p-3 bg-[#0A47FF] text-xs text-white rounded-md shadow-lg hover:cursor-pointer hover:bg-blue-800"
+                                   className="p-3 bg-primary-adele text-xs text-white rounded-md shadow-lg hover:cursor-pointer hover:bg-primary-hover-adele"
                                    onClick={() => {
                                         // handleClickAddNasabah();
                                    }}
@@ -147,7 +147,7 @@ export default function Penutupan({ auth }: any) {
                               <div className="w-full">
                                    <TextSearch
                                         type="text"
-                                        className="ring-1"
+                                        className="ring-1 ring-primary-adele focus:ring-primary-adele"
                                         placeholder="Search for Kode Aplikasi, Nama Nasabah, Asuransi dll"
                                         value={searchPenutupan}
                                         onChange={(e: any) => {
@@ -192,7 +192,7 @@ export default function Penutupan({ auth }: any) {
                                                   <>
                                                        <div className="flex gap-1">
                                                             <div
-                                                                 className="bg-primary-adele text-white w-fit p-1 text-xs rounded-md shadow-md hover:cursor-pointer hover:bg-blue-800"
+                                                                 className="bg-primary-adele text-white w-fit p-1 text-xs rounded-md shadow-md hover:cursor-pointer hover:bg-primary-hover-adele"
                                                                  onClick={(
                                                                       e
                                                                  ) => {
@@ -452,7 +452,7 @@ export default function Penutupan({ auth }: any) {
                                                   classNames={{
                                                        // Menggunakan truncate dan max-w-full pada menuButton untuk memastikan teks tidak keluar dari input
                                                        menuButton: () =>
-                                                            `flex text-sm ring-1 text-gray-500 rounded-md shadow-sm transition-all duration-300 focus:outline-none bg-white hover:border-gray-400 text-wrap max-w-full truncate`, // Menambahkan truncate dan max-w-full
+                                                            `flex text-sm ring-1 ring-primary-adele text-gray-500 rounded-md shadow-sm transition-all duration-300 focus:outline-none bg-white hover:border-gray-400 text-wrap max-w-full truncate`, // Menambahkan truncate dan max-w-full
 
                                                        // Menu dropdown tetap sama, jika ada masalah pada dropdown, kamu bisa sesuaikan lagi
                                                        menu: "absolute text-left z-20 w-full bg-white shadow-lg border rounded py-1 mt-1.5 text-sm text-gray-700 h-50 overflow-y-auto custom-scrollbar",
@@ -463,8 +463,8 @@ export default function Penutupan({ auth }: any) {
                                                        }: any) =>
                                                             `block transition duration-200 px-2 py-2 cursor-pointer select-none truncate rounded ${
                                                                  isSelected
-                                                                      ? `text-white bg-[var(--dynamic-color)]`
-                                                                      : `text-gray-500 hover:bg-[var(--dynamic-color)] hover:text-white`
+                                                                      ? `text-white bg-primary-adele`
+                                                                      : `text-gray-500 hover:bg-primary-adele hover:text-white`
                                                             }`,
                                                   }}
                                                   options={selectInsurance}
@@ -481,7 +481,7 @@ export default function Penutupan({ auth }: any) {
                                                        });
                                                   }}
                                                   primaryColor={
-                                                       "bg-[var(--dynamic-color)]"
+                                                       "bg-primary-adele"
                                                   }
                                              />
                                         </div>
@@ -536,7 +536,7 @@ export default function Penutupan({ auth }: any) {
                                                        <>
                                                             <div className="flex gap-1">
                                                                  <div
-                                                                      className="bg-primary-adele text-white w-fit p-1 text-xs rounded-md shadow-md hover:cursor-pointer hover:bg-blue-800"
+                                                                      className="bg-primary-adele text-white w-fit p-1 text-xs rounded-md shadow-md hover:cursor-pointer hover:bg-primary-hover-adele"
                                                                       onClick={(
                                                                            e
                                                                       ) => {

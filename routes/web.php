@@ -20,8 +20,10 @@ use App\Http\Controllers\RolePermissionController;
 use App\Http\Controllers\RUserTypeController;
 use App\Http\Controllers\SettingPageController;
 use App\Http\Controllers\ShareEffectiveController;
-use App\Http\Controllers\TOrganization;
+
 use App\Http\Controllers\TOrganizationController;
+
+use App\Http\Controllers\TParameterProdukController;
 use App\Http\Controllers\UnderWritingController;
 use App\Http\Controllers\UserManagementController;
 use App\Http\Controllers\Utility;
@@ -151,7 +153,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/getInsuranceTypeBundling', [InsuranceController::class, 'getInsuranceTypeBundling'])->name('getInsuranceTypeBundling');
     Route::get('/getInsuranceBundling', [InsuranceController::class, 'getInsuranceBundling'])->name('getInsuranceBundling');
     Route::post('/saveBundlingInsurance', [InsuranceController::class, 'saveBundlingInsurance'])->name('saveBundlingInsurance');
-    
+
 
 
 
@@ -256,6 +258,13 @@ Route::middleware('auth')->group(function () {
     Route::get('/prosesUnderwriting', [ProsesUnderwritingController::class, 'index'])->name('prosesUnderwriting');
     Route::get('/getOfferUnderwriting', [ProsesUnderwritingController::class, 'getOfferUnderwriting'])->name('getOfferUnderwriting');
     Route::post('/getDetailProsesUnderwriting', [ProsesUnderwritingController::class, 'getDetailProsesUnderwriting'])->name('getDetailProsesUnderwriting');
+
+    // Paremter Produk
+    Route::get('/parameterProduk', [TParameterProdukController::class, 'index'])->name('parameterProduk');
+    Route::post('/addParameterProduk', [TParameterProdukController::class, 'addParameterProduk'])->name('addParameterProduk');
+    Route::post('/getDataParameterProduk', [TParameterProdukController::class, 'getDataParameterProduk'])->name('getDataParameterProduk');
+    Route::post('/editParameterProduk', [TParameterProdukController::class, 'editParameterProduk'])->name('editParameterProduk');
+
 
 
 

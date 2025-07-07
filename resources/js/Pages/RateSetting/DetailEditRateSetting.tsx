@@ -361,8 +361,8 @@ export default function DetailEditRateSetting({
                          listItem: ({ isSelected }: any) =>
                               `block transition duration-200 px-2 py-2 cursor-pointer select-none truncate rounded ${
                                    isSelected
-                                        ? `text-white bg-[var(--dynamic-color)]`
-                                        : `text-gray-500 hover:bg-[var(--dynamic-color)] hover:text-white`
+                                        ? `text-white bg-primary-adele`
+                                        : `text-gray-500 hover:bg-primary-adele hover:text-white`
                               }`,
                     }}
                     options={optionRateType}
@@ -381,7 +381,7 @@ export default function DetailEditRateSetting({
                               RATE_MANAGE_TYPE: val.value,
                          });
                     }}
-                    primaryColor={"bg-[var(--dynamic-color)]"}
+                    primaryColor={"bg-primary-adele"}
                />
 
                {/* for REGULER TEMPLATE */}
@@ -445,7 +445,7 @@ export default function DetailEditRateSetting({
                                                        : false
                                              }
                                         />
-                                        <div className="w-11 h-6 bg-gray-200 rounded-full peer-checked:bg-[var(--dynamic-color)] peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border after:border-gray-300 after:rounded-full after:h-5 after:w-5 after:transition-all"></div>
+                                        <div className="w-11 h-6 bg-gray-200 rounded-full peer-checked:bg-primary-adele peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border after:border-gray-300 after:rounded-full after:h-5 after:w-5 after:transition-all"></div>
                                    </label>
                               </div>
                          </div>
@@ -481,8 +481,8 @@ export default function DetailEditRateSetting({
                                    listItem: ({ isSelected }: any) =>
                                         `block transition duration-200 px-2 py-2 cursor-pointer select-none truncate rounded ${
                                              isSelected
-                                                  ? `text-white bg-[var(--dynamic-color)]`
-                                                  : `text-gray-500 hover:bg-[var(--dynamic-color)] hover:text-white`
+                                                  ? `text-white bg-primary-adele`
+                                                  : `text-gray-500 hover:bg-primary-adele hover:text-white`
                                         }`,
                               }}
                               options={optionInsurance}
@@ -504,7 +504,7 @@ export default function DetailEditRateSetting({
                                         insurance_rate: val,
                                    });
                               }}
-                              primaryColor={"bg-[var(--dynamic-color)]"}
+                              primaryColor={"bg-primary-adele"}
                          />
                          <InputLabel
                               className="mt-2"
@@ -556,8 +556,8 @@ export default function DetailEditRateSetting({
                          <input
                               className={
                                    textButton.textButton === "Edit"
-                                        ? "bg-gray-300 text-black block w-full text-sm border bg-[var(--dynamic-color)] rounded-lg dark:text-gray-400 focus:outline-none dark:bg-gray-600 dark:border-gray-600 dark:placeholder-gray-400"
-                                        : "block w-full text-sm text-gray-600 border bg-[var(--dynamic-color)] rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-600 dark:border-gray-600 dark:placeholder-gray-400"
+                                        ? "bg-gray-300 text-black block w-full text-sm border bg-primary-adele rounded-lg dark:text-gray-400 focus:outline-none dark:bg-gray-600 dark:border-gray-600 dark:placeholder-gray-400"
+                                        : "block w-full text-sm text-gray-600 border bg-primary-adele rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-600 dark:border-gray-600 dark:placeholder-gray-400"
                               }
                               id="file_input"
                               type="file"
@@ -674,8 +674,8 @@ export default function DetailEditRateSetting({
                                                             }: any) =>
                                                                  `block transition duration-200 px-2 py-2 cursor-pointer select-none truncate rounded ${
                                                                       isSelected
-                                                                           ? `text-white bg-[var(--dynamic-color)]`
-                                                                           : `text-gray-500 hover:bg-[var(--dynamic-color)] hover:text-white`
+                                                                           ? `text-white bg-primary-adele`
+                                                                           : `text-gray-500 hover:bg-primary-adele hover:text-white`
                                                                  }`,
                                                        }}
                                                        options={optionInsurance}
@@ -704,7 +704,7 @@ export default function DetailEditRateSetting({
                                                             );
                                                        }}
                                                        primaryColor={
-                                                            "bg-[var(--dynamic-color)]"
+                                                            "bg-primary-adele"
                                                        }
                                                   />
                                                   <div className="grid grid-cols-2 gap-2">
@@ -970,7 +970,7 @@ export default function DetailEditRateSetting({
                                                                            );
                                                                       }}
                                                                  />
-                                                                 <div className="w-11 h-6 bg-gray-200 rounded-full peer-checked:bg-[var(--dynamic-color)] peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border after:border-gray-300 after:rounded-full after:h-5 after:w-5 after:transition-all"></div>
+                                                                 <div className="w-11 h-6 bg-gray-200 rounded-full peer-checked:bg-primary-adele peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border after:border-gray-300 after:rounded-full after:h-5 after:w-5 after:transition-all"></div>
                                                             </label>
                                                        </div>
                                                   </div>
@@ -1064,8 +1064,8 @@ export default function DetailEditRateSetting({
                                                        className={
                                                             textButton.textButton ===
                                                             "Edit"
-                                                                 ? "bg-gray-300 text-black block w-full text-sm border bg-[var(--dynamic-color)] rounded-lg dark:text-gray-400 focus:outline-none dark:bg-gray-600 dark:border-gray-600 dark:placeholder-gray-400"
-                                                                 : "block w-full text-sm text-gray-600 border bg-[var(--dynamic-color)] rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-600 dark:border-gray-600 dark:placeholder-gray-400"
+                                                                 ? "bg-gray-300 text-black block w-full text-sm border bg-primary-adele rounded-lg dark:text-gray-400 focus:outline-none dark:bg-gray-600 dark:border-gray-600 dark:placeholder-gray-400"
+                                                                 : "block w-full text-sm text-gray-600 border bg-primary-adele rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-600 dark:border-gray-600 dark:placeholder-gray-400"
                                                        }
                                                        id="file_input"
                                                        type="file"

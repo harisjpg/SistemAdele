@@ -121,7 +121,7 @@ export default function Login({
 
                                         <div>
                                              <PrimaryButton
-                                                  className="flex w-full justify-center rounded-md bg-[var(--dynamic-color)] px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-primary-hover-adele focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:bg-[var(--dynamic-color)]"
+                                                  className="flex w-full justify-center rounded-md bg-primary-adele px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-primary-hover-adele focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:bg-primary-adele"
                                                   disabled={processing}
                                              >
                                                   Sign In

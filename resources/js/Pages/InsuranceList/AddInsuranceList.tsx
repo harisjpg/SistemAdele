@@ -73,13 +73,13 @@ export default function AddInsuranceList({
                               <SelectTailwind
                                    classNames={{
                                         menuButton: () =>
-                                             `flex text-sm ring-1 text-gray-500 rounded-md shadow-md transition-all duration-300 focus:outline-none bg-white hover:border-gray-400`,
+                                             `flex text-sm ring-1 ring-primary-adele text-gray-500 rounded-md shadow-md transition-all duration-300 focus:outline-none bg-white hover:border-gray-400`,
                                         menu: "absolute text-left z-20 w-full bg-white shadow-lg border rounded py-1 mt-1.5 text-sm text-gray-700 h-50 overflow-y-auto custom-scrollbar",
                                         listItem: ({ isSelected }: any) =>
                                              `block transition duration-200 px-2 py-2 cursor-pointer select-none truncate rounded ${
                                                   isSelected
-                                                       ? `text-white bg-[var(--dynamic-color)]`
-                                                       : `text-gray-500 hover:bg-[var(--dynamic-color)] hover:text-white`
+                                                       ? `text-white bg-primary-adele`
+                                                       : `text-gray-500 hover:bg-primary-adele hover:text-white`
                                              }`,
                                    }}
                                    options={comboInsuranceParent}
@@ -93,7 +93,7 @@ export default function AddInsuranceList({
                                              INSURANCE_PARENT_ID: e,
                                         });
                                    }}
-                                   primaryColor={"bg-[var(--dynamic-color)]"}
+                                   primaryColor={"bg-primary-adele"}
                               />
                               {/* for Insurance Name */}
                          </div>
@@ -132,13 +132,13 @@ export default function AddInsuranceList({
                               <SelectTailwind
                                    classNames={{
                                         menuButton: () =>
-                                             `flex text-sm ring-1 text-gray-500 rounded-md shadow-md transition-all duration-300 focus:outline-none bg-white hover:border-gray-400`,
+                                             `flex text-sm ring-1 ring-primary-adele text-gray-500 rounded-md shadow-md transition-all duration-300 focus:outline-none bg-white hover:border-gray-400`,
                                         menu: "absolute text-left z-20 w-full bg-white shadow-lg border rounded py-1 mt-1.5 text-sm text-gray-700 h-50 overflow-y-auto custom-scrollbar",
                                         listItem: ({ isSelected }: any) =>
                                              `block transition duration-200 px-2 py-2 cursor-pointer select-none truncate rounded ${
                                                   isSelected
-                                                       ? `text-white bg-[var(--dynamic-color)]`
-                                                       : `text-gray-500 hover:bg-[var(--dynamic-color)] hover:text-white`
+                                                       ? `text-white bg-primary-adele`
+                                                       : `text-gray-500 hover:bg-primary-adele hover:text-white`
                                              }`,
                                    }}
                                    options={comboInsuranceType}
@@ -154,7 +154,7 @@ export default function AddInsuranceList({
                                              INSURANCE_TYPE_ID: e,
                                         });
                                    }}
-                                   primaryColor={"bg-[var(--dynamic-color)]"}
+                                   primaryColor={"bg-primary-adele"}
                               />
                          </div>
                     </div>
@@ -190,13 +190,13 @@ export default function AddInsuranceList({
                     <SelectTailwind
                          classNames={{
                               menuButton: () =>
-                                   `flex text-sm ring-1 text-gray-500 rounded-md shadow-md transition-all duration-300 focus:outline-none bg-white hover:border-gray-400`,
+                                   `flex text-sm ring-1 ring-primary-adele text-gray-500 rounded-md shadow-md transition-all duration-300 focus:outline-none bg-white hover:border-gray-400`,
                               menu: "absolute text-left z-20 w-full bg-white shadow-lg border rounded py-1 mt-1.5 text-sm text-gray-700 h-50 overflow-y-auto custom-scrollbar",
                               listItem: ({ isSelected }: any) =>
                                    `block transition duration-200 px-2 py-2 cursor-pointer select-none truncate rounded ${
                                         isSelected
-                                             ? `text-white bg-[var(--dynamic-color)]`
-                                             : `text-gray-500 hover:bg-[var(--dynamic-color)] hover:text-white`
+                                             ? `text-white bg-primary-adele`
+                                             : `text-gray-500 hover:bg-primary-adele hover:text-white`
                                    }`,
                          }}
                          options={comboProdukAsuransi}
@@ -210,7 +210,7 @@ export default function AddInsuranceList({
                                    PRODUK_ASURANSI_ID: e,
                               });
                          }}
-                         primaryColor={"bg-[var(--dynamic-color)]"}
+                         primaryColor={"bg-primary-adele"}
                     />
                     {/* for underwriting */}
                     {/* <InputLabel
@@ -222,13 +222,13 @@ export default function AddInsuranceList({
                     <SelectTailwind
                          classNames={{
                               menuButton: () =>
-                                   `flex text-sm ring-1 text-gray-500 rounded-md shadow-md transition-all duration-300 focus:outline-none bg-white hover:border-gray-400`,
+                                   `flex text-sm ring-1 ring-primary-adele text-gray-500 rounded-md shadow-md transition-all duration-300 focus:outline-none bg-white hover:border-gray-400`,
                               menu: "absolute text-left z-20 w-full bg-white shadow-lg border rounded py-1 mt-1.5 text-sm text-gray-700 h-50 overflow-y-auto custom-scrollbar",
                               listItem: ({ isSelected }: any) =>
                                    `block transition duration-200 px-2 py-2 cursor-pointer select-none truncate rounded ${
                                         isSelected
-                                             ? `text-white bg-[var(--dynamic-color)]`
-                                             : `text-gray-500 hover:bg-[var(--dynamic-color)] hover:text-white`
+                                             ? `text-white bg-primary-adele`
+                                             : `text-gray-500 hover:bg-primary-adele hover:text-white`
                                    }`,
                          }}
                          options={selectUnderwriting}
@@ -242,7 +242,7 @@ export default function AddInsuranceList({
                                    UNDERWRITING_ID: e,
                               });
                          }}
-                         primaryColor={"bg-[var(--dynamic-color)]"}
+                         primaryColor={"bg-primary-adele"}
                     /> */}
                     {/* for Insurance Logo */}
                     <InputLabel
@@ -252,7 +252,7 @@ export default function AddInsuranceList({
                          required={true}
                     />
                     <input
-                         className="block w-full text-sm text-gray-600 border bg-[var(--dynamic-color)] rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-600 dark:border-gray-600 dark:placeholder-gray-400"
+                         className="block w-full text-sm text-gray-600 border bg-primary-adele rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-600 dark:border-gray-600 dark:placeholder-gray-400"
                          id="file_input"
                          type="file"
                          required

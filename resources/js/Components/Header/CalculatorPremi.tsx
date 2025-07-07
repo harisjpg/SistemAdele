@@ -259,15 +259,15 @@ const CalculatorPremi = () => {
                                              <SelectTailwind
                                                   classNames={{
                                                        menuButton: () =>
-                                                            `flex text-sm ring-1 text-gray-500 rounded-md shadow-sm transition-all duration-300 focus:outline-none bg-white hover:border-gray-400`,
+                                                            `flex text-sm ring-1 ring-primary-adele text-gray-500 rounded-md shadow-sm transition-all duration-300 focus:outline-none bg-white hover:border-gray-400`,
                                                        menu: "absolute text-left z-20 w-full bg-white shadow-lg border rounded py-1 mt-1.5 text-sm text-gray-700 h-50 overflow-y-auto custom-scrollbar",
                                                        listItem: ({
                                                             isSelected,
                                                        }: any) =>
                                                             `block transition duration-200 px-2 py-2 cursor-pointer select-none truncate rounded ${
                                                                  isSelected
-                                                                      ? `text-white bg-[var(--dynamic-color)]`
-                                                                      : `text-gray-500 hover:bg-[var(--dynamic-color)] hover:text-white`
+                                                                      ? `text-white bg-primary-adele`
+                                                                      : `text-gray-500 hover:bg-primary-adele hover:text-white`
                                                             }`,
                                                   }}
                                                   options={selectInsurance}
@@ -284,7 +284,7 @@ const CalculatorPremi = () => {
                                                        });
                                                   }}
                                                   primaryColor={
-                                                       "bg-[var(--dynamic-color)]"
+                                                       "bg-primary-adele"
                                                   }
                                              />
                                         </div>
@@ -296,15 +296,15 @@ const CalculatorPremi = () => {
                                              <SelectTailwind
                                                   classNames={{
                                                        menuButton: () =>
-                                                            `flex text-sm ring-1 text-gray-500 rounded-md shadow-sm transition-all duration-300 focus:outline-none bg-white hover:border-gray-400`,
+                                                            `flex text-sm ring-1 ring-primary-adele text-gray-500 rounded-md shadow-sm transition-all duration-300 focus:outline-none bg-white hover:border-gray-400`,
                                                        menu: "absolute text-left z-20 w-full bg-white shadow-lg border rounded py-1 mt-1.5 text-sm text-gray-700 h-50 overflow-y-auto custom-scrollbar",
                                                        listItem: ({
                                                             isSelected,
                                                        }: any) =>
                                                             `block transition duration-200 px-2 py-2 cursor-pointer select-none truncate rounded ${
                                                                  isSelected
-                                                                      ? `text-white bg-[var(--dynamic-color)]`
-                                                                      : `text-gray-500 hover:bg-[var(--dynamic-color)] hover:text-white`
+                                                                      ? `text-white bg-primary-adele`
+                                                                      : `text-gray-500 hover:bg-primary-adele hover:text-white`
                                                             }`,
                                                   }}
                                                   options={selectTarifPayroll}
@@ -321,7 +321,7 @@ const CalculatorPremi = () => {
                                                        });
                                                   }}
                                                   primaryColor={
-                                                       "bg-[var(--dynamic-color)]"
+                                                       "bg-primary-adele"
                                                   }
                                              />
                                         </div>

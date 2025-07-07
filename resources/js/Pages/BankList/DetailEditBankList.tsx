@@ -83,8 +83,8 @@ export default function DetailEditBankList({
                <input
                     className={
                          textButton.textButton === "Edit"
-                              ? "bg-gray-300 text-black block w-full text-sm border bg-[var(--dynamic-color)] rounded-lg cursor-pointer dark:text-gray-400 focus:outline-none dark:bg-gray-600 dark:border-gray-600 dark:placeholder-gray-400"
-                              : "block w-full text-sm text-gray-600 border bg-[var(--dynamic-color)] rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-600 dark:border-gray-600 dark:placeholder-gray-400"
+                              ? "bg-gray-300 text-black block w-full text-sm border bg-primary-adele rounded-lg cursor-pointer dark:text-gray-400 focus:outline-none dark:bg-gray-600 dark:border-gray-600 dark:placeholder-gray-400"
+                              : "block w-full text-sm text-gray-600 border bg-primary-adele rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-600 dark:border-gray-600 dark:placeholder-gray-400"
                     }
                     id="file_input"
                     type="file"

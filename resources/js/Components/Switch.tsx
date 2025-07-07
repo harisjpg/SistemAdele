@@ -28,7 +28,7 @@ export default function SwitchPage({
                <span
                     aria-hidden="true"
                     className={classNames(
-                         enabled ? "bg-[var(--dynamic-color)]" : "bg-blue-600",
+                         enabled ? "bg-primary-adele" : "bg-blue-600",
                          "pointer-events-none absolute mx-auto h-4 w-9 rounded-full transition-colors duration-200 ease-in-out"
                     )}
                />

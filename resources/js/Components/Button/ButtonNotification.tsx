@@ -8,7 +8,7 @@ export default function ButtonNotification({
      return (
           <button {...props} className={className}>
                {children}
-               <span className="flex absolute bg-[var(--dynamic-color)] text-white -top-3 -right-4 px-2 rounded-full">
+               <span className="flex absolute bg-primary-adele text-white -top-3 -right-4 px-2 rounded-full">
                     0
                </span>
           </button>

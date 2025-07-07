@@ -17,10 +17,14 @@ export default function AddProdukAsuransi({
      setDataProdukAsuransi,
      dataProdukAsuransi,
      comboUnderwriting,
+     dataParameterProduk,
+     dataParameterCategory,
 }: PropsWithChildren<{
      setDataProdukAsuransi: any;
      dataProdukAsuransi: any;
      comboUnderwriting: any;
+     dataParameterProduk: any;
+     dataParameterCategory: any;
 }>) {
      // for option ganti rugi
      const arrayMaxGantiRugi = [
@@ -48,6 +52,45 @@ export default function AddProdukAsuransi({
           };
      });
 
+     // filter parameter produk with parameter category
+     const [dataFilter, setDataFilter] = useState<any>([]);
+     const handleFilterParameter = (index: number) => {
+          const selectedCategoryId =
+               dataProdukAsuransi?.DATA_MEKANISME_PRODUK[index]
+                    ?.PARAMETER_CATEGORY_ID?.value ??
+               dataProdukAsuransi?.DATA_MEKANISME_PRODUK[index]
+                    ?.PARAMETER_CATEGORY_ID;
+
+          const filtered = dataParameterProduk.filter(
+               (dataParameter: any) =>
+                    selectedCategoryId === dataParameter.PARAMETER_PRODUK_PARENT
+          );
+
+          setDataFilter((prev: any[]) => {
+               const updated = [...prev];
+               updated[index] = filtered;
+               return updated;
+          });
+     };
+
+     // console.log(dataFilter, "filter");
+
+     // const selectParameter = dataFilter?.map((query: any) => {
+     //      return {
+     //           value: query.PARAMETER_PRODUK_ID,
+     //           label: query.PARAMETER_PRODUK_NAME,
+     //      };
+     // });
+
+     const selectParameterCategory = dataParameterCategory?.map(
+          (query: any) => {
+               return {
+                    value: query.PARAMETER_PRODUK_ID,
+                    label: query.PARAMETER_PRODUK_NAME,
+               };
+          }
+     );
+
      const handleClickAddRow = async (e: FormEvent) => {
           e.preventDefault();
 
@@ -56,11 +99,8 @@ export default function AddProdukAsuransi({
                DATA_MEKANISME_PRODUK: [
                     ...dataProdukAsuransi.DATA_MEKANISME_PRODUK,
                     {
-                         JAMINAN_ASURANSI: "",
-                         MAX_GANTI_RUGI: "",
-                         MAX_GANTI_RUGI_CHOOSE: "",
-                         LIMIT_GANTI_RUGI: "",
-                         KAPASITAS: "",
+                         PARAMETER_PRODUK_ID: "",
+                         PARAMETER_CATEGORY_ID: "",
                     },
                ],
           });
@@ -132,15 +172,15 @@ export default function AddProdukAsuransi({
                                         <SelectTailwind
                                              classNames={{
                                                   menuButton: () =>
-                                                       `flex text-sm ring-1 text-gray-500 rounded-md shadow-md transition-all duration-300 focus:outline-none bg-white hover:border-gray-400`,
+                                                       `flex text-sm ring-1 ring-primary-adele text-gray-500 rounded-md shadow-md transition-all duration-300 focus:outline-none bg-white hover:border-gray-400`,
                                                   menu: "absolute text-left z-20 w-full bg-white shadow-lg border rounded py-1 mt-1.5 text-sm text-gray-700 h-50 overflow-y-auto custom-scrollbar",
                                                   listItem: ({
                                                        isSelected,
                                                   }: any) =>
                                                        `block transition duration-200 px-2 py-2 cursor-pointer select-none truncate rounded ${
                                                             isSelected
-                                                                 ? `text-white bg-[var(--dynamic-color)]`
-                                                                 : `text-gray-500 hover:bg-[var(--dynamic-color)] hover:text-white`
+                                                                 ? `text-white `
+                                                                 : `text-gray-500 hover: hover:text-white`
                                                        }`,
                                              }}
                                              options={selectUnderwriting}
@@ -158,22 +198,19 @@ export default function AddProdukAsuransi({
                                                        UNDERWRITING_ID: e,
                                                   });
                                              }}
-                                             primaryColor={
-                                                  "bg-[var(--dynamic-color)]"
-                                             }
+                                             primaryColor={""}
                                         />
                                    </div>
                                    <div>
                                         <InputLabel
                                              value="Upload File"
-                                             required={true}
+                                             required={false}
                                         />
                                         <div className="w-full mt-1">
                                              <input
-                                                  className="block w-full text-sm text-gray-600 border bg-[var(--dynamic-color)] rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-600 dark:border-gray-600 dark:placeholder-gray-400"
+                                                  className="block w-full text-sm text-gray-600 border  rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-600 dark:border-gray-600 dark:placeholder-gray-400"
                                                   id="file_input"
                                                   type="file"
-                                                  required
                                                   onChange={(e: any) => {
                                                        setDataProdukAsuransi({
                                                             ...dataProdukAsuransi,
@@ -195,247 +232,103 @@ export default function AddProdukAsuransi({
                          </div>
 
                          {/* Scrollable area */}
-                         <div className="overflow-x-auto custom-scrollbar mt-2 relative h-72">
-                              <div className="min-w-[2000px] px-4 py-2">
-                                   <table className="min-w-full table-auto">
-                                        <thead className="[&>tr>th]:font-normal">
-                                             <tr>
-                                                  {dataProdukAsuransi
-                                                       ?.DATA_MEKANISME_PRODUK
-                                                       .length > 1 && <th></th>}
-
-                                                  <th>
-                                                       <InputLabel
-                                                            className=""
-                                                            htmlFor="JAMINAN_ASURANSI"
-                                                            value={
-                                                                 "Jaminan Asuransi"
-                                                            }
-                                                            required={true}
-                                                       />
-                                                  </th>
-                                                  <th className="px-4">
-                                                       <InputLabel
-                                                            className=""
-                                                            htmlFor="MAX_GANTI_ASURANSI"
-                                                            value={
-                                                                 "Max Ganti Rugi"
-                                                            }
-                                                            required={true}
-                                                       />
-                                                  </th>
-                                                  <th className="px-4"></th>
-                                                  <th className="px-4">
-                                                       <InputLabel
-                                                            className=""
-                                                            htmlFor="MAX_GANTI_ASURANSI"
-                                                            value={
-                                                                 "Limit Ganti Rugi / Jaminan(%)"
-                                                            }
-                                                            required={true}
-                                                       />
-                                                  </th>
-                                                  <th className="px-4">
-                                                       <InputLabel
-                                                            className=""
-                                                            htmlFor="MAX_GANTI_ASURANSI"
-                                                            value={"Kapasitas"}
-                                                            required={true}
-                                                       />
-                                                  </th>
-                                             </tr>
-                                        </thead>
-                                        <tbody>
-                                             {dataProdukAsuransi?.DATA_MEKANISME_PRODUK?.map(
-                                                  (
-                                                       dataMekanisme: any,
-                                                       index: number
-                                                  ) => {
-                                                       return (
-                                                            <tr key={index}>
-                                                                 {dataProdukAsuransi
-                                                                      ?.DATA_MEKANISME_PRODUK
-                                                                      .length >
-                                                                      1 && (
-                                                                      <td
-                                                                           width={
-                                                                                "5px"
-                                                                           }
-                                                                      >
-                                                                           <XMarkIcon
-                                                                                className="w-7 text-red-600 hover:cursor-pointer hover:text-red-900"
-                                                                                onClick={() => {
-                                                                                     const updatedData =
-                                                                                          dataProdukAsuransi.DATA_MEKANISME_PRODUK.filter(
-                                                                                               (
-                                                                                                    data: any,
-                                                                                                    a: number
-                                                                                               ) =>
-                                                                                                    a !==
-                                                                                                    index
-                                                                                          );
-                                                                                     setDataProdukAsuransi(
-                                                                                          {
-                                                                                               ...dataProdukAsuransi,
-                                                                                               DATA_MEKANISME_PRODUK:
-                                                                                                    updatedData,
-                                                                                          }
-                                                                                     );
-                                                                                }}
-                                                                           />
-                                                                      </td>
-                                                                 )}
-                                                                 <td>
-                                                                      <TextInput
-                                                                           type="text"
-                                                                           name="JAMINAN_ASURANSI"
-                                                                           value={
-                                                                                dataMekanisme.JAMINAN_ASURANSI
-                                                                           }
-                                                                           className="ring-1"
-                                                                           onChange={(
-                                                                                e
-                                                                           ) => {
-                                                                                inputDataMekanisme(
-                                                                                     "JAMINAN_ASURANSI",
-                                                                                     e
-                                                                                          .target
-                                                                                          .value,
-                                                                                     index
-                                                                                );
-                                                                           }}
-                                                                           required
-                                                                           autoComplete="off"
-                                                                           placeholder="Jaminan Asuransi"
-                                                                      />
-                                                                 </td>
-                                                                 <td className="px-4 py-2">
-                                                                      <TextInput
-                                                                           type="text"
-                                                                           name="MAX_GANTI_RUGI"
-                                                                           value={
-                                                                                dataMekanisme.MAX_GANTI_RUGI
-                                                                           }
-                                                                           className="ring-1"
-                                                                           onChange={(
-                                                                                e
-                                                                           ) => {
-                                                                                inputDataMekanisme(
-                                                                                     "MAX_GANTI_RUGI",
-                                                                                     e
-                                                                                          .target
-                                                                                          .value,
-                                                                                     index
-                                                                                );
-                                                                           }}
-                                                                           required
-                                                                           autoComplete="off"
-                                                                           placeholder="Max Ganti Rugi"
-                                                                      />
-                                                                 </td>
-                                                                 <td
-                                                                      className="px-4 py-2"
-                                                                      width={
-                                                                           "350px"
-                                                                      }
-                                                                 >
-                                                                      <SelectTailwind
-                                                                           classNames={{
-                                                                                menuButton:
-                                                                                     () =>
-                                                                                          `flex text-sm ring-1 text-gray-500 rounded-md shadow-sm transition-all duration-300 focus:outline-none bg-white hover:border-gray-400`,
-                                                                                menu: "absolute text-left z-999 w-full bg-white shadow-lg border rounded py-1 mt-1.5 text-sm text-gray-700 h-50 overflow-y-auto custom-scrollbar",
-                                                                                listItem:
-                                                                                     ({
-                                                                                          isSelected,
-                                                                                     }: any) =>
-                                                                                          `block transition duration-200 px-2 py-2 cursor-pointer select-none truncate rounded ${
-                                                                                               isSelected
-                                                                                                    ? `text-white bg-[var(--dynamic-color)]`
-                                                                                                    : `text-gray-500 hover:bg-[var(--dynamic-color)] hover:text-white`
-                                                                                          }`,
-                                                                           }}
-                                                                           options={
-                                                                                selectGantiRugi
-                                                                           }
-                                                                           isSearchable={
-                                                                                true
-                                                                           }
-                                                                           placeholder={
-                                                                                "--Pilih--"
-                                                                           }
-                                                                           value={
-                                                                                dataMekanisme?.MAX_GANTI_RUGI_CHOOSE
-                                                                           }
-                                                                           onChange={(
-                                                                                e: any
-                                                                           ) => {
-                                                                                inputDataMekanisme(
-                                                                                     "MAX_GANTI_RUGI_CHOOSE",
-                                                                                     e,
-                                                                                     index
-                                                                                );
-                                                                           }}
-                                                                           primaryColor={
-                                                                                "bg-[var(--dynamic-color)]"
-                                                                           }
-                                                                      />
-                                                                 </td>
-                                                                 <td className="px-4 py-2">
-                                                                      <TextInput
-                                                                           type="text"
-                                                                           name="LIMIT_GANTI_RUGI"
-                                                                           value={
-                                                                                dataMekanisme.LIMIT_GANTI_RUGI
-                                                                           }
-                                                                           className="ring-1"
-                                                                           onChange={(
-                                                                                e
-                                                                           ) => {
-                                                                                inputDataMekanisme(
-                                                                                     "LIMIT_GANTI_RUGI",
-                                                                                     e
-                                                                                          .target
-                                                                                          .value,
-                                                                                     index
-                                                                                );
-                                                                           }}
-                                                                           required
-                                                                           autoComplete="off"
-                                                                           placeholder="Limit Ganti Rugi"
-                                                                      />
-                                                                 </td>
-                                                                 <td className="px-4 py-2">
-                                                                      <TextInput
-                                                                           type="text"
-                                                                           name="KAPASITAS"
-                                                                           value={
-                                                                                dataMekanisme.KAPASITAS
-                                                                           }
-                                                                           className="ring-1"
-                                                                           onChange={(
-                                                                                e
-                                                                           ) => {
-                                                                                inputDataMekanisme(
-                                                                                     "KAPASITAS",
-                                                                                     e
-                                                                                          .target
-                                                                                          .value,
-                                                                                     index
-                                                                                );
-                                                                           }}
-                                                                           required
-                                                                           autoComplete="off"
-                                                                           placeholder="Kapasitas"
-                                                                      />
-                                                                 </td>
-                                                            </tr>
-                                                       );
-                                                  }
-                                             )}
-                                        </tbody>
-                                   </table>
+                         <div className="mt-2 relative">
+                              <div className="px-4 grid grid-cols-2 gap-4">
+                                   <div>
+                                        <InputLabel
+                                             value="Parameter Category Produk"
+                                             required={false}
+                                        />
+                                   </div>
+                                   <div>
+                                        <InputLabel
+                                             value="Parameter Produk"
+                                             required={false}
+                                        />
+                                   </div>
                               </div>
+                              {dataProdukAsuransi.DATA_MEKANISME_PRODUK?.map(
+                                   (dataMekanis: any, index: number) => (
+                                        <div
+                                             key={index}
+                                             className="grid grid-cols-2 gap-4 px-4 mb-2"
+                                        >
+                                             <div>
+                                                  <SelectTailwind
+                                                       classNames={{
+                                                            menuButton: () =>
+                                                                 `flex text-sm ring-1 ring-primary-adele text-gray-500 rounded-md shadow-sm transition-all duration-300 focus:outline-none bg-white hover:border-gray-400`,
+                                                            menu: "absolute text-left z-20 w-full bg-white shadow-lg border rounded py-1 mt-1.5 text-sm text-gray-700 h-50 overflow-y-auto custom-scrollbar",
+                                                            listItem: ({
+                                                                 isSelected,
+                                                            }: any) =>
+                                                                 `block transition duration-200 px-2 py-2 cursor-pointer select-none truncate rounded ${
+                                                                      isSelected
+                                                                           ? `text-white bg-primary-adele`
+                                                                           : `text-gray-500 hover:text-white hover:bg-primary-adele`
+                                                                 }`,
+                                                       }}
+                                                       options={
+                                                            selectParameterCategory
+                                                       }
+                                                       isSearchable={true}
+                                                       placeholder={"--Pilih--"}
+                                                       value={
+                                                            dataMekanis?.PARAMETER_CATEGORY_ID
+                                                       }
+                                                       onChange={(e: any) => {
+                                                            inputDataMekanisme(
+                                                                 "PARAMETER_CATEGORY_ID",
+                                                                 e,
+                                                                 index
+                                                            );
+                                                            handleFilterParameter(
+                                                                 index
+                                                            );
+                                                       }}
+                                                       primaryColor={""}
+                                                  />
+                                             </div>
+                                             <div>
+                                                  <SelectTailwind
+                                                       classNames={{
+                                                            menuButton: () =>
+                                                                 `flex text-sm ring-1 ring-primary-adele text-gray-500 rounded-md shadow-sm transition-all duration-300 focus:outline-none bg-white hover:border-gray-400`,
+                                                            menu: "absolute text-left z-20 w-full bg-white shadow-lg border rounded py-1 mt-1.5 text-sm text-gray-700 h-50 overflow-y-auto custom-scrollbar",
+                                                            listItem: ({
+                                                                 isSelected,
+                                                            }: any) =>
+                                                                 `block transition duration-200 px-2 py-2 cursor-pointer select-none truncate rounded ${
+                                                                      isSelected
+                                                                           ? `text-white bg-primary-adele`
+                                                                           : `text-gray-500 hover:text-white hover:bg-primary-adele`
+                                                                 }`,
+                                                       }}
+                                                       options={(
+                                                            dataFilter[index] ||
+                                                            []
+                                                       ).map((query: any) => ({
+                                                            value: query.PARAMETER_PRODUK_ID,
+                                                            label: query.PARAMETER_PRODUK_NAME,
+                                                       }))}
+                                                       isSearchable={true}
+                                                       placeholder={"--Pilih--"}
+                                                       value={
+                                                            dataMekanis?.PARAMETER_PRODUK_ID
+                                                       }
+                                                       onChange={(e: any) => {
+                                                            inputDataMekanisme(
+                                                                 "PARAMETER_PRODUK_ID",
+                                                                 e,
+                                                                 index
+                                                            );
+                                                       }}
+                                                       primaryColor={""}
+                                                  />
+                                             </div>
+                                        </div>
+                                   )
+                              )}
                          </div>
                          <div
                               className="mt-2 px-2 text-xs text-blue-500 italic hover:cursor-pointer hover:text-blue-800 w-fit"
@@ -456,117 +349,6 @@ export default function AddProdukAsuransi({
                               <span>+ Add Row</span>
                          </div>
                     </div>
-
-                    {/* <fieldset className="pb-10 pt-0 rounded-lg border-2">
-                         <legend className="ml-5 px-3 font-medium">
-                              Data Mekanisme Asuransi
-                         </legend>
-                         <div className="px-4 py-2">
-                              <div className="grid lg:grid-cols-4 xs:grid-cols-1 gap-4">
-                                   <div>
-                                        <InputLabel
-                                             className=""
-                                             htmlFor="JAMINAN_ASURANSI"
-                                             value={"Jaminan Asuransi"}
-                                             required={true}
-                                        />
-                                   </div>
-                                   <div>
-                                        <InputLabel
-                                             className=""
-                                             htmlFor="MAX_GANTI_ASURANSI"
-                                             value={"Max Ganti Rugi"}
-                                             required={true}
-                                        />
-                                   </div>
-                                   <div></div>
-                                   <div>
-                                        <InputLabel
-                                             className=""
-                                             htmlFor="MAX_GANTI_ASURANSI"
-                                             value={
-                                                  "Limit Ganti Rugi / Jaminan (%)"
-                                             }
-                                             required={true}
-                                        />
-                                   </div>
-                              </div>
-                              <div className="grid lg:grid-cols-4 xs:grid-cols-1 gap-4">
-                                   <div>
-                                        <TextInput
-                                             type="text"
-                                             name="JAMINAN_ASURANSI"
-                                             value={dataProdukAsuransi.JAMINAN}
-                                             className="ring-1"
-                                             onChange={(e) => {
-                                                  setDataProdukAsuransi({
-                                                       ...dataProdukAsuransi,
-                                                       JAMINAN: e.target.value,
-                                                  });
-                                             }}
-                                             required
-                                             autoComplete="off"
-                                             placeholder="Jaminan Asuransi"
-                                        />
-                                   </div>
-                                   <div>
-                                        <TextInput
-                                             type="text"
-                                             name="MAX_GANTI_ASURANSI"
-                                             value={
-                                                  dataProdukAsuransi.MAX_GANTI_RUGI
-                                             }
-                                             className="ring-1"
-                                             onChange={(e) => {
-                                                  setDataProdukAsuransi({
-                                                       ...dataProdukAsuransi,
-                                                       MAX_GANTI_RUGI:
-                                                            e.target.value,
-                                                  });
-                                             }}
-                                             required
-                                             autoComplete="off"
-                                             placeholder="Max Ganti Rugi"
-                                        />
-                                   </div>
-                                   <div>
-                                        <SelectTailwind
-                                             classNames={{
-                                                  menuButton: () =>
-                                                       `flex text-sm ring-1 text-gray-500 rounded-md shadow-sm transition-all duration-300 focus:outline-none bg-white hover:border-gray-400`,
-                                                  menu: "absolute text-left z-20 w-full bg-white shadow-lg border rounded py-1 mt-1.5 text-sm text-gray-700 h-50 overflow-y-auto custom-scrollbar",
-                                                  listItem: ({
-                                                       isSelected,
-                                                  }: any) =>
-                                                       `block transition duration-200 px-2 py-2 cursor-pointer select-none truncate rounded ${
-                                                            isSelected
-                                                                 ? `text-white bg-[var(--dynamic-color)]`
-                                                                 : `text-gray-500 hover:bg-[var(--dynamic-color)] hover:text-white`
-                                                       }`,
-                                             }}
-                                             options={selectGantiRugi}
-                                             isSearchable={true}
-                                             placeholder={"--Pilih--"}
-                                             value={
-                                                  dataProdukAsuransi?.JENIS_MAX_RUGI
-                                             }
-                                             onChange={(e: any) => {
-                                                  setDataProdukAsuransi({
-                                                       ...dataProdukAsuransi,
-                                                       JENIS_MAX_RUGI: e,
-                                                  });
-                                             }}
-                                             primaryColor={
-                                                  "bg-[var(--dynamic-color)]"
-                                             }
-                                        />
-                                   </div>
-                              </div>
-                              <div className="mt-2 text-xs text-blue-500 italic hover:cursor-pointer hover:text-blue-800 w-fit">
-                                   <span>+ Add Row</span>
-                              </div>
-                         </div>
-                    </fieldset> */}
                </section>
           </>
      );

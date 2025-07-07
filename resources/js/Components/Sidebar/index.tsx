@@ -84,16 +84,34 @@ const Sidebar = ({
                <li key={index}>
                     {menu.menu_url ? (
                          route().has(menu.menu_url) ? (
-                              <NavLink
-                                   href={route(menu.menu_url)}
-                                   active={
-                                        route().current(`${menu.menu_url}.*`) ||
-                                        route().current(menu.menu_url)
-                                   }
-                                   className="group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold hover:bg-[var(--dynamic-color)] hover:text-white"
-                              >
-                                   {menu.menu_name}
-                              </NavLink>
+                              // for batas atas}
+                              <>
+                                   {menu.menu_is_upper_mark === 1 ? (
+                                        <>
+                                             <div className="flex justify-center mb-2">
+                                                  <div className="w-60 leading-6 border-primary-adele border-b-2"></div>
+                                             </div>
+                                        </>
+                                   ) : null}
+                                   <NavLink
+                                        href={route(menu.menu_url)}
+                                        active={
+                                             route().current(
+                                                  `${menu.menu_url}.*`
+                                             ) || route().current(menu.menu_url)
+                                        }
+                                        className="group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold hover:bg-primary-adele hover:text-white"
+                                   >
+                                        {menu.menu_name}
+                                   </NavLink>
+                                   {menu.menu_is_lower_mark === 1 ? (
+                                        <>
+                                             <div className="flex justify-center mt-2">
+                                                  <div className="w-60 leading-6 border-primary-adele border-b-2"></div>
+                                             </div>
+                                        </>
+                                   ) : null}
+                              </>
                          ) : (
                               <span className="group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold opacity-25">
                                    {menu.menu_name}
@@ -111,7 +129,7 @@ const Sidebar = ({
                                         <NavLink
                                              href="#"
                                              active={false}
-                                             className="group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold relative items-center gap-2.5 py-2 duration-300 ease-in-out hover:bg-[var(--dynamic-color)] hover:text-white"
+                                             className="group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold relative items-center gap-2.5 py-2 duration-300 ease-in-out hover:bg-primary-adele hover:text-white"
                                              onClick={(e) => {
                                                   e.preventDefault();
                                                   sidebarExpanded
@@ -305,7 +323,7 @@ const Sidebar = ({
                                                                       active={route().current(
                                                                            `dashboard`
                                                                       )}
-                                                                      className={`group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold hover:bg-[var(--dynamic-color)] hover:text-white`}
+                                                                      className={`group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold hover:bg-primary-adele hover:text-white`}
                                                                  >
                                                                       {
                                                                            "Dashboard"
@@ -372,7 +390,7 @@ const Sidebar = ({
                                                   active={route().current(
                                                        `dashboard`
                                                   )}
-                                                  className={`group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold hover:bg-[var(--dynamic-color)] hover:text-white`}
+                                                  className={`group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold hover:bg-primary-adele hover:text-white`}
                                              >
                                                   {"Dashboard"}
                                              </NavLink>

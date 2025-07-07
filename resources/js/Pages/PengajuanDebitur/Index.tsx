@@ -876,14 +876,14 @@ export default function PengajuanDebitur({ auth }: any) {
                     {/* Header */}
                     <div className="flex justify-between items-center">
                          <div className="">
-                              <span className="text-lg font-bold text-[#0A47FF]">
+                              <span className="text-lg font-bold text-primary-adele">
                                    Pengajuan
                               </span>
                               <Breadcrumbs forBreadcrumbs={forBreadcrumbs} />
                          </div>
                          <div className="flex gap-2">
                               <div
-                                   className="p-3 bg-[#0A47FF] text-xs text-white rounded-md shadow-lg hover:cursor-pointer hover:bg-blue-800"
+                                   className="p-3 bg-primary-adele text-xs text-white rounded-md shadow-lg hover:cursor-pointer hover:bg-primary-hover-adele"
                                    onClick={(e: any) => {
                                         handlePengajuanDebitur(e);
                                    }}
@@ -900,7 +900,7 @@ export default function PengajuanDebitur({ auth }: any) {
                               <div className="w-full">
                                    <TextSearch
                                         type="text"
-                                        className="ring-1"
+                                        className="ring-1 ring-primary-adele focus:ring-primary-adele"
                                         placeholder="Search for Kode Aplikasi, Nama Nasabah, Status dll"
                                         value={searchPengajuan}
                                         onChange={(e: any) => {
@@ -995,7 +995,7 @@ export default function PengajuanDebitur({ auth }: any) {
                                                                       row.OFFER_STAGING_ID ===
                                                                            9) ? ( // for broker dan diterima broker dari cabang
                                                                       <div
-                                                                           className="bg-primary-adele text-white p-2 rounded-md shadow-md hover:cursor-pointer hover:bg-blue-800"
+                                                                           className="bg-primary-adele text-white p-2 rounded-md shadow-md hover:cursor-pointer hover:bg-primary-hover-adele"
                                                                            onClick={(
                                                                                 e
                                                                            ) => {

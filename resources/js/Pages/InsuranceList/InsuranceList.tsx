@@ -443,14 +443,14 @@ export default function InsuranceList({ auth }: any) {
                     {/* Header */}
                     <div className="flex justify-between items-center">
                          <div className="">
-                              <span className="text-lg font-bold text-[#0A47FF]">
+                              <span className="text-lg font-bold text-primary-adele">
                                    Asuransi
                               </span>
                               <Breadcrumbs forBreadcrumbs={forBreadcrumbs} />
                          </div>
                          <div className="flex gap-2">
                               <div
-                                   className="p-3 bg-[#0A47FF] text-xs text-white rounded-md shadow-lg hover:cursor-pointer hover:bg-blue-800"
+                                   className="p-3 bg-primary-adele text-xs text-white rounded-md shadow-lg hover:cursor-pointer hover:bg-primary-hover-adele"
                                    onClick={() => {
                                         setModalBundling({
                                              modal: true,
@@ -468,7 +468,7 @@ export default function InsuranceList({ auth }: any) {
                                    <span>Asuransi Bundling</span>
                               </div>
                               <div
-                                   className="p-3 bg-[#0A47FF] text-xs text-white rounded-md shadow-lg hover:cursor-pointer hover:bg-blue-800"
+                                   className="p-3 bg-primary-adele text-xs text-white rounded-md shadow-lg hover:cursor-pointer hover:bg-primary-hover-adele"
                                    onClick={() => {
                                         setModalInsurance({
                                              add: true,
@@ -492,7 +492,7 @@ export default function InsuranceList({ auth }: any) {
                               <div className="w-full">
                                    <TextSearch
                                         type="text"
-                                        className="ring-1"
+                                        className="ring-1 ring-primary-adele focus:ring-ring-adele"
                                         placeholder="Search for Nama Asuransi, dll"
                                         value={search}
                                         onChange={(e: any) => {
@@ -592,7 +592,7 @@ export default function InsuranceList({ auth }: any) {
                     <div className="flex flex-col">
                          <div className="bg-white mb-4 rounded-md p-4 gap-2">
                               <div
-                                   className="bg-[var(--dynamic-color)] w-full flex justify-center p-2 rounded-md text-white hover:bg-primary-hover-adele hover:cursor-pointer"
+                                   className="bg-primary-adele w-full flex justify-center p-2 rounded-md text-white hover:bg-primary-hover-adele hover:cursor-pointer"
                                    onClick={(e) => {
                                         setModalInsurance({
                                              add: true,
@@ -628,7 +628,7 @@ export default function InsuranceList({ auth }: any) {
                               />
                               <div className="flex justify-end mt-2">
                                    <div
-                                        className="bg-[var(--dynamic-color)] text-white p-2 w-fit rounded-md text-center hover:bg-primary-hover-adele cursor-pointer"
+                                        className="bg-primary-adele text-white p-2 w-fit rounded-md text-center hover:bg-primary-hover-adele cursor-pointer"
                                         onClick={() => {
                                              setRefreshTrigger("success");
                                              setTimeout(() => {

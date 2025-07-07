@@ -21,11 +21,11 @@ use Inertia\Inertia;
 class MenuController extends Controller
 {
     // Get All Relation Type 
-    public function getAllRelationType()
-    {
-        $relationType = RelationType::get();
-        return $relationType;
-    }
+    // public function getAllRelationType()
+    // {
+    //     $relationType = RelationType::get();
+    //     return $relationType;
+    // }
 
     // show interface acl menu when click menu setting->acl menu
     public function index(Request $request)
@@ -120,6 +120,8 @@ class MenuController extends Controller
             "menu_name"             => $request->menu_name,
             "menu_url"              => $request->menu_url,
             "menu_sequence"         => $nextSequence,
+            "menu_is_upper_mark"    => $request->menu_is_upper_mark,
+            "menu_is_lower_mark"    => $request->menu_is_lower_mark,
             "menu_is_deleted"       => 0,
             "menu_created_by"       => Auth::user()->id,
             "menu_created_date"     => now()
@@ -171,6 +173,8 @@ class MenuController extends Controller
                 ->update([
                     'menu_name' => $request->menu_name,
                     'menu_url' => $request->menu_url,
+                    "menu_is_upper_mark"    => $request->menu_is_upper_mark,
+                    "menu_is_lower_mark"    => $request->menu_is_lower_mark,
                     'menu_updated_by' => Auth::user()->id,
                     'menu_updated_date' => now()
                 ]);

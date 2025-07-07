@@ -273,8 +273,8 @@ export default function DetailEditNasabah({
                                                        }: any) =>
                                                             `block transition duration-200 px-2 py-2 cursor-pointer select-none truncate rounded ${
                                                                  isSelected
-                                                                      ? `text-white bg-[var(--dynamic-color)]`
-                                                                      : `text-gray-500 hover:bg-[var(--dynamic-color)] hover:text-white`
+                                                                      ? `text-white bg-primary-adele`
+                                                                      : `text-gray-500 hover:bg-primary-adele hover:text-white`
                                                             }`,
                                                   }}
                                                   isDisabled={
@@ -300,7 +300,7 @@ export default function DetailEditNasabah({
                                                        });
                                                   }}
                                                   primaryColor={
-                                                       "bg-[var(--dynamic-color)]"
+                                                       "bg-primary-adele"
                                                   }
                                              />
                                         </div>
@@ -324,8 +324,8 @@ export default function DetailEditNasabah({
                                                        }: any) =>
                                                             `block transition duration-200 px-2 py-2 cursor-pointer select-none truncate rounded ${
                                                                  isSelected
-                                                                      ? `text-white bg-[var(--dynamic-color)]`
-                                                                      : `text-gray-500 hover:bg-[var(--dynamic-color)] hover:text-white`
+                                                                      ? `text-white bg-primary-adele`
+                                                                      : `text-gray-500 hover:bg-primary-adele hover:text-white`
                                                             }`,
                                                   }}
                                                   options={selectWork}
@@ -351,7 +351,7 @@ export default function DetailEditNasabah({
                                                        });
                                                   }}
                                                   primaryColor={
-                                                       "bg-[var(--dynamic-color)]"
+                                                       "bg-primary-adele"
                                                   }
                                              />
                                         </div>
@@ -553,8 +553,8 @@ export default function DetailEditNasabah({
                                                        className={
                                                             textButton.textButton ===
                                                             "Edit"
-                                                                 ? "bg-gray-300 text-black block w-full text-sm border bg-[var(--dynamic-color)] rounded-lg dark:text-gray-400 focus:outline-none dark:bg-gray-600 dark:border-gray-600 dark:placeholder-gray-400"
-                                                                 : "block w-full text-sm text-gray-600 border bg-[var(--dynamic-color)] rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-600 dark:border-gray-600 dark:placeholder-gray-400"
+                                                                 ? "bg-gray-300 text-black block w-full text-sm border bg-primary-adele rounded-lg dark:text-gray-400 focus:outline-none dark:bg-gray-600 dark:border-gray-600 dark:placeholder-gray-400"
+                                                                 : "block w-full text-sm text-gray-600 border bg-primary-adele rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-600 dark:border-gray-600 dark:placeholder-gray-400"
                                                        }
                                                        id="file_input"
                                                        type="file"

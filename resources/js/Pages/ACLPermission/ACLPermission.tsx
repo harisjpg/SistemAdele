@@ -408,7 +408,7 @@ export default function ACLPermission({ auth }: PageProps) {
                     <div className="flex flex-col">
                          <div className="bg-white mb-4 rounded-md p-4">
                               <div
-                                   className="bg-[var(--dynamic-color)] w-fit p-2 rounded-md text-white hover:bg-primary-hover-adele hover:cursor-pointer"
+                                   className="bg-primary-adele w-fit p-2 rounded-md text-white hover:bg-primary-hover-adele hover:cursor-pointer"
                                    onClick={(e) => addPermissionPopup(e)}
                               >
                                    <span>Add Permission</span>
@@ -467,7 +467,7 @@ export default function ACLPermission({ auth }: PageProps) {
                               />
                               <div className="mt-4 flex justify-end gap-2">
                                    <div
-                                        className="bg-[var(--dynamic-color)] text-white p-2 w-fit rounded-md text-center hover:bg-primary-hover-adele cursor-pointer lg:hidden"
+                                        className="bg-primary-adele text-white p-2 w-fit rounded-md text-center hover:bg-primary-hover-adele cursor-pointer lg:hidden"
                                         onClick={(e) => {
                                              const title =
                                                   searchPermission
@@ -502,7 +502,7 @@ export default function ACLPermission({ auth }: PageProps) {
                                         Search
                                    </div>
                                    <div
-                                        className="bg-[var(--dynamic-color)] text-white p-2 w-fit rounded-md text-center hover:bg-primary-hover-adele cursor-pointer"
+                                        className="bg-primary-adele text-white p-2 w-fit rounded-md text-center hover:bg-primary-hover-adele cursor-pointer"
                                         // onClick={() => clearSearchPermission()}
                                         onClick={(e) => clearSearch(e)}
                                    >

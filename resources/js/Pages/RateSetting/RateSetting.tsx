@@ -297,7 +297,7 @@ export default function RateSetting({ auth }: any) {
                     <div className="flex flex-col">
                          <div className="bg-white mb-4 rounded-md p-4 gap-2">
                               <div
-                                   className="bg-[var(--dynamic-color)] w-full flex justify-center p-2 rounded-md text-white hover:bg-primary-hover-adele hover:cursor-pointer"
+                                   className="bg-primary-adele w-full flex justify-center p-2 rounded-md text-white hover:bg-primary-hover-adele hover:cursor-pointer"
                                    onClick={(e) => {
                                         setModalRateSetting({
                                              add: true,
@@ -332,7 +332,7 @@ export default function RateSetting({ auth }: any) {
                               />
                               <div className="flex justify-end mt-2">
                                    <div
-                                        className="bg-[var(--dynamic-color)] text-white p-2 w-fit rounded-md text-center hover:bg-primary-hover-adele cursor-pointer"
+                                        className="bg-primary-adele text-white p-2 w-fit rounded-md text-center hover:bg-primary-hover-adele cursor-pointer"
                                         onClick={() => {
                                              setRefreshTrigger("success");
                                              setTimeout(() => {

@@ -33,6 +33,7 @@ import AGGrid from "@/Components/AgGrid";
 import { get } from "jquery";
 import { set } from "react-datepicker/dist/date_utils";
 import Select from "react-tailwindcss-select";
+import Checkbox from "@/Components/Checkbox";
 
 export default function ACLMenu({ auth, custom_menu }: PageProps) {
      const [refreshGrid, setRefreshGrid] = useState<any>("");
@@ -127,6 +128,8 @@ export default function ACLMenu({ auth, custom_menu }: PageProps) {
           menu_url: "",
           menu_sequence: "",
           menu_is_deleted: "",
+          menu_is_upper_mark: "",
+          menu_is_lower_mark: "",
      });
 
      const inputDataSearch = (
@@ -210,6 +213,8 @@ export default function ACLMenu({ auth, custom_menu }: PageProps) {
                menu_url: data.menu_url,
                menu_sequence: data.menu_sequence,
                menu_is_deleted: data.menu_is_deleted,
+               menu_is_upper_mark: data.menu_is_upper_mark,
+               menu_is_lower_mark: data.menu_is_lower_mark,
           });
           setModal({
                add: false,
@@ -281,6 +286,41 @@ export default function ACLMenu({ auth, custom_menu }: PageProps) {
      };
      //end action delete
 
+     // for checbox upper
+
+     const handleCheckboxUp = (e: any) => {
+          const { checked } = e.target;
+
+          if (checked) {
+               setData("menu_is_upper_mark", 1);
+          } else {
+               setData("menu_is_upper_mark", 0);
+          }
+     };
+
+     const handleCheckboxLower = (e: any) => {
+          const { checked } = e.target;
+
+          if (checked) {
+               setData("menu_is_lower_mark", 1);
+          } else {
+               setData("menu_is_lower_mark", 0);
+          }
+     };
+
+     // for checkbox
+     const checkCheckedUpper = (id: any) => {
+          if (id === 1) {
+               return true;
+          }
+     };
+
+     const checkCheckedLower = (id: any) => {
+          if (id === 1) {
+               return true;
+          }
+     };
+
      return (
           <AuthenticatedLayout user={auth.user} header={"Menu"}>
                <Head title="Menu" />
@@ -333,8 +373,8 @@ export default function ACLMenu({ auth, custom_menu }: PageProps) {
                                                   }: any) =>
                                                        `block transition duration-200 px-2 py-2 cursor-pointer select-none truncate rounded ${
                                                             isSelected
-                                                                 ? `text-white bg-[var(--dynamic-color)]`
-                                                                 : `text-gray-500 hover:bg-[var(--dynamic-color)] hover:text-white`
+                                                                 ? `text-white bg-primary-adele`
+                                                                 : `text-gray-500 hover:bg-primary-adele hover:text-white`
                                                        }`,
                                              }}
                                              options={optionsParent}
@@ -404,6 +444,50 @@ export default function ACLMenu({ auth, custom_menu }: PageProps) {
                                              }
                                              placeholder="Menu URL"
                                         />
+                                   </div>
+                                   <div className="grid grid-cols-2 mt-3 gap-2">
+                                        <div className="flex gap-2 bg-white p-2 rounded-md shadow-md">
+                                             <div>
+                                                  <Checkbox
+                                                       name="menu_is_upper_mark"
+                                                       id="menu_is_upper_mark"
+                                                       value={
+                                                            data.menu_is_upper_mark
+                                                       }
+                                                       // defaultChecked={checkCheckedMRelation(
+                                                       //      typeRelation.RELATION_TYPE_ID
+                                                       // )}
+                                                       onChange={(e) => {
+                                                            handleCheckboxUp(e);
+                                                       }}
+                                                  />
+                                             </div>
+                                             <div className="text-sm flex items-center">
+                                                  <span>Menu Upper Mark</span>
+                                             </div>
+                                        </div>
+                                        <div className="flex gap-2 bg-white p-2 rounded-md shadow-md">
+                                             <div>
+                                                  <Checkbox
+                                                       name="menu_is_lower_mark"
+                                                       id="menu_is_lower_mark"
+                                                       value={
+                                                            data.menu_is_lower_mark
+                                                       }
+                                                       // defaultChecked={checkCheckedMRelation(
+                                                       //      typeRelation.RELATION_TYPE_ID
+                                                       // )}
+                                                       onChange={(e) => {
+                                                            handleCheckboxLower(
+                                                                 e
+                                                            );
+                                                       }}
+                                                  />
+                                             </div>
+                                             <div className="text-sm flex items-center">
+                                                  <span>Menu Lower Mark</span>
+                                             </div>
+                                        </div>
                                    </div>
                               </div>
                          </>
@@ -530,6 +614,50 @@ export default function ACLMenu({ auth, custom_menu }: PageProps) {
                                              placeholder="Menu URL"
                                         />
                                    </div>
+                                   <div className="grid grid-cols-2 mt-3 gap-2">
+                                        <div className="flex gap-2 bg-white p-2 rounded-md shadow-md">
+                                             <div>
+                                                  <Checkbox
+                                                       name="menu_is_upper_mark"
+                                                       id="menu_is_upper_mark"
+                                                       value={
+                                                            data.menu_is_upper_mark
+                                                       }
+                                                       defaultChecked={checkCheckedUpper(
+                                                            data.menu_is_upper_mark
+                                                       )}
+                                                       onChange={(e) => {
+                                                            handleCheckboxUp(e);
+                                                       }}
+                                                  />
+                                             </div>
+                                             <div className="text-sm flex items-center">
+                                                  <span>Menu Upper Mark</span>
+                                             </div>
+                                        </div>
+                                        <div className="flex gap-2 bg-white p-2 rounded-md shadow-md">
+                                             <div>
+                                                  <Checkbox
+                                                       name="menu_is_lower_mark"
+                                                       id="menu_is_lower_mark"
+                                                       value={
+                                                            data.menu_is_lower_mark
+                                                       }
+                                                       defaultChecked={checkCheckedLower(
+                                                            data.menu_is_lower_mark
+                                                       )}
+                                                       onChange={(e) => {
+                                                            handleCheckboxLower(
+                                                                 e
+                                                            );
+                                                       }}
+                                                  />
+                                             </div>
+                                             <div className="text-sm flex items-center">
+                                                  <span>Menu Lower Mark</span>
+                                             </div>
+                                        </div>
+                                   </div>
                               </div>
                          </>
                     }
@@ -579,13 +707,13 @@ export default function ACLMenu({ auth, custom_menu }: PageProps) {
                     <div className="flex flex-col">
                          <div className="flex bg-white mb-4 rounded-md p-4 gap-2">
                               <div
-                                   className="bg-[var(--dynamic-color)] w-fit p-2 rounded-md text-white hover:bg-primary-hover-adele hover:cursor-pointer"
+                                   className="bg-primary-adele w-fit p-2 rounded-md text-white hover:bg-primary-hover-adele hover:cursor-pointer"
                                    onClick={(e) => addMenuPopup(e)}
                               >
                                    <span>Add Menu</span>
                               </div>
                               <div
-                                   className="ml-auto bg-[var(--dynamic-color)] w-fit p-2 rounded-md text-white hover:bg-primary-hover-adele hover:cursor-pointer"
+                                   className="ml-auto bg-primary-adele w-fit p-2 rounded-md text-white hover:bg-primary-hover-adele hover:cursor-pointer"
                                    onClick={(e) => addSequencePopup(e)}
                               >
                                    <span>Change Sequence</span>
@@ -645,7 +773,7 @@ export default function ACLMenu({ auth, custom_menu }: PageProps) {
                               />
                               <div className="mt-4 flex justify-end gap-2">
                                    <div
-                                        className="bg-[var(--dynamic-color)] text-white p-2 w-fit rounded-md text-center hover:bg-primary-hover-adele cursor-pointer"
+                                        className="bg-primary-adele text-white p-2 w-fit rounded-md text-center hover:bg-primary-hover-adele cursor-pointer"
                                         onClick={() => {
                                              if (
                                                   searchMenu.menu_search[0]
@@ -674,7 +802,7 @@ export default function ACLMenu({ auth, custom_menu }: PageProps) {
                                         Search
                                    </div>
                                    <div
-                                        className="bg-[var(--dynamic-color)] text-white p-2 w-fit rounded-md text-center hover:bg-primary-hover-adele cursor-pointer"
+                                        className="bg-primary-adele text-white p-2 w-fit rounded-md text-center hover:bg-primary-hover-adele cursor-pointer"
                                         onClick={() => {
                                              // Clear the search field and reset the flag
                                              inputDataSearch(

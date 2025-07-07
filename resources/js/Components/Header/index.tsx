@@ -30,7 +30,7 @@ const Header = (props: {
           }
      };
 
-     if (colorSetting.SETTING_PAGE_COLOR === null) {
+     if (colorSetting.SETTING_PAGE_COLOR !== null) {
           document.documentElement.style.setProperty(
                "--dynamic-color",
                colorSetting.SETTING_PAGE_COLOR

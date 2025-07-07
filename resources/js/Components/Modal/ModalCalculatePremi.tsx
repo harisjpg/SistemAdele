@@ -210,7 +210,7 @@ export default function ModalCalculatePremi({
                                                        )}
                                                        {buttonAddOns && (
                                                             <div
-                                                                 className={`inline-flex w-full justify-center sm:ml-3 sm:w-auto bg-[var(--dynamic-color)] p-2 rounded-md text-white font-semibold text-sm cursor-pointer ${
+                                                                 className={`inline-flex w-full justify-center sm:ml-3 sm:w-auto bg-primary-adele p-2 rounded-md text-white font-semibold text-sm cursor-pointer ${
                                                                       buttonAddOns ===
                                                                            "Delete" ||
                                                                       buttonAddOns ===
@@ -230,7 +230,7 @@ export default function ModalCalculatePremi({
                                                        {buttonEdit?.textButton ===
                                                        "Edit" ? (
                                                             <div
-                                                                 className="inline-flex w-full sm:ml-3 sm:w-auto bg-[var(--dynamic-color)] p-2 rounded-md text-white font-semibold text-sm cursor-pointer"
+                                                                 className="inline-flex w-full sm:ml-3 sm:w-auto bg-primary-adele p-2 rounded-md text-white font-semibold text-sm cursor-pointer"
                                                                  onClick={(
                                                                       e: any
                                                                  ) => {
@@ -261,7 +261,7 @@ export default function ModalCalculatePremi({
                                                        {buttonKonfirmasiKeBroker !==
                                                        "" ? (
                                                             <div
-                                                                 className="inline-flex w-full sm:ml-3 sm:w-auto bg-[var(--dynamic-color)] p-2 rounded-md text-white font-semibold text-sm cursor-pointer"
+                                                                 className="inline-flex w-full sm:ml-3 sm:w-auto bg-primary-adele p-2 rounded-md text-white font-semibold text-sm cursor-pointer"
                                                                  onClick={(
                                                                       e: any
                                                                  ) => {
@@ -278,7 +278,7 @@ export default function ModalCalculatePremi({
                                                        {buttonAjukanKeBroker !==
                                                        "" ? (
                                                             <div
-                                                                 className="inline-flex w-full sm:ml-3 sm:w-auto bg-[var(--dynamic-color)] p-2 rounded-md text-white font-semibold text-sm cursor-pointer"
+                                                                 className="inline-flex w-full sm:ml-3 sm:w-auto bg-primary-adele p-2 rounded-md text-white font-semibold text-sm cursor-pointer"
                                                                  onClick={(
                                                                       e: any
                                                                  ) => {

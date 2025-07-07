@@ -18,4 +18,11 @@ class TMekanismeProdukAsuransi extends Model
     ];
 
     public $timestamps = false;
+
+    public $with = ['parameter_produk'];
+
+    public function parameter_produk()
+    {
+        return $this->hasOne(TParameterProduk::class, 'PARAMETER_PRODUK_ID', 'PARAMETER_PRODUK_ID');
+    }
 }

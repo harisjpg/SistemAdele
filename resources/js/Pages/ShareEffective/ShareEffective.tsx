@@ -451,7 +451,7 @@ export default function ShareEffective({ auth }: any) {
                               <div className="col bg-white shadow-md rounded-md p-4 xs:mb-2 lg:mb-0">
                                    {/* button create */}
                                    <div
-                                        className="bg-[var(--dynamic-color)] p-2 rounded-md shadow-md flex justify-center hover:cursor-pointer hover:bg-blue-800"
+                                        className="bg-primary-adele p-2 rounded-md shadow-md flex justify-center hover:cursor-pointer hover:bg-primary-hover-adele"
                                         onClick={(e: any) =>
                                              handleAddCreateShareEffective(e)
                                         }
