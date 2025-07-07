@@ -1685,7 +1685,7 @@ export default function AddPengajuanDebitur({
                                                                       <div className="flex gap-2 justify-between items-center">
                                                                            <div className="w-full">
                                                                                 <input
-                                                                                     className="block w-full text-sm text-gray-600 border bg-primary-adele rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-600 dark:border-gray-600 dark:placeholder-gray-400"
+                                                                                     className="block w-full text-sm text-gray-600 border rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-600 dark:border-gray-600 dark:placeholder-gray-400"
                                                                                      id="file_input"
                                                                                      type="file"
                                                                                      required
@@ -1770,7 +1770,7 @@ export default function AddPengajuanDebitur({
                                                                       }
                                                                  />
                                                                  <input
-                                                                      className="block w-full text-sm text-gray-600 border bg-primary-adele rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-600 dark:border-gray-600 dark:placeholder-gray-400"
+                                                                      className="block w-full text-sm text-gray-600 border rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-600 dark:border-gray-600 dark:placeholder-gray-400"
                                                                       id="file_input"
                                                                       type="file"
                                                                       required
@@ -1797,7 +1797,7 @@ export default function AddPengajuanDebitur({
                                                             required={true}
                                                        />
                                                        <input
-                                                            className="block w-full text-sm text-gray-600 border bg-primary-adele rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-600 dark:border-gray-600 dark:placeholder-gray-400"
+                                                            className="block w-full text-sm text-gray-600 border rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-600 dark:border-gray-600 dark:placeholder-gray-400"
                                                             id="file_input"
                                                             type="file"
                                                             required
@@ -1824,7 +1824,7 @@ export default function AddPengajuanDebitur({
                                                             required={false}
                                                        />
                                                        <input
-                                                            className="block w-full text-sm text-gray-600 border bg-primary-adele rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-600 dark:border-gray-600 dark:placeholder-gray-400"
+                                                            className="block w-full text-sm text-gray-600 border rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-600 dark:border-gray-600 dark:placeholder-gray-400"
                                                             id="file_input"
                                                             type="file"
                                                             onChange={(

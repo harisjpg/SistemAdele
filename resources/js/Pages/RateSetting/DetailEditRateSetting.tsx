@@ -557,7 +557,7 @@ export default function DetailEditRateSetting({
                               className={
                                    textButton.textButton === "Edit"
                                         ? "bg-gray-300 text-black block w-full text-sm border bg-primary-adele rounded-lg dark:text-gray-400 focus:outline-none dark:bg-gray-600 dark:border-gray-600 dark:placeholder-gray-400"
-                                        : "block w-full text-sm text-gray-600 border bg-primary-adele rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-600 dark:border-gray-600 dark:placeholder-gray-400"
+                                        : "block w-full text-sm text-gray-600 border rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-600 dark:border-gray-600 dark:placeholder-gray-400"
                               }
                               id="file_input"
                               type="file"
@@ -1065,7 +1065,7 @@ export default function DetailEditRateSetting({
                                                             textButton.textButton ===
                                                             "Edit"
                                                                  ? "bg-gray-300 text-black block w-full text-sm border bg-primary-adele rounded-lg dark:text-gray-400 focus:outline-none dark:bg-gray-600 dark:border-gray-600 dark:placeholder-gray-400"
-                                                                 : "block w-full text-sm text-gray-600 border bg-primary-adele rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-600 dark:border-gray-600 dark:placeholder-gray-400"
+                                                                 : "block w-full text-sm text-gray-600 border rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-600 dark:border-gray-600 dark:placeholder-gray-400"
                                                        }
                                                        id="file_input"
                                                        type="file"
