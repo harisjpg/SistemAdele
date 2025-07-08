@@ -19,12 +19,14 @@ export default function AddProdukAsuransi({
      comboUnderwriting,
      dataParameterProduk,
      dataParameterCategory,
+     arrRateManageId,
 }: PropsWithChildren<{
      setDataProdukAsuransi: any;
      dataProdukAsuransi: any;
      comboUnderwriting: any;
      dataParameterProduk: any;
      dataParameterCategory: any;
+     arrRateManageId: any;
 }>) {
      // for option ganti rugi
      const arrayMaxGantiRugi = [
@@ -52,6 +54,13 @@ export default function AddProdukAsuransi({
           };
      });
 
+     const selectRate = arrRateManageId?.map((query: any) => {
+          return {
+               value: query.RATE_MANAGE_ID,
+               label: query.RATE_MANAGE_NAME,
+          };
+     });
+
      // filter parameter produk with parameter category
      const [dataFilter, setDataFilter] = useState<any>([]);
      const handleFilterParameter = (index: number) => {
@@ -73,14 +82,41 @@ export default function AddProdukAsuransi({
           });
      };
 
+     const handleFilterParameterFirst = (index: number) => {
+          const selectedCategoryId =
+               dataProdukAsuransi?.DATA_MEKANISME_PRODUK[index]
+                    ?.PARAMETER_CATEGORY_ID?.value ??
+               dataProdukAsuransi?.DATA_MEKANISME_PRODUK[index]
+                    ?.PARAMETER_CATEGORY_ID;
+
+          const filtered = dataParameterProduk.filter(
+               (dataParameter: any) =>
+                    selectedCategoryId !== dataParameter.PARAMETER_PRODUK_PARENT
+          );
+
+          setDataFilter((prev: any[]) => {
+               const updated = [...prev];
+               updated[index] = filtered;
+               return updated;
+          });
+     };
+
+     useEffect(() => {
+          dataProdukAsuransi?.DATA_MEKANISME_PRODUK?.forEach(
+               (_item: any, index: number) => {
+                    handleFilterParameterFirst(index);
+               }
+          );
+     }, []);
+
      // console.log(dataFilter, "filter");
 
-     // const selectParameter = dataFilter?.map((query: any) => {
-     //      return {
-     //           value: query.PARAMETER_PRODUK_ID,
-     //           label: query.PARAMETER_PRODUK_NAME,
-     //      };
-     // });
+     const selectParameter = dataParameterProduk?.map((query: any) => {
+          return {
+               value: query.PARAMETER_PRODUK_ID,
+               label: query.PARAMETER_PRODUK_NAME,
+          };
+     });
 
      const selectParameterCategory = dataParameterCategory?.map(
           (query: any) => {
@@ -179,8 +215,8 @@ export default function AddProdukAsuransi({
                                                   }: any) =>
                                                        `block transition duration-200 px-2 py-2 cursor-pointer select-none truncate rounded ${
                                                             isSelected
-                                                                 ? `text-white `
-                                                                 : `text-gray-500 hover: hover:text-white`
+                                                                 ? `text-white bg-primary-adele`
+                                                                 : `text-gray-500 hover:bg-primary-adele hover:text-white`
                                                        }`,
                                              }}
                                              options={selectUnderwriting}
@@ -196,6 +232,46 @@ export default function AddProdukAsuransi({
                                                   setDataProdukAsuransi({
                                                        ...dataProdukAsuransi,
                                                        UNDERWRITING_ID: e,
+                                                  });
+                                             }}
+                                             primaryColor={""}
+                                        />
+                                   </div>
+                                   <div>
+                                        {/* for rate setting */}
+                                        <InputLabel
+                                             className=""
+                                             htmlFor="RATE_MANAGE_ID"
+                                             value={"Rate Yang Dignunakan"}
+                                             required={false}
+                                        />
+                                        <SelectTailwind
+                                             classNames={{
+                                                  menuButton: () =>
+                                                       `flex text-sm ring-1 ring-primary-adele text-gray-500 rounded-md shadow-md transition-all duration-300 focus:outline-none bg-white hover:border-gray-400`,
+                                                  menu: "absolute text-left z-20 w-full bg-white shadow-lg border rounded py-1 mt-1.5 text-sm text-gray-700 h-50 overflow-y-auto custom-scrollbar",
+                                                  listItem: ({
+                                                       isSelected,
+                                                  }: any) =>
+                                                       `block transition duration-200 px-2 py-2 cursor-pointer select-none truncate rounded ${
+                                                            isSelected
+                                                                 ? `text-white bg-primary-adele`
+                                                                 : `text-gray-500 hover:bg-primary-adele hover:text-white`
+                                                       }`,
+                                             }}
+                                             options={selectRate}
+                                             isSearchable={true}
+                                             isClearable={true}
+                                             placeholder={
+                                                  "--Pilih Underwriting--"
+                                             }
+                                             value={
+                                                  dataProdukAsuransi.RATE_MANAGE_ID
+                                             }
+                                             onChange={(e) => {
+                                                  setDataProdukAsuransi({
+                                                       ...dataProdukAsuransi,
+                                                       RATE_MANAGE_ID: e,
                                                   });
                                              }}
                                              primaryColor={""}

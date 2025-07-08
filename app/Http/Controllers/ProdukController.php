@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Document;
+use App\Models\RateSetting;
 use App\Models\TMekanismeProdukAsuransi;
 use App\Models\TParameterProduk;
 use App\Models\TProdukAsuransi;
@@ -24,11 +25,13 @@ class ProdukController extends Controller
         $dataUnderwriting = TUnderWriting::get();
         $dataParameterProduk = TParameterProduk::where('PARAMETER_PRODUK_IS_CATEGORY', 0)->get();
         $dataParameterCategory = TParameterProduk::where('PARAMETER_PRODUK_IS_CATEGORY', 1)->get();
+        $dataRateManageId = RateSetting::get();
 
         return Inertia::render('Produk/index', [
             "comboUnderwriting" => $dataUnderwriting,
             "dataParameterProduk" => $dataParameterProduk,
             "dataParameterCategory" => $dataParameterCategory,
+            "arrRateManageId"   => $dataRateManageId
         ]);
     }
 
@@ -128,11 +131,13 @@ class ProdukController extends Controller
             $UNDERWRITING_ID                     = isset($request->UNDERWRITING_ID['value']) ? $request->UNDERWRITING_ID['value'] : NULL;
             $DATA_MEKANISME_PRODUK               = $request->DATA_MEKANISME_PRODUK;
             $fileUploadProduk                    = $request->file('UPLOAD_FILE_PRODUK');
+            $RATE_MANAGE_ID                      = isset($request->RATE_MANAGE_ID['value']) ? $request->RATE_MANAGE_ID['value'] : NULL;
 
             // insert data into t_produk_asuransi
             $produkAsuransi = TProdukAsuransi::create([
                 'PRODUK_ASURANSI_NAME'              => $PRODUK_ASURANSI_NAME,
                 'UNDERWRITING_ID'                   => $UNDERWRITING_ID,
+                "RATE_MANAGE_ID"                    => $RATE_MANAGE_ID,
                 'PRODUK_ASURANSI_CREATED_BY'        => $user_id,
                 'PRODUK_ASURANSI_CREATED_DATE'      => $date,
             ]);
@@ -156,7 +161,7 @@ class ProdukController extends Controller
                     $dataMekanismeAsuransi = TMekanismeProdukAsuransi::create([
                         'PRODUK_ASURANSI_ID'                            => $PRODUK_ASURANSI_ID,
                         'PARAMETER_PRODUK_ID'                           => $dataMekanisme['PARAMETER_PRODUK_ID']['value'],
-                        'PARAMETER_CATEGORY_ID'                         => $dataMekanisme['PARAMETER_CATEGORY_ID']['value'],
+                        'PARAMETER_CATEGORY_ID'                         => isset($dataMekanisme['PARAMETER_CATEGORY_ID']['value']) ? $dataMekanisme['PARAMETER_CATEGORY_ID']['value'] : NULL,
                         "MEKANISME_PRODUK_ASURANSI_CREATED_BY"          => $user_id,
                         "MEKANISME_PRODUK_ASURANSI_CREATED_DATE"        => $date
                     ]);
@@ -288,7 +293,7 @@ class ProdukController extends Controller
                     $dataMekanismeAsuransi = TMekanismeProdukAsuransi::create([
                         'PRODUK_ASURANSI_ID'                            => $PRODUK_ASURANSI_ID,
                         'PARAMETER_PRODUK_ID'                           => $dataMekanisme['PARAMETER_PRODUK_ID'],
-                        'PARAMETER_CATEGORY_ID'                         => $dataMekanisme['PARAMETER_CATEGORY_ID'],
+                        'PARAMETER_CATEGORY_ID'                         => isset($dataMekanisme['PARAMETER_CATEGORY_ID']) ? $dataMekanisme['PARAMETER_CATEGORY_ID'] : NULL,
                         "MEKANISME_PRODUK_ASURANSI_CREATED_BY"          => $user_id,
                         "MEKANISME_PRODUK_ASURANSI_CREATED_DATE"        => $date
                     ]);

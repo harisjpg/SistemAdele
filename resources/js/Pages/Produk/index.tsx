@@ -27,6 +27,7 @@ export default function MasterProduk({ auth }: any) {
           comboUnderwriting,
           dataParameterProduk,
           dataParameterCategory,
+          arrRateManageId,
      }: any = usePage().props;
 
      // for success alert
@@ -57,6 +58,7 @@ export default function MasterProduk({ auth }: any) {
      const [dataProdukAsuransi, setDataProdukAsuransi] = useState<any>({
           PRODUK_ASURANSI_NAME: "",
           UNDERWRITING_ID: "",
+          RATE_MANAGE_ID: "",
           UPLOAD_FILE_PRODUK: "",
           PARAMETER_PRODUK_ID: "",
           PARAMETER_CATEGORY_ID: "",
@@ -204,6 +206,7 @@ export default function MasterProduk({ auth }: any) {
                                    comboUnderwriting={comboUnderwriting}
                                    dataParameterProduk={dataParameterProduk}
                                    dataParameterCategory={dataParameterCategory}
+                                   arrRateManageId={arrRateManageId}
                               />
                          </>
                     }

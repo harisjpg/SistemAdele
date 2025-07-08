@@ -7,7 +7,9 @@ use App\Models\Document;
 use App\Models\Insurance;
 use App\Models\MOfferInsurance;
 use App\Models\RDocumentType;
+use App\Models\RJenisAsuransi;
 use App\Models\RTarifPayroll;
+use App\Models\TBankInsurance;
 use App\Models\TBusinessDocument;
 use App\Models\TBusinessList;
 use App\Models\TCatatanBroker;
@@ -17,6 +19,7 @@ use App\Models\TMekanismeProdukAsuransi;
 use App\Models\TOffer;
 use App\Models\TOfferDetail;
 use App\Models\TOfferStaging;
+use App\Models\TParameterProduk;
 use App\Models\TProductSchemeLoanType;
 use App\Models\TProdukAsuransi;
 use App\Models\TRateHistory;
@@ -51,6 +54,7 @@ use function App\Helpers\getDetailOfferAll;
 use function App\Helpers\getDetailOfferAllForBusiness;
 use function App\Helpers\getInsuranceById;
 use function App\Helpers\getInsuranceId;
+use function App\Helpers\getProdukAsuransi;
 use function App\Helpers\getProdukAsuransiById;
 use function App\Helpers\getProdukSubProdukNew;
 use function App\Helpers\getRateHistory;
@@ -529,7 +533,7 @@ class PengajuanController extends Controller
                 // get code pengajuan debitur
                 $getTanggalAwal = $arrKredit['RENCANA_TANGGAL_PENCAIRAN'];
                 $getCodeKantor = $arrKredit['KODE_KANTOR'];
-                $codePengajuan = regNumberCodePengajuan($kode_broker = "", $getCodeKantor, $getTanggalAwal);
+                $codePengajuan = regNumberCodePengajuan($kode_broker = "FPM", $getCodeKantor, $getTanggalAwal);
                 // end get code pengajuan debitur
 
                 // get Product Id dan Schema(Sub Produk) \
@@ -742,23 +746,16 @@ class PengajuanController extends Controller
             // end for upload ktp spajk dan mcu jika ada
 
             // create offer detail
-            // // get data share effective
-            // $arrDataEffecvtive = getCurrentEffectiveDate($user->BANK_LIST_ID, $request->data_kredit[0]['JENIS_ASURANSI']['value']);
-            // $eff_id = $arrDataEffecvtive[0]["SHARE_EFFECTIVE_DATE_ID"];
-            // $arrInsurance = getShareConfigurationByEffectiveIdAndNoRedFlag($eff_id);
+            // get asuransi dari insurance yang ada asuransinya, karena sudah tidak menggunakan lagi share effective date, dan bank insurance idnya
 
-            // PROSES VERIFIKASI SEMUA ASURANSI TERHADAP PENGAJUAN
-            // get insurance yang terdaftar
-            // $arrInsurance = getAllInsurance();
-
-            $arrDataEffecvtive = getCurrentEffectiveDateInsurance();
-            $eff_id = $arrDataEffecvtive[0]["SHARE_EFFECTIVE_DATE_ID"];
-            $arrInsurance = getBankInsuranceEffective($eff_id);
+            $arrInsurance = getAllInsurance();
 
             for ($i = 0; $i < sizeof($arrInsurance); $i++) {
                 // get data offer untuk detailing
                 $arrOffer = TOffer::where('OFFER_ID', $createTOffer)->get();
                 $arrTheInsured = TTheInsured::where('THE_INSURED_ID', $arrOffer[0]['THE_INSURED_ID'])->get();
+                // $arrBankInsurance = TBankInsurance::where('INSURANCE_ID', $arrInsurance[$i]['INSURANCE_ID'])->first();
+                // dd($arrBankInsurance);
 
                 $reg["documenIdRate"] = $arrInsurance[$i]["RATE_MANAGE_ID"];
                 $reg["insurance_id"] = $arrInsurance[$i]["INSURANCE_ID"];
@@ -774,14 +771,14 @@ class PengajuanController extends Controller
                 $hasilTotal = $hasilPremiRate["premium"];
 
                 if ($hasilTotal > 0) {
-                    $arrayInsurance["BankInsuranceId"] = $arrInsurance[$i]["BANK_INSURANCE_ID"];
+                    $arrayInsurance["INSURANCE_ID"] = $arrInsurance[$i]["INSURANCE_ID"];
                     $arrayInsurance["rateRegular"] = $hasilPremiRate["rate"];
                     $arrayInsurance["premiRegular"] = $hasilPremiRate["premium"];
                     $arrayInsurance["rateGP"] = '0';
                     $arrayInsurance["premiGP"] = '0';
                     $arrayInsurance["totalPremi"] =  $hasilTotal;
                 } else {
-                    $arrayInsurance["BankInsuranceId"] = $arrInsurance[$i]["BANK_INSURANCE_ID"];
+                    $arrayInsurance["INSURANCE_ID"] = $arrInsurance[$i]["INSURANCE_ID"];
                     $arrayInsurance["rateRegular"] = '0';
                     $arrayInsurance["premiRegular"] = '0';
                     $arrayInsurance["rateGP"] = '0';
@@ -792,7 +789,7 @@ class PengajuanController extends Controller
                 // create data di t_offer_detail
                 $createTOfferDetail = TOfferDetail::create([
                     "OFFER_ID"                      => $arrOffer[0]['OFFER_ID'],
-                    "BANK_INSURANCE_ID"             => $arrayInsurance["BankInsuranceId"],
+                    "INSURANCE_ID"                  => $arrayInsurance["INSURANCE_ID"],
                     "OFFER_DETAIL_RATE"             => $arrayInsurance['rateRegular'],
                     "OFFER_DETAIL_AMOUNT"           => $arrayInsurance['premiRegular'],
                     "OFFER_DETAIL_CREATED_BY"       => $user_id,
@@ -958,6 +955,9 @@ class PengajuanController extends Controller
         // get all product
         $getAllMekanisme = TMekanismeProdukAsuransi::get();
 
+        // get jenis asuransi
+        $getJenisAsuransi = RJenisAsuransi::get();
+
         return array(
             "pengajuanDetail"       => $arrOffer,
             "arrDoc"                => $arrDoc,
@@ -965,7 +965,8 @@ class PengajuanController extends Controller
             "arrRateHistory"        => $arrRateHistory,
             "getOfferDetail"        => $getOfferDetail,
             "getMappingInsurance"   => $getMappingInsurance,
-            "getAllMekanisme"       => $getAllMekanisme
+            "getAllMekanisme"       => $getAllMekanisme,
+            "getJenisAsuransi"      => $getJenisAsuransi
         );
     }
 
@@ -3689,5 +3690,20 @@ class PengajuanController extends Controller
         ], 201, [
             'X-Inertia' => true
         ]);
+    }
+
+    public function getFilterInsurance(Request $request)
+    {
+        // get all mekanisme 
+        $arrDataParameterProduk = TParameterProduk::where('PARAMETER_PRODUK_IS_CATEGORY', 0)->get();
+
+        $arrFilterInsurance = MOfferInsurance::leftJoin('t_insurance', 't_insurance.INSURANCE_ID', '=', 'm_offer_insurance.INSURANCE_ID')
+            ->where('t_insurance.INSURANCE_TYPE_ID', $request->jenisAsuransiId)
+            ->get();
+
+        return array(
+            "arrDataParameterProduk"       => $arrDataParameterProduk,
+            "arrFilterInsurance"           => $arrFilterInsurance
+        );
     }
 }

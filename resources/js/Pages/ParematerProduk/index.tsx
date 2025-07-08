@@ -165,7 +165,7 @@ export default function ParameterProduk({ auth }: any) {
                                                                    dChilds.PARAMETER_PRODUK_IS_CATEGORY ===
                                                                    0
                                                                         ? "bg-green-500 h-3 w-3 rounded-full"
-                                                                        : "bg-red-500 h-3 w-3 rounded-full"
+                                                                        : ""
                                                               }
                                                          ></span>
                                                     </div>
@@ -582,18 +582,30 @@ export default function ParameterProduk({ auth }: any) {
                                                   type="text"
                                                   name="PARAMETER_PRODUK_BOBOT"
                                                   value={
-                                                       dataEditParameterProduk.PARAMETER_PRODUK_BOBOT
+                                                       dataEditParameterProduk.PARAMETER_PRODUK_BOBOT ??
+                                                       ""
                                                   }
-                                                  className="ring-1"
+                                                  className="ring-1 text-right"
                                                   onChange={(e) => {
-                                                       setDataEditParameterProduk(
-                                                            {
-                                                                 ...dataEditParameterProduk,
-                                                                 PARAMETER_PRODUK_BOBOT:
-                                                                      e.target
-                                                                           .value,
-                                                            }
-                                                       );
+                                                       const val =
+                                                            e.target.value;
+
+                                                       // Boleh kosong atau angka dengan max 2 digit di belakang koma
+                                                       const regex =
+                                                            /^(\d+)?(\.\d{0,2})?$/;
+
+                                                       if (
+                                                            regex.test(val) ||
+                                                            val === ""
+                                                       ) {
+                                                            setDataEditParameterProduk(
+                                                                 {
+                                                                      ...dataEditParameterProduk,
+                                                                      PARAMETER_PRODUK_BOBOT:
+                                                                           val,
+                                                                 }
+                                                            );
+                                                       }
                                                   }}
                                                   required
                                                   autoComplete="off"
@@ -625,23 +637,43 @@ export default function ParameterProduk({ auth }: any) {
                     {/* body section*/}
                     <div className="bg-white mt-6 p-4 rounded-md content-body overflow-y-auto custom-scrollbar">
                          {/* Content */}
-                         <div
-                              className="text-sm font-semibold hover:cursor-pointer hover:bg-primary-hover-adele bg-primary-adele w-fit p-2 text-white rounded-md mb-2 sticky top-0 z-50"
-                              onClick={(e) => {
-                                   setModalAddParent({
-                                        ...modalAddParent,
-                                        modalAdd: true,
-                                        modalAddParameter: false,
-                                        modalEditParameter: false,
-                                   });
-                                   setDataParameterProduk({
-                                        ...dataParameterProduk,
-                                        PARAMETER_PRODUK_IS_CATEGORY: 1,
-                                   });
-                                   setCategory(true);
-                              }}
-                         >
-                              Tambah Category Parameter
+                         <div className="flex items-center justify-between">
+                              <div
+                                   className="text-sm font-semibold hover:cursor-pointer hover:bg-primary-hover-adele bg-primary-adele w-fit p-2 text-white rounded-md mb-2 sticky top-0 z-50"
+                                   onClick={(e) => {
+                                        setModalAddParent({
+                                             ...modalAddParent,
+                                             modalAdd: true,
+                                             modalAddParameter: false,
+                                             modalEditParameter: false,
+                                        });
+                                        setDataParameterProduk({
+                                             ...dataParameterProduk,
+                                             PARAMETER_PRODUK_IS_CATEGORY: 1,
+                                        });
+                                        setCategory(true);
+                                   }}
+                              >
+                                   Tambah Category Parameter
+                              </div>
+                              <div className="flex">
+                                   <div className="flex items-center justify-center pr-2 text-sm font-semibold">
+                                        <span
+                                             className={
+                                                  "bg-red-500 h-3 w-3 rounded-full mr-2"
+                                             }
+                                        ></span>
+                                        : Parameter Category
+                                   </div>
+                                   <div className="flex items-center justify-center pr-2 text-sm font-semibold">
+                                        <span
+                                             className={
+                                                  "bg-green-500 h-3 w-3 rounded-full mr-2"
+                                             }
+                                        ></span>
+                                        : Parameter Produk
+                                   </div>
+                              </div>
                          </div>
                          <div>
                               <ul className="flex flex-col space-y-0 text-lg">
@@ -669,7 +701,7 @@ export default function ParameterProduk({ auth }: any) {
                                                                  className={
                                                                       item.PARAMETER_PRODUK_IS_CATEGORY ===
                                                                       0
-                                                                           ? "bg-green-500 h-3 w-3 rounded-full"
+                                                                           ? ""
                                                                            : "bg-red-500 h-3 w-3 rounded-full"
                                                                  }
                                                             ></span>
@@ -683,29 +715,7 @@ export default function ParameterProduk({ auth }: any) {
                                                                                 item.PARAMETER_PRODUK_NAME
                                                                            }
                                                                       </span>
-                                                                 ) : (
-                                                                      <div>
-                                                                           <span>
-                                                                                {
-                                                                                     item.PARAMETER_PRODUK_NAME
-                                                                                }
-                                                                           </span>
-                                                                           <span className="text-slate-400 text-xs">
-                                                                                {" "}
-                                                                                /{" "}
-                                                                                {new Intl.NumberFormat(
-                                                                                     "en-US",
-                                                                                     {
-                                                                                          style: "decimal",
-                                                                                          minimumFractionDigits: 2,
-                                                                                          maximumFractionDigits: 2,
-                                                                                     }
-                                                                                ).format(
-                                                                                     item.PARAMETER_PRODUK_BOBOT
-                                                                                )}
-                                                                           </span>
-                                                                      </div>
-                                                                 )}
+                                                                 ) : null}
                                                             </div>
                                                        </div>
                                                   </div>
@@ -779,6 +789,159 @@ export default function ParameterProduk({ auth }: any) {
                                         )
                                    )}
                               </ul>
+                         </div>
+                         <div>
+                              <div>
+                                   <ul className="flex flex-col space-y-0 text-lg">
+                                        {arrDataParameter
+                                             ?.filter(
+                                                  (dataFilter: any) =>
+                                                       dataFilter.PARAMETER_PRODUK_IS_CATEGORY ===
+                                                       0
+                                             )
+                                             ?.map((item: any, i: number) => (
+                                                  <>
+                                                       <div className="mt-2 font-semibold border-b-2 w-fit border-primary-adele">
+                                                            <span>
+                                                                 Belum
+                                                                 Dikategorikan
+                                                            </span>
+                                                       </div>
+                                                       <li className="" key={i}>
+                                                            <div
+                                                                 className="relative flex justify-between font-semibold text-black hover:text-red-600 w-fit hover:cursor-pointer"
+                                                                 // onClick={(e) => {
+                                                                 //     e.preventDefault();
+                                                                 //     const bb =
+                                                                 //         document.getElementById(
+                                                                 //             "item" + i
+                                                                 //         );
+                                                                 //     bb?.hidden === false;
+                                                                 // }}
+                                                                 onClick={() => {
+                                                                      handleClick(
+                                                                           item.PARAMETER_PRODUK_ID
+                                                                      );
+                                                                 }}
+                                                            >
+                                                                 <div className="flex items-center justify-center pr-2">
+                                                                      <span
+                                                                           className={
+                                                                                item.PARAMETER_PRODUK_IS_CATEGORY ===
+                                                                                0
+                                                                                     ? "bg-green-500 h-3 w-3 rounded-full"
+                                                                                     : "bg-red-500 h-3 w-3 rounded-full"
+                                                                           }
+                                                                      ></span>
+                                                                 </div>
+                                                                 <div className="flex items-center w-full gap-1">
+                                                                      <div className="text-sm p-2">
+                                                                           {item.PARAMETER_PRODUK_IS_CATEGORY ===
+                                                                           1 ? (
+                                                                                <span>
+                                                                                     {
+                                                                                          item.PARAMETER_PRODUK_NAME
+                                                                                     }
+                                                                                </span>
+                                                                           ) : (
+                                                                                <div>
+                                                                                     <span>
+                                                                                          {
+                                                                                               item.PARAMETER_PRODUK_NAME
+                                                                                          }
+                                                                                     </span>
+                                                                                     <span className="text-slate-400 text-xs">
+                                                                                          {" "}
+                                                                                          /{" "}
+                                                                                          {new Intl.NumberFormat(
+                                                                                               "en-US",
+                                                                                               {
+                                                                                                    style: "decimal",
+                                                                                                    minimumFractionDigits: 2,
+                                                                                                    maximumFractionDigits: 2,
+                                                                                               }
+                                                                                          ).format(
+                                                                                               item.PARAMETER_PRODUK_BOBOT
+                                                                                          )}
+                                                                                     </span>
+                                                                                </div>
+                                                                           )}
+                                                                      </div>
+                                                                 </div>
+                                                            </div>
+                                                            <div
+                                                                 className="hidden"
+                                                                 key={i}
+                                                                 id={
+                                                                      "item" +
+                                                                      item.PARAMETER_PRODUK_ID
+                                                                 }
+                                                            >
+                                                                 <ul className="flex flex-col pl-4 ml-[0.30rem] text-gray-500 border-l border-red-700">
+                                                                      <li>
+                                                                           <div className="bg-gray-200 w-fit p-4 rounded-md flex gap-2 items-center transition delay-700 duration-300 ease-in-out">
+                                                                                {item.PARAMETER_PRODUK_IS_CATEGORY ===
+                                                                                1 ? (
+                                                                                     <>
+                                                                                          <div
+                                                                                               className="text-sm bg-primary-adele p-2 rounded-md text-white cursor-pointer hover:bg-primary-hover-adele"
+                                                                                               onClick={(
+                                                                                                    e
+                                                                                               ) =>
+                                                                                                    handleClickAddParameter(
+                                                                                                         e,
+                                                                                                         item.PARAMETER_PRODUK_ID
+                                                                                                    )
+                                                                                               }
+                                                                                          >
+                                                                                               <span>
+                                                                                                    Tambah
+                                                                                                    Parameter
+                                                                                               </span>
+                                                                                          </div>
+                                                                                          <div
+                                                                                               className="text-sm bg-primary-adele p-2 rounded-md text-white cursor-pointer hover:bg-primary-hover-adele"
+                                                                                               onClick={(
+                                                                                                    e
+                                                                                               ) =>
+                                                                                                    handleClickEditParameter(
+                                                                                                         item
+                                                                                                    )
+                                                                                               }
+                                                                                          >
+                                                                                               <span>
+                                                                                                    Edit
+                                                                                               </span>
+                                                                                          </div>
+                                                                                     </>
+                                                                                ) : (
+                                                                                     <div
+                                                                                          className="text-sm bg-green-500 p-2 rounded-md text-white cursor-pointer hover:bg-red-400"
+                                                                                          onClick={(
+                                                                                               e
+                                                                                          ) => {
+                                                                                               handleClickEditParameter(
+                                                                                                    item
+                                                                                               );
+                                                                                          }}
+                                                                                     >
+                                                                                          <span>
+                                                                                               Edit
+                                                                                          </span>
+                                                                                     </div>
+                                                                                )}
+                                                                           </div>
+                                                                      </li>
+                                                                 </ul>
+                                                            </div>
+                                                            {BasicInfo(
+                                                                 item.children
+                                                            )}
+                                                       </li>
+                                                  </>
+                                             ))}
+                                   </ul>
+                              </div>
                          </div>
                          {/* End Content */}
                     </div>

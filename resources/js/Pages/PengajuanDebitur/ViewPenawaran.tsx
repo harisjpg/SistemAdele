@@ -26,6 +26,7 @@ import { Inertia } from "@inertiajs/inertia";
 import CardCarousel from "@/Components/Carausel/Carausel";
 import ModalToAction from "@/Components/Modal/ModalToAction";
 import ModalDetailPenawaran from "@/Components/Modal/ModalDetailPenawaran";
+import Loader from "@/Components/Loader";
 
 export default function ViewPenawaran({
      arrInsurance,
@@ -33,12 +34,14 @@ export default function ViewPenawaran({
      setIsSuccess,
      setModalPengajuan,
      setRefreshTrigger,
+     jenisAsuransi,
 }: PropsWithChildren<{
      arrInsurance: any;
      filterMekanis: any;
      setIsSuccess: any;
      setModalPengajuan: any;
      setRefreshTrigger: any;
+     jenisAsuransi: any;
 }>) {
      console.log(arrInsurance);
 
@@ -144,6 +147,22 @@ export default function ViewPenawaran({
                ...detailModal,
                detail: true,
           });
+     };
+
+     // for handle filter jenis asuransi
+     const [resultFilter, setResultFilter] = useState<any>([]);
+     const [isLoading, setIsLoading] = useState<boolean>(false);
+     const handleClickJenisAsuransi = async (jenisAsuransiId: any) => {
+          setIsLoading(true);
+          await axios
+               .post(`/getFilterInsurance`, { jenisAsuransiId })
+               .then((res) => {
+                    setResultFilter(res.data.arrFilterInsurance);
+                    setIsLoading(false);
+               })
+               .catch((err) => {
+                    console.log(err);
+               });
      };
 
      return (
@@ -394,78 +413,110 @@ export default function ViewPenawaran({
                               <legend className="ml-5 px-3 font-semibold">
                                    Penawaran Insurance
                               </legend>
-                              <section className="">
-                                   <div className="w-full">
-                                        <div className="grid grid-cols-5">
-                                             <div className="col-span-2 ml-4 ">
-                                                  {/* for jaminan */}
-                                                  <div className="h-[300px]"></div>
-                                                  <div className="text-sm font-semibold mb-2 border-b-2 w-fit border-slate-500">
-                                                       <span>
-                                                            Jaminan /
-                                                            Pengecualian Produk
-                                                            Asuransi
-                                                       </span>
-                                                  </div>
-                                                  <div className="flex gap-1 flex-col w-full">
-                                                       {filterMekanis?.map(
-                                                            (
-                                                                 dataMekanisme: any,
-                                                                 index: number
-                                                            ) => (
-                                                                 <div
-                                                                      key={
-                                                                           index
-                                                                      }
-                                                                      className="flex flex-col gap-1"
-                                                                 >
-                                                                      {/* Card: Jaminan */}
-                                                                      <div className="p-2 bg-white rounded-md shadow-md min-h-16">
-                                                                           {
-                                                                                dataMekanisme.MEKANISME_PRODUK_ASURANSI_JAMINAN
-                                                                           }
-                                                                      </div>
-                                                                      <div className="p-2 bg-white rounded-md shadow-md min-h-16">
-                                                                           {
-                                                                                dataMekanisme.MEKANISME_PRODUK_ASURANSI_KAPASITAS
-                                                                           }
-                                                                      </div>
-                                                                      <div className="p-2 bg-white rounded-md shadow-md min-h-16">
-                                                                           {
-                                                                                dataMekanisme.MEKANISME_PRODUK_ASURANSI_GANTI_RUGI
-                                                                           }
-                                                                      </div>
-                                                                      <div className="p-2 bg-white rounded-md shadow-md min-h-16">
-                                                                           {
-                                                                                dataMekanisme.MEKANISME_PRODUK_ASURANSI_LIMIT_GANTI_RUGI
-                                                                           }
-                                                                      </div>
-                                                                 </div>
+                              <section className="p-4">
+                                   {/* filter asuransi jiwa, asuransi bundling, asuransi umum, dan asuransi paket */}
+                                   <div className="flex gap-4 justify-end">
+                                        {jenisAsuransi?.map(
+                                             (arrJenis: any, index: number) => (
+                                                  <div
+                                                       className="bg-white text-sm hover:cursor-pointer hover:bg-slate-300 p-2 rounded-md shadow-md"
+                                                       onClick={(e: any) =>
+                                                            handleClickJenisAsuransi(
+                                                                 arrJenis.JENIS_ASURANSI_ID
                                                             )
-                                                       )}
+                                                       }
+                                                       key={index}
+                                                  >
+                                                       {
+                                                            arrJenis.JENIS_ASURANSI_NAME
+                                                       }
+                                                  </div>
+                                             )
+                                        )}
+                                   </div>
+                                   {isLoading === true ? (
+                                        <Loader />
+                                   ) : resultFilter.length === 0 ? (
+                                        <>
+                                             <div className="flex justify-center items-center mt-10">
+                                                  <div className="italic text-sm font-semibold text-primary-adele">
+                                                       <span>No Data</span>
                                                   </div>
                                              </div>
-                                             <div className="col-span-3">
-                                                  <CardCarousel
-                                                       arrInsurance={
-                                                            arrInsurance
-                                                       }
-                                                       filterMekanis={
-                                                            filterMekanis
-                                                       }
-                                                       setIsSuccess={
-                                                            setIsSuccess
-                                                       }
-                                                       setModalPengajuan={
-                                                            setIsSuccess
-                                                       }
-                                                       setRefreshTrigger={
-                                                            setIsSuccess
-                                                       }
-                                                  />
+                                        </>
+                                   ) : (
+                                        <div className="w-full">
+                                             <div className="grid grid-cols-5">
+                                                  <div className="col-span-2 ml-4 ">
+                                                       {/* for jaminan */}
+                                                       <div className="h-[300px]"></div>
+                                                       <div className="text-sm font-semibold mb-2 border-b-2 w-fit border-slate-500">
+                                                            <span>
+                                                                 Jaminan /
+                                                                 Pengecualian
+                                                                 Produk Asuransi
+                                                            </span>
+                                                       </div>
+                                                       <div className="flex gap-1 flex-col w-full">
+                                                            {filterMekanis
+                                                                 ?.filter(
+                                                                      (
+                                                                           dataFilter: any
+                                                                      ) =>
+                                                                           dataFilter
+                                                                                ?.parameter_produk
+                                                                                ?.PARAMETER_PRODUK_IS_CATEGORY ===
+                                                                           0
+                                                                 )
+                                                                 ?.map(
+                                                                      (
+                                                                           dataMekanisme: any,
+                                                                           index: number
+                                                                      ) => (
+                                                                           <div
+                                                                                key={
+                                                                                     index
+                                                                                }
+                                                                                className="flex flex-col gap-1"
+                                                                           >
+                                                                                {/* Card: Jaminan */}
+                                                                                <div className="p-2 bg-white rounded-md shadow-md min-h-16">
+                                                                                     {
+                                                                                          dataMekanisme
+                                                                                               ?.parameter_produk
+                                                                                               ?.PARAMETER_PRODUK_NAME
+                                                                                     }
+                                                                                </div>
+                                                                           </div>
+                                                                      )
+                                                                 )}
+                                                       </div>
+                                                  </div>
+                                                  <div className="col-span-3">
+                                                       <CardCarousel
+                                                            arrInsurance={
+                                                                 arrInsurance
+                                                            }
+                                                            filterMekanis={
+                                                                 filterMekanis
+                                                            }
+                                                            setIsSuccess={
+                                                                 setIsSuccess
+                                                            }
+                                                            setModalPengajuan={
+                                                                 setIsSuccess
+                                                            }
+                                                            setRefreshTrigger={
+                                                                 setIsSuccess
+                                                            }
+                                                            resultFilter={
+                                                                 resultFilter
+                                                            }
+                                                       />
+                                                  </div>
                                              </div>
                                         </div>
-                                   </div>
+                                   )}
                               </section>
                          </fieldset>
                     </>

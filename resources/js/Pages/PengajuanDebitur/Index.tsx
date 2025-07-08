@@ -231,6 +231,7 @@ export default function PengajuanDebitur({ auth }: any) {
      const [arrCatatan, setArrCatatan] = useState<any>([]);
      const [arrInsurance, setArrInsurance] = useState<any>([]);
      const [arrGetAllMekanisme, setArrgetAllMekanisme] = useState<any>([]);
+     const [jenisAsuransi, setJenisAsuransi] = useState<any>([]);
      // for loader
      const [loaderFetch, setLoaderFetch] = useState<any>(true);
      // end for loader
@@ -246,6 +247,7 @@ export default function PengajuanDebitur({ auth }: any) {
                     setArrDoc(res.data.arrDoc);
                     setRateHistory(res.data.arrRateHistory);
                     setGetOfferDetail(res.data.getOfferDetail);
+                    setJenisAsuransi(res.data.getJenisAsuransi);
                     setUrlOfferDetail(
                          `/getOfferDetail/${res.data.pengajuanDetail?.OFFER_ID}`
                     );
@@ -865,6 +867,7 @@ export default function PengajuanDebitur({ auth }: any) {
                                         getOfferDetail={getOfferDetail}
                                         arrInsurance={arrInsurance}
                                         arrGetAllMekanisme={arrGetAllMekanisme}
+                                        jenisAsuransi={jenisAsuransi}
                                    />
                               )}
                          </>

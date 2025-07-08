@@ -9,6 +9,7 @@ import {
      ChevronLeftIcon,
      ChevronRightIcon,
      MinusCircleIcon,
+     XMarkIcon,
 } from "@heroicons/react/20/solid";
 import Swal from "sweetalert2";
 import axios from "axios";
@@ -20,6 +21,7 @@ type CarouselProps = {
      setIsSuccess: any;
      setModalPengajuan: any;
      setRefreshTrigger: any;
+     resultFilter: any;
 };
 
 const Carousel: React.FC<CarouselProps> = ({
@@ -28,6 +30,7 @@ const Carousel: React.FC<CarouselProps> = ({
      setIsSuccess,
      setModalPengajuan,
      setRefreshTrigger,
+     resultFilter,
 }) => {
      const prevRef = useRef(null);
      const nextRef = useRef(null);
@@ -197,13 +200,13 @@ const Carousel: React.FC<CarouselProps> = ({
                >
                     {/* <div className="flex justify-start">
                          <div className="flex"> */}
-                    {arrInsurance?.map((dataInsurance: any, index: number) => (
+                    {resultFilter?.map((dataInsurance: any, index: number) => (
                          <>
                               <SwiperSlide
                                    key={dataInsurance.INSURANCE_ID}
                                    className="mb-2"
                               >
-                                   <div className="bg-slate-600 rounded-t-lg p-2 flex justify-center font-semibold text-white hover:cursor-pointer hover:bg-slate-400 w-50">
+                                   <div className="border rounded-t-lg p-2 flex justify-center font-semibold text-black w-50 shadow-lg">
                                         <span>Simulasi Premi</span>
                                    </div>
                                    <div className="p-4 bg-white shadow-lg w-50 relative max-h-[300px]">
@@ -220,7 +223,7 @@ const Carousel: React.FC<CarouselProps> = ({
                                              <div className="text-slate-600 text-sm">
                                                   <span>Rate</span>
                                              </div>
-                                             <div className="font-semibold">
+                                             <div className="font-semibold text-sm">
                                                   <span>
                                                        {new Intl.NumberFormat(
                                                             "en-US",
@@ -244,7 +247,7 @@ const Carousel: React.FC<CarouselProps> = ({
                                              <div className="text-slate-600 text-sm">
                                                   <span>Premi</span>
                                              </div>
-                                             <div className="font-semibold">
+                                             <div className="font-semibold text-sm">
                                                   <span>
                                                        Rp.{" "}
                                                        {new Intl.NumberFormat(
@@ -275,7 +278,7 @@ const Carousel: React.FC<CarouselProps> = ({
                                         </div>
                                    </div>
                                    <div
-                                        className="bg-slate-600 rounded-b-lg p-2 flex justify-center font-semibold text-white hover:cursor-pointer hover:bg-slate-400 w-50 mb-2 text-sm"
+                                        className="bg-primary-adele rounded-b-lg p-2 flex justify-center font-semibold text-white hover:cursor-pointer hover:bg-primary-hover-adele w-50 mb-2 text-sm"
                                         onClick={() => {
                                              if (
                                                   dataInsurance?.product
@@ -307,67 +310,45 @@ const Carousel: React.FC<CarouselProps> = ({
                                                   key={i}
                                                   className="flex flex-col gap-1"
                                              >
-                                                  {filterMekanis?.map(
-                                                       (
-                                                            dataMekanisme: any,
-                                                            a: number
-                                                       ) => (
-                                                            <div
-                                                                 key={a}
-                                                                 className="flex flex-col gap-1"
-                                                            >
-                                                                 {/* Card: Jaminan */}
-                                                                 <div className="p-2 bg-white rounded-md shadow-md w-50 flex justify-center min-h-16 items-center">
-                                                                      {dataMekanisme.MEKANISME_PRODUK_ASURANSI_JAMINAN ===
-                                                                      mekanisme.MEKANISME_PRODUK_ASURANSI_JAMINAN ? (
-                                                                           <span>
-                                                                                <CheckCircleIcon className="w-6" />
-                                                                           </span>
-                                                                      ) : (
-                                                                           <span>
-                                                                                <MinusCircleIcon className="w-6 text-slate-400" />
-                                                                           </span>
-                                                                      )}
-                                                                 </div>
-                                                                 <div className="p-2 bg-white rounded-md shadow-md w-50 flex justify-center min-h-16 items-center">
-                                                                      {dataMekanisme.MEKANISME_PRODUK_ASURANSI_KAPASITAS ===
-                                                                      mekanisme.MEKANISME_PRODUK_ASURANSI_KAPASITAS ? (
-                                                                           <span>
-                                                                                <CheckCircleIcon className="w-6" />
-                                                                           </span>
-                                                                      ) : (
-                                                                           <span>
-                                                                                <MinusCircleIcon className="w-6 text-slate-400" />
-                                                                           </span>
-                                                                      )}
-                                                                 </div>
-                                                                 <div className="p-2 bg-white rounded-md shadow-md w-50 flex justify-center min-h-16 items-center">
-                                                                      {dataMekanisme.MEKANISME_PRODUK_ASURANSI_GANTI_RUGI ===
-                                                                      mekanisme.MEKANISME_PRODUK_ASURANSI_GANTI_RUGI ? (
-                                                                           <span>
-                                                                                <CheckCircleIcon className="w-6" />
-                                                                           </span>
-                                                                      ) : (
-                                                                           <span>
-                                                                                <MinusCircleIcon className="w-6 text-slate-400" />
-                                                                           </span>
-                                                                      )}
-                                                                 </div>
-                                                                 <div className="p-2 bg-white rounded-md shadow-md w-50 flex justify-center min-h-16 items-center">
-                                                                      {dataMekanisme.MEKANISME_PRODUK_ASURANSI_LIMIT_GANTI_RUGI ===
-                                                                      mekanisme.MEKANISME_PRODUK_ASURANSI_LIMIT_GANTI_RUGI ? (
-                                                                           <span>
-                                                                                <CheckCircleIcon className="w-6" />
-                                                                           </span>
-                                                                      ) : (
-                                                                           <span>
-                                                                                <MinusCircleIcon className="w-6 text-slate-400" />
-                                                                           </span>
-                                                                      )}
-                                                                 </div>
-                                                            </div>
+                                                  {filterMekanis
+                                                       ?.filter(
+                                                            (dataFilter: any) =>
+                                                                 dataFilter
+                                                                      ?.parameter_produk
+                                                                      ?.PARAMETER_PRODUK_IS_CATEGORY ===
+                                                                 0
                                                        )
-                                                  )}
+                                                       ?.map(
+                                                            (
+                                                                 dataMekanisme: any,
+                                                                 a: number
+                                                            ) => (
+                                                                 <div
+                                                                      key={a}
+                                                                      className="flex flex-col gap-1"
+                                                                 >
+                                                                      {/* Card: Jaminan */}
+                                                                      <div className="p-2 bg-white rounded-md shadow-md w-50 flex justify-center min-h-16 items-center">
+                                                                           {dataMekanisme
+                                                                                ?.parameter_produk
+                                                                                ?.PARAMETER_PRODUK_NAME ===
+                                                                           mekanisme
+                                                                                ?.parameter_produk
+                                                                                ?.PARAMETER_PRODUK_NAME ? (
+                                                                                <span>
+                                                                                     <CheckCircleIcon className="w-6" />
+                                                                                </span>
+                                                                           ) : (
+                                                                                <div className="bg-slate-500 rounded-full">
+                                                                                     <span>
+                                                                                          <XMarkIcon className="w-5 text-white font-semibold" />
+                                                                                     </span>
+                                                                                </div>
+                                                                           )}
+                                                                      </div>
+                                                                 </div>
+                                                            )
+                                                       )}
                                              </div>
                                         )
                                    )}

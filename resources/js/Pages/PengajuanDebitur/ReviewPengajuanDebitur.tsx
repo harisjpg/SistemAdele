@@ -33,6 +33,7 @@ export default function ReviewPengajuanDebitur({
      getOfferDetail,
      arrInsurance,
      arrGetAllMekanisme,
+     jenisAsuransi,
 }: PropsWithChildren<{
      auth: any;
      dataReviewPengajuan: any;
@@ -48,9 +49,8 @@ export default function ReviewPengajuanDebitur({
      getOfferDetail: any;
      arrInsurance: any;
      arrGetAllMekanisme: any;
+     jenisAsuransi: any;
 }>) {
-     console.log(arrInsurance, "<<< urlOfferDetail");
-
      const formatCurrency = new Intl.NumberFormat("default", {
           style: "currency",
           currency: "IDR",
@@ -543,8 +543,6 @@ export default function ReviewPengajuanDebitur({
                     dataMekanisme.PRODUK_ASURANSI_ID
           )
      );
-
-     console.log(filterMekanis, "<<< adada");
 
      return (
           <>
@@ -1432,233 +1430,9 @@ export default function ReviewPengajuanDebitur({
                          setIsSuccess={setIsSuccess}
                          setModalPengajuan={setModalPengajuan}
                          setRefreshTrigger={setRefreshTrigger}
+                         jenisAsuransi={jenisAsuransi}
                     />
                </>
-               {/* End For Data Penawaran */}
-               {/* For Data List insurance */}
-               {/* {auth.user.user_type_id !== 2 ? (
-                    <>
-                         <fieldset className="pb-10 pt-0 xs:mt-60 lg:mt-2 rounded-lg border-2">
-                              <legend className="ml-5 px-3 font-semibold">
-                                   List Insurance
-                              </legend>
-                              <div className="flex justify-end">
-                                   {dataSelectRow.length !== 0 ? (
-                                        <>
-                                             <div
-                                                  className="ml-5 p-2 bg-green-900 w-fit rounded-md text-white text-xs hover:cursor-pointer hover:bg-green-950"
-                                                  onClick={() => {
-                                                       handleForSelectInsurance(
-                                                            dataSelectRow
-                                                       );
-                                                  }}
-                                             >
-                                                  <span>Select Insurance</span>
-                                             </div>
-                                        </>
-                                   ) : null}
-                              </div>
-                              {urlOfferDetail !== "" ? (
-                                   <>
-                                        <div className="lg:px-5 xs:px-1 py-2 xs:w-[275px] lg:w-full">
-                                             <DataTables
-                                                  columns={[
-                                                       {
-                                                            name: "Nama Asuransi",
-                                                            selector: (
-                                                                 row: any
-                                                            ) =>
-                                                                 row.INSURANCE_NAME,
-                                                            sortable: true,
-                                                       },
-                                                       {
-                                                            name: "Rate",
-                                                            cell: (
-                                                                 row: any
-                                                            ) => (
-                                                                 <>
-                                                                      {auth.user
-                                                                           .user_type_id ===
-                                                                      2 ? (
-                                                                           <span>
-                                                                                -
-                                                                           </span>
-                                                                      ) : (
-                                                                           <span>
-                                                                                {new Intl.NumberFormat(
-                                                                                     "en-US",
-                                                                                     {
-                                                                                          style: "decimal",
-                                                                                          minimumFractionDigits: 2,
-                                                                                          maximumFractionDigits: 2,
-                                                                                     }
-                                                                                ).format(
-                                                                                     row.OFFER_DETAIL_RATE
-                                                                                )}
-                                                                           </span>
-                                                                      )}
-                                                                 </>
-                                                            ),
-                                                            right: "true",
-                                                            sortable: true,
-                                                       },
-                                                       {
-                                                            name: "Premi",
-                                                            cell: (
-                                                                 row: any
-                                                            ) => (
-                                                                 <>
-                                                                      {auth.user
-                                                                           .user_type_id ===
-                                                                      2 ? (
-                                                                           <span>
-                                                                                -
-                                                                           </span>
-                                                                      ) : (
-                                                                           <span>
-                                                                                {new Intl.NumberFormat(
-                                                                                     "en-US",
-                                                                                     {
-                                                                                          style: "decimal",
-                                                                                          minimumFractionDigits: 2,
-                                                                                          maximumFractionDigits: 2,
-                                                                                     }
-                                                                                ).format(
-                                                                                     row.OFFER_DETAIL_AMOUNT
-                                                                                )}
-                                                                           </span>
-                                                                      )}
-                                                                 </>
-                                                            ),
-                                                            right: "true",
-                                                            sortable: true,
-                                                       },
-                                                       // {
-                                                       //      name: "Action",
-                                                       //      selector: (
-                                                       //           row: any
-                                                       //      ) => "asdad",
-                                                       //      cell: (
-                                                       //           row: any
-                                                       //      ) => (
-                                                       //           // <div
-                                                       //           //      className="bg-green-700 text-white p-2 rounded-md hover:cursor-pointer hover:bg-green-800 shadow-lg"
-                                                       //           //      onClick={(
-                                                       //           //           e
-                                                       //           //      ) => {
-                                                       //           //           handleAjukanKeAsuransi(
-                                                       //           //                e,
-                                                       //           //                row.OFFER_DETAIL_ID
-                                                       //           //           );
-                                                       //           //      }}
-                                                       //           // >
-                                                       //           //      <span>
-                                                       //           //           Ajukan
-                                                       //           //           Ke
-                                                       //           //           Asuransi
-                                                       //           //      </span>
-                                                       //           // </div>
-                                                       //           <div
-                                                       //                className="bg-green-700 text-white p-2 rounded-md hover:cursor-pointer hover:bg-green-800 shadow-lg"
-                                                       //                onClick={(
-                                                       //                     e
-                                                       //                ) => {
-                                                       //                     handleAjukanKeAsuransi(
-                                                       //                          e,
-                                                       //                          row.OFFER_DETAIL_ID
-                                                       //                     );
-                                                       //                }}
-                                                       //           >
-                                                       //                <span>
-                                                       //                     Select
-                                                       //                     Insurance
-                                                       //                </span>
-                                                       //           </div>
-                                                       //      ),
-                                                       //      sortable: true,
-                                                       //      omit:
-                                                       //           auth.user
-                                                       //                .user_type_id !==
-                                                       //           3,
-                                                       // },
-                                                       // {
-                                                       //      name: "Action",
-                                                       //      selector: (
-                                                       //           row: any
-                                                       //      ) => "asdad",
-                                                       //      cell: (
-                                                       //           row: any
-                                                       //      ) => (
-                                                       //           <div className="grid grid-cols-3 gap-2">
-                                                       //                <div
-                                                       //                     className="flex items-center justify-center bg-green-700 text-white p-2 rounded-md hover:cursor-pointer hover:bg-green-800 shadow-lg"
-                                                       //                     onClick={(
-                                                       //                          e
-                                                       //                     ) => {
-                                                       //                          handleButtonSetuju(
-                                                       //                               e,
-                                                       //                               row.OFFER_DETAIL_ID
-                                                       //                          );
-                                                       //                     }}
-                                                       //                >
-                                                       //                     <span>
-                                                       //                          Setuju
-                                                       //                     </span>
-                                                       //                </div>
-                                                       //                <div
-                                                       //                     className="flex items-center justify-center bg-yellow-400 text-white p-2 rounded-md hover:cursor-pointer hover:bg-yellow-500 shadow-lg"
-                                                       //                     onClick={(
-                                                       //                          e
-                                                       //                     ) => {
-                                                       //                          handlePendingPengajuan(
-                                                       //                               e,
-                                                       //                               row.OFFER_DETAIL_ID
-                                                       //                          );
-                                                       //                     }}
-                                                       //                >
-                                                       //                     <span>
-                                                       //                          Pending
-                                                       //                     </span>
-                                                       //                </div>
-                                                       //                <div
-                                                       //                     className="flex items-center justify-center bg-red-700 text-white p-2 rounded-md hover:cursor-pointer hover:bg-red-900 shadow-lg"
-                                                       //                     onClick={(
-                                                       //                          e
-                                                       //                     ) => {
-                                                       //                          handleTolakPengajuan(
-                                                       //                               e,
-                                                       //                               row.OFFER_DETAIL_ID
-                                                       //                          );
-                                                       //                     }}
-                                                       //                >
-                                                       //                     <span>
-                                                       //                          Tolak
-                                                       //                     </span>
-                                                       //                </div>
-                                                       //           </div>
-                                                       //      ),
-                                                       //      sortable: true,
-                                                       //      omit:
-                                                       //           auth.user
-                                                       //                .user_type_id !==
-                                                       //           4,
-                                                       // },
-                                                  ]}
-                                                  url={urlOfferDetail}
-                                                  search={undefined}
-                                                  refreshTrigger={"aaa"}
-                                                  handleDoubleClick={undefined}
-                                                  handleSelectRow={
-                                                       handleSelectRow
-                                                  }
-                                                  selectableRows={true}
-                                             />
-                                        </div>
-                                   </>
-                              ) : null}
-                         </fieldset>
-                    </>
-               ) : null} */}
 
                {/* End For Data List Insurance */}
           </>

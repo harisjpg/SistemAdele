@@ -138,7 +138,11 @@ export default function DetailEditProdukAsuransi({
      useEffect(() => {
           dataEditProdukAsuransi?.DATA_MEKANISME_PRODUK?.forEach(
                (_item: any, index: number) => {
-                    handleFilterParameter(index);
+                    if (_item.PARAMETER_CATEGORY_ID === null) {
+                         handleFilterParameterFirst(index);
+                    } else {
+                         handleFilterParameter(index);
+                    }
                }
           );
      }, []);
@@ -159,6 +163,25 @@ export default function DetailEditProdukAsuransi({
           setDataFilter((prev: any[]) => {
                const updated = [...prev];
                updated[index] = filtered;
+               return updated;
+          });
+     };
+
+     const handleFilterParameterFirst = (index: number) => {
+          // const selectedCategoryId =
+          //      dataEditProdukAsuransi?.DATA_MEKANISME_PRODUK[index]
+          //           ?.PARAMETER_CATEGORY_ID?.value ??
+          //      dataEditProdukAsuransi?.DATA_MEKANISME_PRODUK[index]
+          //           ?.PARAMETER_CATEGORY_ID;
+
+          // const filtered = dataParameterProduk.filter(
+          //      (dataParameter: any) =>
+          //           selectedCategoryId !== dataParameter.PARAMETER_PRODUK_PARENT
+          // );
+
+          setDataFilter((prev: any[]) => {
+               const updated = [...prev];
+               updated[index] = dataParameterProduk;
                return updated;
           });
      };
@@ -401,7 +424,7 @@ export default function DetailEditProdukAsuransi({
                                                                  classNames={{
                                                                       menuButton:
                                                                            () =>
-                                                                                `flex text-sm text-gray-500 rounded-md shadow-sm transition-all duration-300 focus:outline-none hover:border-gray-400 ${
+                                                                                `block flex text-sm text-gray-500 rounded-md shadow-sm transition-all duration-300 focus:outline-none hover:border-gray-400 ${
                                                                                      textButton.textButton !==
                                                                                      "Edit"
                                                                                           ? `bg-white`
@@ -467,7 +490,7 @@ export default function DetailEditProdukAsuransi({
                                                                       classNames={{
                                                                            menuButton:
                                                                                 () =>
-                                                                                     `flex text-sm text-gray-500 rounded-md shadow-sm transition-all duration-300 focus:outline-none hover:border-gray-400 ${
+                                                                                     `truncate flex text-sm text-gray-500 rounded-md shadow-sm transition-all duration-300 focus:outline-none hover:border-gray-400 ${
                                                                                           textButton.textButton !==
                                                                                           "Edit"
                                                                                                ? `bg-white`

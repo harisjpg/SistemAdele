@@ -201,6 +201,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/calculatePremi', [PengajuanController::class, 'calculatePremi'])->name('calculatePremi');
     Route::post('/forInsuranceReview', [PengajuanController::class, 'forInsuranceReview'])->name('forInsuranceReview.forInsuranceReview');
     Route::post('/selectInsurance', [PengajuanController::class, 'selectInsurance'])->name('selectInsurance.selectInsurance');
+    Route::post('/getFilterInsurance', [PengajuanController::class, 'getFilterInsurance'])->name('getFilterInsurance.getFilterInsurance');
 
 
 

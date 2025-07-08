@@ -369,7 +369,7 @@ function calculatePremiRateJamkrida($reg)
 function calculateRatePremiAdeleSistem($reg)
 {
     switch ($reg["insurance_id"]) {
-        case "1":
+        case "23":
             $hasil = calculatePremiRateChubb($reg);
             return $hasil;
             break;
@@ -377,11 +377,11 @@ function calculateRatePremiAdeleSistem($reg)
             $hasil = calculatePremiRateHeksa($reg);
             return $hasil;
             break;
-        case "3":
+        case "24":
             $hasil = calculatePremiRateJamkrida($reg);
             return $hasil;
             break;
-        case "4":
+        case "22":
             $hasil = calculatePremiRateJamkrida($reg);
             return $hasil;
             break;
@@ -800,6 +800,15 @@ function getProdukAsuransiById($asuransi_id)
 
     return $arrData;
 }
+
+// function getProdukAsuransi()
+// {
+//     $arrData = TProdukAsuransi::whereNotNull('PRODUK_ASURANSI_ID')
+//         ->leftJoin('t_produk_asuransi', 't_insurance.PRODUK_ASURANSI_ID', '=', 't_produk_asuransi.PRODUK_ASURANSI_ID')
+//         ->get();
+
+//     return $arrData;
+// }
 
 function getInsuranceById($idInsurance)
 {
