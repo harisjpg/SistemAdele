@@ -35,6 +35,9 @@ export default function ViewPenawaran({
      setModalPengajuan,
      setRefreshTrigger,
      jenisAsuransi,
+     idOffer,
+     flag = "",
+     detailOfferPenawaran,
 }: PropsWithChildren<{
      arrInsurance: any;
      filterMekanis: any;
@@ -42,8 +45,11 @@ export default function ViewPenawaran({
      setModalPengajuan: any;
      setRefreshTrigger: any;
      jenisAsuransi: any;
+     idOffer?: any;
+     flag?: any;
+     detailOfferPenawaran?: any;
 }>) {
-     console.log(arrInsurance);
+     // console.log(detailOfferPenawaran, "<aaa");
 
      const prosesSelectInsurance = async (dataInsurance: any) => {
           await axios
@@ -149,13 +155,27 @@ export default function ViewPenawaran({
           });
      };
 
+     useEffect(() => {
+          if (flag === "penawaran") {
+               handleClickJenisAsuransi(
+                    detailOfferPenawaran?.INSURANCE_TYPE_ID,
+                    detailOfferPenawaran?.OFFER_ID,
+                    flag
+               );
+          }
+     }, [flag]); // jalankan ketika proses penawaran
+
      // for handle filter jenis asuransi
      const [resultFilter, setResultFilter] = useState<any>([]);
      const [isLoading, setIsLoading] = useState<boolean>(false);
-     const handleClickJenisAsuransi = async (jenisAsuransiId: any) => {
+     const handleClickJenisAsuransi = async (
+          jenisAsuransiId: any,
+          idOffer: any,
+          flag: any
+     ) => {
           setIsLoading(true);
           await axios
-               .post(`/getFilterInsurance`, { jenisAsuransiId })
+               .post(`/getFilterInsurance`, { jenisAsuransiId, idOffer, flag })
                .then((res) => {
                     setResultFilter(res.data.arrFilterInsurance);
                     setIsLoading(false);
@@ -165,6 +185,7 @@ export default function ViewPenawaran({
                });
      };
 
+     const [indexActive, setIndexActive] = useState<number | null>(null);
      return (
           <>
                {/* for detail */}
@@ -416,23 +437,79 @@ export default function ViewPenawaran({
                               <section className="p-4">
                                    {/* filter asuransi jiwa, asuransi bundling, asuransi umum, dan asuransi paket */}
                                    <div className="flex gap-4 justify-end">
-                                        {jenisAsuransi?.map(
-                                             (arrJenis: any, index: number) => (
-                                                  <div
-                                                       className="bg-white text-sm hover:cursor-pointer hover:bg-slate-300 p-2 rounded-md shadow-md"
-                                                       onClick={(e: any) =>
-                                                            handleClickJenisAsuransi(
-                                                                 arrJenis.JENIS_ASURANSI_ID
-                                                            )
-                                                       }
-                                                       key={index}
-                                                  >
-                                                       {
-                                                            arrJenis.JENIS_ASURANSI_NAME
-                                                       }
-                                                  </div>
-                                             )
-                                        )}
+                                        {flag === "penawaran"
+                                             ? jenisAsuransi
+                                                    ?.filter(
+                                                         (dataFilter: any) =>
+                                                              dataFilter.JENIS_ASURANSI_ID ===
+                                                              detailOfferPenawaran?.INSURANCE_TYPE_ID
+                                                    )
+                                                    ?.map(
+                                                         (
+                                                              arrJenis: any,
+                                                              index: number
+                                                         ) => (
+                                                              <div
+                                                                   className={
+                                                                        indexActive ===
+                                                                             index ||
+                                                                        flag ===
+                                                                             "penawaran"
+                                                                             ? "bg-primary-adele text-white text-sm hover:cursor-pointer hover:bg-primary-hover-adele p-2 rounded-md shadow-md"
+                                                                             : "bg-white text-sm hover:cursor-pointer hover:bg-primary-hover-adele p-2 rounded-md shadow-md"
+                                                                   }
+                                                                   onClick={(
+                                                                        e: any
+                                                                   ) => {
+                                                                        handleClickJenisAsuransi(
+                                                                             arrJenis.JENIS_ASURANSI_ID,
+                                                                             idOffer,
+                                                                             flag
+                                                                        );
+                                                                        setIndexActive(
+                                                                             index
+                                                                        );
+                                                                   }}
+                                                                   key={index}
+                                                              >
+                                                                   {
+                                                                        arrJenis.JENIS_ASURANSI_NAME
+                                                                   }
+                                                              </div>
+                                                         )
+                                                    )
+                                             : jenisAsuransi?.map(
+                                                    (
+                                                         arrJenis: any,
+                                                         index: number
+                                                    ) => (
+                                                         <div
+                                                              className={
+                                                                   indexActive ===
+                                                                   index
+                                                                        ? "bg-primary-adele text-white text-sm hover:cursor-pointer hover:bg-primary-hover-adele p-2 rounded-md shadow-md"
+                                                                        : "bg-white text-sm hover:cursor-pointer hover:bg-primary-hover-adele p-2 rounded-md shadow-md"
+                                                              }
+                                                              onClick={(
+                                                                   e: any
+                                                              ) => {
+                                                                   handleClickJenisAsuransi(
+                                                                        arrJenis.JENIS_ASURANSI_ID,
+                                                                        idOffer,
+                                                                        flag
+                                                                   );
+                                                                   setIndexActive(
+                                                                        index
+                                                                   );
+                                                              }}
+                                                              key={index}
+                                                         >
+                                                              {
+                                                                   arrJenis.JENIS_ASURANSI_NAME
+                                                              }
+                                                         </div>
+                                                    )
+                                               )}
                                    </div>
                                    {isLoading === true ? (
                                         <Loader />
@@ -449,7 +526,7 @@ export default function ViewPenawaran({
                                              <div className="grid grid-cols-5">
                                                   <div className="col-span-2 ml-4 ">
                                                        {/* for jaminan */}
-                                                       <div className="h-[300px]"></div>
+                                                       <div className="h-[292px]"></div>
                                                        <div className="text-sm font-semibold mb-2 border-b-2 w-fit border-slate-500">
                                                             <span>
                                                                  Jaminan /
@@ -512,6 +589,7 @@ export default function ViewPenawaran({
                                                             resultFilter={
                                                                  resultFilter
                                                             }
+                                                            flag={flag}
                                                        />
                                                   </div>
                                              </div>

@@ -3697,9 +3697,20 @@ class PengajuanController extends Controller
         // get all mekanisme 
         $arrDataParameterProduk = TParameterProduk::where('PARAMETER_PRODUK_IS_CATEGORY', 0)->get();
 
-        $arrFilterInsurance = MOfferInsurance::leftJoin('t_insurance', 't_insurance.INSURANCE_ID', '=', 'm_offer_insurance.INSURANCE_ID')
-            ->where('t_insurance.INSURANCE_TYPE_ID', $request->jenisAsuransiId)
-            ->get();
+        if ($request->flag == "penawaran") {
+            $arrFilterInsurance = MOfferInsurance::leftJoin('t_insurance', 't_insurance.INSURANCE_ID', '=', 'm_offer_insurance.INSURANCE_ID')
+                ->leftJoin('t_offer_detail', 't_offer_detail.OFFER_DETAIL_ID', '=', 'm_offer_insurance.OFFER_DETAIL_ID')
+                ->where('t_insurance.INSURANCE_TYPE_ID', $request->jenisAsuransiId)
+                ->where('t_offer_detail.offer_detail_is_used', 1)
+                ->where('m_offer_insurance.OFFER_ID', $request->idOffer)
+                ->get();
+        } else {
+            $arrFilterInsurance = MOfferInsurance::leftJoin('t_insurance', 't_insurance.INSURANCE_ID', '=', 'm_offer_insurance.INSURANCE_ID')
+                ->where('t_insurance.INSURANCE_TYPE_ID', $request->jenisAsuransiId)
+                ->where('m_offer_insurance.OFFER_ID', $request->idOffer)
+                ->get();
+        }
+
 
         return array(
             "arrDataParameterProduk"       => $arrDataParameterProduk,

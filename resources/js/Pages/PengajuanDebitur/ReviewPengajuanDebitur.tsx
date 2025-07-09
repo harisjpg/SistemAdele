@@ -1431,6 +1431,7 @@ export default function ReviewPengajuanDebitur({
                          setModalPengajuan={setModalPengajuan}
                          setRefreshTrigger={setRefreshTrigger}
                          jenisAsuransi={jenisAsuransi}
+                         idOffer={dataReviewPengajuan?.OFFER_ID}
                     />
                </>
 

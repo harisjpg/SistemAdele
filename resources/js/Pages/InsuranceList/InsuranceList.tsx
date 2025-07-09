@@ -414,7 +414,7 @@ export default function InsuranceList({ auth }: any) {
                     }}
                     buttonEdit={""}
                     actionEdit={""}
-                    title={"Bundling Insurance"}
+                    title={"Asuransi Gabungan"}
                     url={``}
                     data={""}
                     onSuccess={""}
@@ -465,7 +465,7 @@ export default function InsuranceList({ auth }: any) {
                                         getProdukAsuransi();
                                    }}
                               >
-                                   <span>Asuransi Bundling</span>
+                                   <span>Asuransi Gabungan</span>
                               </div>
                               <div
                                    className="p-3 bg-primary-adele text-xs text-white rounded-md shadow-lg hover:cursor-pointer hover:bg-primary-hover-adele"

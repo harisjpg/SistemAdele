@@ -10,6 +10,7 @@ use App\Http\Controllers\MenuController;
 use App\Http\Controllers\PengajuanController;
 use App\Http\Controllers\PenutupanController;
 use App\Http\Controllers\ProdukController;
+use App\Http\Controllers\ProsesPenawaranController;
 use App\Http\Controllers\ProsesUnderwritingController;
 use App\Http\Controllers\RateSettingController;
 use App\Http\Controllers\RoleController;
@@ -253,12 +254,15 @@ Route::middleware('auth')->group(function () {
     Route::get('/getOrganisasi', [TOrganizationController::class, 'getOrganisasi'])->name('getOrganisasi');
 
     // Proses Penawaran
-    // Route::get('/prosesPenawaran', [ProsesPenawaranController::class, 'index'])->name('prosesPenawaran');
+    Route::get('/prosesPenawaran', [ProsesPenawaranController::class, 'index'])->name('prosesPenawaran');
+    Route::get('/getOfferPenawaran', [ProsesPenawaranController::class, 'getOfferPenawaran'])->name('getOfferPenawaran');
+
 
     // Proses Underwriting
     Route::get('/prosesUnderwriting', [ProsesUnderwritingController::class, 'index'])->name('prosesUnderwriting');
     Route::get('/getOfferUnderwriting', [ProsesUnderwritingController::class, 'getOfferUnderwriting'])->name('getOfferUnderwriting');
     Route::post('/getDetailProsesUnderwriting', [ProsesUnderwritingController::class, 'getDetailProsesUnderwriting'])->name('getDetailProsesUnderwriting');
+    Route::post('/getDetailProsesPenawaran', [ProsesPenawaranController::class, 'getDetailProsesPenawaran'])->name('getDetailProsesPenawaran');
 
     // Paremter Produk
     Route::get('/parameterProduk', [TParameterProdukController::class, 'index'])->name('parameterProduk');

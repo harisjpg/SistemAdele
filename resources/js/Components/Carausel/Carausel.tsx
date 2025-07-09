@@ -22,6 +22,7 @@ type CarouselProps = {
      setModalPengajuan: any;
      setRefreshTrigger: any;
      resultFilter: any;
+     flag?: any;
 };
 
 const Carousel: React.FC<CarouselProps> = ({
@@ -31,6 +32,7 @@ const Carousel: React.FC<CarouselProps> = ({
      setModalPengajuan,
      setRefreshTrigger,
      resultFilter,
+     flag,
 }) => {
      const prevRef = useRef(null);
      const nextRef = useRef(null);
@@ -56,7 +58,11 @@ const Carousel: React.FC<CarouselProps> = ({
                               confirmButtonText: "Yes",
                          }).then((result) => {
                               if (result.isConfirmed) {
-                                   alert("lannjut proses penawaran");
+                                   Inertia.visit("/prosesPenawaran", {
+                                        data: {
+                                             filter: "Penawaran",
+                                        },
+                                   });
                               } else {
                                    setModalPengajuan({
                                         add: false,
@@ -133,9 +139,9 @@ const Carousel: React.FC<CarouselProps> = ({
      };
 
      return (
-          <div className="w-full max-w-4xl mx-auto p-4 relative">
-               <div className="absolute z-50 w-full top-36">
-                    <div className="flex justify-between">
+          <div className="w-full p-4 relative">
+               <div className="absolute z-50 -left-5 right-96 top-36 w-[789px]">
+                    <div className="flex justify-between items-center">
                          <div>
                               <button
                                    ref={prevRef}
@@ -143,8 +149,8 @@ const Carousel: React.FC<CarouselProps> = ({
                                    disabled={isBeginning}
                                    className={` ${
                                         isBeginning
-                                             ? "-px-1 py-1 rounded text-sm opacity-20"
-                                             : "-px-1 py-1 rounded text-sm"
+                                             ? "px-1 py-1 rounded text-sm opacity-20"
+                                             : "px-1 py-1 rounded text-sm"
                                    }`}
                               >
                                    <ChevronLeftIcon className="w-12" />
@@ -206,7 +212,7 @@ const Carousel: React.FC<CarouselProps> = ({
                                    key={dataInsurance.INSURANCE_ID}
                                    className="mb-2"
                               >
-                                   <div className="border rounded-t-lg p-2 flex justify-center font-semibold text-black w-50 shadow-lg">
+                                   <div className="border rounded-t-lg p-2 flex justify-center font-semibold text-black w-50 shadow-lg bg-slate-400">
                                         <span>Simulasi Premi</span>
                                    </div>
                                    <div className="p-4 bg-white shadow-lg w-50 relative max-h-[300px]">
@@ -277,32 +283,61 @@ const Carousel: React.FC<CarouselProps> = ({
                                              </span>
                                         </div>
                                    </div>
-                                   <div
-                                        className="bg-primary-adele rounded-b-lg p-2 flex justify-center font-semibold text-white hover:cursor-pointer hover:bg-primary-hover-adele w-50 mb-2 text-sm"
-                                        onClick={() => {
-                                             if (
-                                                  dataInsurance?.product
-                                                       .UNDERWRITING_ID !== null
-                                             ) {
-                                                  handleClickSelectInsurance(
-                                                       dataInsurance
-                                                  );
-                                             }
-                                        }}
-                                   >
-                                        {dataInsurance?.product
-                                             .UNDERWRITING_ID === null ? (
-                                             <>
-                                                  <span>Proses Penawaran</span>
-                                             </>
-                                        ) : (
-                                             <>
-                                                  <span>
-                                                       Proses Underwriting
-                                                  </span>
-                                             </>
-                                        )}
-                                   </div>
+                                   {flag === "penawaran" ? (
+                                        <div
+                                             className="bg-primary-adele rounded-b-lg p-2 flex justify-center font-semibold text-white hover:cursor-pointer hover:bg-primary-hover-adele w-50 mb-2 text-sm"
+                                             onClick={() => {}}
+                                        >
+                                             {dataInsurance?.product
+                                                  .UNDERWRITING_ID === null ? (
+                                                  <>
+                                                       <span>
+                                                            Select Insurance
+                                                       </span>
+                                                  </>
+                                             ) : (
+                                                  <>
+                                                       <span>
+                                                            Select Insurance
+                                                       </span>
+                                                  </>
+                                             )}
+                                        </div>
+                                   ) : (
+                                        <div
+                                             className="bg-primary-adele rounded-b-lg p-2 flex justify-center font-semibold text-white hover:cursor-pointer hover:bg-primary-hover-adele w-50 mb-2 text-sm"
+                                             onClick={() => {
+                                                  if (
+                                                       dataInsurance?.product
+                                                            .UNDERWRITING_ID !==
+                                                       null
+                                                  ) {
+                                                       handleClickSelectInsurance(
+                                                            dataInsurance
+                                                       );
+                                                  } else {
+                                                       handleClickSelectInsurance(
+                                                            dataInsurance
+                                                       );
+                                                  }
+                                             }}
+                                        >
+                                             {dataInsurance?.product
+                                                  .UNDERWRITING_ID === null ? (
+                                                  <>
+                                                       <span>
+                                                            Proses Penawaran
+                                                       </span>
+                                                  </>
+                                             ) : (
+                                                  <>
+                                                       <span>
+                                                            Proses Underwriting
+                                                       </span>
+                                                  </>
+                                             )}
+                                        </div>
+                                   )}
 
                                    {dataInsurance?.product?.data_mekanisme_produk?.map(
                                         (mekanisme: any, i: number) => (

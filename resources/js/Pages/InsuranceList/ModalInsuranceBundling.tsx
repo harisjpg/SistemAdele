@@ -246,7 +246,7 @@ export default function ModalInsuranceBundling({
                               <>
                                    {formBundling === false ? (
                                         <div
-                                             className="text-xs bg-blue-600 w-fit p-2 rounded-md text-white hover:cursor-pointer hover:bg-blue-700"
+                                             className="text-xs bg-primary-adele w-fit p-2 rounded-md text-white hover:cursor-pointer hover:bg-blue-700"
                                              onClick={(e) => {
                                                   setFormBundling(true);
                                              }}
@@ -257,7 +257,7 @@ export default function ModalInsuranceBundling({
                                         </div>
                                    ) : (
                                         <div
-                                             className="text-xs bg-blue-600 w-fit p-2 rounded-md text-white hover:cursor-pointer hover:bg-blue-700"
+                                             className="text-xs bg-primary-adele w-fit p-2 rounded-md text-white hover:cursor-pointer hover:bg-primary-hover-adele"
                                              onClick={(e) => {
                                                   saveBundlingInsurance(
                                                        dataInsuranceBundling
@@ -276,7 +276,7 @@ export default function ModalInsuranceBundling({
                                                             className="mt-2"
                                                             htmlFor="INSURANCE_NAME"
                                                             value={
-                                                                 "Nama Asuransi Bundling"
+                                                                 "Nama Asuransi Gabungan"
                                                             }
                                                             required={true}
                                                        />
@@ -300,7 +300,7 @@ export default function ModalInsuranceBundling({
                                                             }}
                                                             required
                                                             autoComplete="off"
-                                                            placeholder="Insurance Name"
+                                                            placeholder="Nama Asuransi Gabungan"
                                                        />
                                                   </div>
                                                   <div>
@@ -360,7 +360,7 @@ export default function ModalInsuranceBundling({
                                                             className=""
                                                             htmlFor="INSURANCE_BUNDLING_ID"
                                                             value={
-                                                                 "Asuransi Bundling"
+                                                                 "Asuransi Gabungan"
                                                             }
                                                             required={false}
                                                        />
@@ -386,7 +386,7 @@ export default function ModalInsuranceBundling({
                                                             isClearable={true}
                                                             isMultiple={true}
                                                             placeholder={
-                                                                 "--Pilih Bundling Asuransi--"
+                                                                 "--Pilih Asuransi Gabungan--"
                                                             }
                                                             value={
                                                                  dataInsuranceBundling.INSURANCE_BUNDLING_ID
@@ -437,7 +437,7 @@ export default function ModalInsuranceBundling({
                                                             isSearchable={true}
                                                             isClearable={true}
                                                             placeholder={
-                                                                 "--Pilih Leader Asuransi Bundling--"
+                                                                 "--Pilih Leader Gabungan Asuransi--"
                                                             }
                                                             value={
                                                                  dataInsuranceBundling.INSURANCE_LEADER_BUNDLING
@@ -510,6 +510,7 @@ export default function ModalInsuranceBundling({
                                                        className="block w-full text-sm text-gray-600 border rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-600 dark:border-gray-600 dark:placeholder-gray-400"
                                                        id="file_input"
                                                        type="file"
+                                                       multiple={true}
                                                        required
                                                        onChange={(e: any) => {
                                                             setDataInsuranceBundling(

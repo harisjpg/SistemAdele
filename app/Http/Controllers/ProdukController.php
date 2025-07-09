@@ -259,11 +259,13 @@ class ProdukController extends Controller
 
             $PRODUK_ASURANSI_NAME                = $request->PRODUK_ASURANSI_NAME;
             $DATA_MEKANISME_PRODUK               = $request->DATA_MEKANISME_PRODUK;
+            $UNDERWRITING_ID                     = isset($request->UNDERWRITING_ID) ? $request->UNDERWRITING_ID : NULL;
             $fileUploadProduk                    = $request->file('UPLOAD_FILE_PRODUK');
 
             // insert data into t_produk_asuransi
             $produkAsuransi = TProdukAsuransi::where('PRODUK_ASURANSI_ID', $request->PRODUK_ASURANSI_ID)->update([
                 'PRODUK_ASURANSI_NAME'              => $PRODUK_ASURANSI_NAME,
+                'UNDERWRITING_ID'                   => $UNDERWRITING_ID,
                 'PRODUK_ASURANSI_CREATED_BY'        => $user_id,
                 'PRODUK_ASURANSI_CREATED_DATE'      => $date,
             ]);
