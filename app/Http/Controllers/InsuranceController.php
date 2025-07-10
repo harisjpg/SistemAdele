@@ -392,7 +392,7 @@ class InsuranceController extends Controller
                 "INSURANCE_TYPE_ID"         => $request->INSURANCE_TYPE_ID,
                 "PRODUK_ASURANSI_ID"        => $request->PRODUK_ASURANSI_ID,
                 "INSURANCE_PARENT_ID"       => $request->INSURANCE_PARENT_ID === null ? NULL : $request->INSURANCE_PARENT_ID,
-                "UNDERWRITING_ID"           => $request->UNDERWRITING_ID,
+                "UNDERWRITING_ID"           => isset($request->UNDERWRITING_ID) ? $request->UNDERWRITING_ID : NULL,
                 "INSURANCE_CODE"            => $insuranceCode,
                 "INSURANCE_SLUG"            => $insuranceSlug,
                 "INSURANCE_UPDATED_BY"      => Auth::user()->id,

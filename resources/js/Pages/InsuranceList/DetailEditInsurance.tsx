@@ -284,6 +284,7 @@ export default function DetailEditInsuranceList({
                     options={selectProdukAsuransi}
                     isDisabled={textButton.textButton === "Edit" ? true : false}
                     isSearchable={true}
+                    isClearable={true}
                     placeholder={"--Pilih--"}
                     value={{
                          label: getLabelProdukAsuransi(
@@ -300,7 +301,7 @@ export default function DetailEditInsuranceList({
                     primaryColor={"bg-primary-adele"}
                />
                {/* for produk asuransi */}
-               <InputLabel
+               {/* <InputLabel
                     className="mt-2"
                     htmlFor="UNDERWRITING_ID"
                     value={"Underwriting Asuransi"}
@@ -339,18 +340,18 @@ export default function DetailEditInsuranceList({
                          });
                     }}
                     primaryColor={"bg-primary-adele"}
-               />
+               /> */}
                {/* for Insurance Logo */}
                <InputLabel
                     className="mt-2"
                     htmlFor="INSURANCE_LOGO"
                     value={"Upload Logo"}
-                    required={true}
+                    required={false}
                />
                <input
                     className={
                          textButton.textButton === "Edit"
-                              ? "bg-gray-300 text-black block w-full text-sm border bg-primary-adele rounded-lg cursor-pointer dark:text-gray-400 focus:outline-none dark:bg-gray-600 dark:border-gray-600 dark:placeholder-gray-400"
+                              ? "bg-gray-300 text-black block w-full text-sm border rounded-lg cursor-pointer dark:text-gray-400 focus:outline-none dark:bg-gray-600 dark:border-gray-600 dark:placeholder-gray-400"
                               : "block w-full text-sm text-gray-600 border rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-600 dark:border-gray-600 dark:placeholder-gray-400"
                     }
                     id="file_input"
