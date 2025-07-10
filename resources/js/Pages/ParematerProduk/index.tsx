@@ -18,6 +18,7 @@ import ToastMessage from "@/Components/ToastMessage";
 import ModalToAction from "@/Components/Modal/ModalToAction";
 import Breadcrumbs from "@/Components/Breadcrumbs";
 import Checkbox from "@/Components/Checkbox";
+import Swal from "sweetalert2";
 
 export default function ParameterProduk({ auth }: any) {
      // for Breadcrumbs
@@ -147,88 +148,110 @@ export default function ParameterProduk({ auth }: any) {
           return (
                <>
                     {dataChildrenNew?.length !== 0
-                         ? dataChildrenNew?.map((dChilds: any, a: number) => (
-                                <div className="pt-1 pl-[0.32rem]" key={a}>
-                                     <ul className="flex flex-col pl-4 font-semibold text-black border-l border-red-700 hover:cursor-pointer">
-                                          <li>
-                                               <div
-                                                    className="relative flex justify-between hover:text-red-600 w-fit"
-                                                    onClick={() => {
-                                                         handleClick(
-                                                              dChilds.PARAMETER_PRODUK_ID
-                                                         );
-                                                    }}
-                                               >
-                                                    <div className="flex items-center justify-center pr-2">
-                                                         <span
-                                                              className={
-                                                                   dChilds.PARAMETER_PRODUK_IS_CATEGORY ===
-                                                                   0
-                                                                        ? "bg-green-500 h-3 w-3 rounded-full"
-                                                                        : ""
-                                                              }
-                                                         ></span>
-                                                    </div>
-                                                    <div className="flex items-center w-full gap-1">
-                                                         <div className="text-sm ">
-                                                              <span>
-                                                                   {
-                                                                        dChilds.PARAMETER_PRODUK_NAME
+                         ? dataChildrenNew
+                                ?.filter(
+                                     (dataFilter: any) =>
+                                          dataFilter.PARAMETER_PRODUK_IS_DELETED ===
+                                          0
+                                )
+                                ?.map((dChilds: any, a: number) => (
+                                     <div className="pt-1 pl-[0.32rem]" key={a}>
+                                          <ul className="flex flex-col pl-4 font-semibold text-black border-l border-red-700 hover:cursor-pointer">
+                                               <li>
+                                                    <div
+                                                         className="relative flex justify-between hover:text-red-600 w-fit"
+                                                         onClick={() => {
+                                                              handleClick(
+                                                                   dChilds.PARAMETER_PRODUK_ID
+                                                              );
+                                                         }}
+                                                    >
+                                                         <div className="flex items-center justify-center pr-2">
+                                                              <span
+                                                                   className={
+                                                                        dChilds.PARAMETER_PRODUK_IS_CATEGORY ===
+                                                                        0
+                                                                             ? "bg-green-500 h-3 w-3 rounded-full"
+                                                                             : ""
                                                                    }
-                                                              </span>
+                                                              ></span>
                                                          </div>
-                                                         <div className="text-xs text-slate-500">
-                                                              <span>
-                                                                   {" "}
-                                                                   /{" "}
-                                                                   {new Intl.NumberFormat(
-                                                                        "en-US",
+                                                         <div className="flex items-center w-full gap-1">
+                                                              <div className="text-sm ">
+                                                                   <span>
                                                                         {
-                                                                             style: "decimal",
-                                                                             minimumFractionDigits: 2,
-                                                                             maximumFractionDigits: 2,
+                                                                             dChilds.PARAMETER_PRODUK_NAME
                                                                         }
-                                                                   ).format(
-                                                                        dChilds.PARAMETER_PRODUK_BOBOT
-                                                                   )}
-                                                              </span>
+                                                                   </span>
+                                                              </div>
+                                                              <div className="text-xs text-slate-500">
+                                                                   <span>
+                                                                        {" "}
+                                                                        /{" "}
+                                                                        {new Intl.NumberFormat(
+                                                                             "en-US",
+                                                                             {
+                                                                                  style: "decimal",
+                                                                                  minimumFractionDigits: 2,
+                                                                                  maximumFractionDigits: 2,
+                                                                             }
+                                                                        ).format(
+                                                                             dChilds.PARAMETER_PRODUK_BOBOT
+                                                                        )}
+                                                                   </span>
+                                                              </div>
                                                          </div>
                                                     </div>
-                                               </div>
-                                               <div
-                                                    className="hidden"
-                                                    key={a}
-                                                    id={
-                                                         "item" +
-                                                         dChilds.PARAMETER_PRODUK_ID
-                                                    }
-                                               >
-                                                    <ul className="flex flex-col pl-4 ml-[0.30rem] text-gray-500 border-l border-red-700">
-                                                         <li>
-                                                              <div className="bg-gray-200 w-fit p-4 rounded-md flex gap-2 items-center transition delay-700 duration-300 ease-in-out">
-                                                                   <div
-                                                                        className="text-sm bg-green-500 p-2 rounded-md text-white cursor-pointer hover:bg-red-400"
-                                                                        onClick={(
-                                                                             e
-                                                                        ) => {
-                                                                             handleClickEditParameter(
-                                                                                  dChilds
-                                                                             );
-                                                                        }}
-                                                                   >
-                                                                        <span>
-                                                                             Edit
-                                                                        </span>
+                                                    <div
+                                                         className="hidden"
+                                                         key={a}
+                                                         id={
+                                                              "item" +
+                                                              dChilds.PARAMETER_PRODUK_ID
+                                                         }
+                                                    >
+                                                         <ul className="flex flex-col pl-4 ml-[0.30rem] text-gray-500 border-l border-red-700">
+                                                              <li>
+                                                                   <div className="bg-gray-200 w-fit p-4 rounded-md flex gap-2 items-center transition delay-700 duration-300 ease-in-out">
+                                                                        <div
+                                                                             className="text-sm bg-green-500 p-2 rounded-md text-white cursor-pointer hover:bg-red-400"
+                                                                             onClick={(
+                                                                                  e
+                                                                             ) => {
+                                                                                  handleClickEditParameter(
+                                                                                       dChilds
+                                                                                  );
+                                                                             }}
+                                                                        >
+                                                                             <span>
+                                                                                  Edit
+                                                                             </span>
+                                                                        </div>
+                                                                        <div
+                                                                             className="text-sm bg-primary-adele p-2 rounded-md text-white cursor-pointer hover:bg-primary-hover-adele"
+                                                                             onClick={(
+                                                                                  e
+                                                                             ) =>
+                                                                                  handleDeleteParameter(
+                                                                                       dChilds
+                                                                                  )
+                                                                             }
+                                                                        >
+                                                                             <span>
+                                                                                  Delete
+                                                                             </span>
+                                                                        </div>
                                                                    </div>
-                                                              </div>
-                                                         </li>
-                                                    </ul>
-                                               </div>
-                                               {BasicInfo(dChilds.children)}
-                                          </li>
-                                     </ul>
-                                </div>
-                           ))
+                                                              </li>
+                                                         </ul>
+                                                    </div>
+                                                    {BasicInfo(
+                                                         dChilds.children
+                                                    )}
+                                               </li>
+                                          </ul>
+                                     </div>
+                                ))
                          : null}
                </>
           );
@@ -249,6 +272,46 @@ export default function ParameterProduk({ auth }: any) {
           });
      };
      // end for edit parameter produk
+
+     const prosesDelete = async (dataParameter: any) => {
+          await axios
+               .post(`/deleteParameter`, { data: dataParameter })
+               .then((res) => {
+                    setIsSuccess("");
+                    if (res.data.message != "") {
+                         setDataParameterProduk({
+                              PARAMETER_PRODUK_NAME: "",
+                              PARAMETER_PRODUK_BOBOT: "",
+                              PARAMETER_PRODUK_PARENT: "",
+                              PARAMETER_PRODUK_IS_CATEGORY: "",
+                         });
+                         getDataParameterProduk();
+                         setIsSuccess(res.data[0]);
+                         setTimeout(() => {
+                              setIsSuccess("");
+                         }, 2000);
+                    }
+               })
+               .catch((err) => {
+                    console.log(err);
+               });
+     };
+
+     const handleDeleteParameter = (dataParameter: any) => {
+          Swal.fire({
+               title: "Are you sure?",
+               text: "You won't be able to revert this!",
+               icon: "warning",
+               showCancelButton: true,
+               confirmButtonColor: "#3085d6",
+               cancelButtonColor: "#d33",
+               confirmButtonText: "Yes, delete it!",
+          }).then((result: any) => {
+               if (result.isConfirmed) {
+                    prosesDelete(dataParameter);
+               }
+          });
+     };
 
      const getLabelParent = (value: any) => {
           if (value) {
@@ -677,8 +740,15 @@ export default function ParameterProduk({ auth }: any) {
                          </div>
                          <div>
                               <ul className="flex flex-col space-y-0 text-lg">
-                                   {arrDataParameter?.map(
-                                        (item: any, i: number) => (
+                                   {arrDataParameter
+                                        ?.filter(
+                                             (dataFilter: any) =>
+                                                  dataFilter.PARAMETER_PRODUK_IS_DELETED ===
+                                                       0 &&
+                                                  dataFilter.PARAMETER_PRODUK_IS_CATEGORY ===
+                                                       1
+                                        )
+                                        ?.map((item: any, i: number) => (
                                              <li className="" key={i}>
                                                   <div
                                                        className="relative flex justify-between font-semibold text-black hover:text-red-600 w-fit hover:cursor-pointer"
@@ -699,23 +769,17 @@ export default function ParameterProduk({ auth }: any) {
                                                        <div className="flex items-center justify-center pr-2">
                                                             <span
                                                                  className={
-                                                                      item.PARAMETER_PRODUK_IS_CATEGORY ===
-                                                                      0
-                                                                           ? ""
-                                                                           : "bg-red-500 h-3 w-3 rounded-full"
+                                                                      "bg-red-500 h-3 w-3 rounded-full"
                                                                  }
                                                             ></span>
                                                        </div>
                                                        <div className="flex items-center w-full gap-1">
                                                             <div className="text-sm p-2">
-                                                                 {item.PARAMETER_PRODUK_IS_CATEGORY ===
-                                                                 1 ? (
-                                                                      <span>
-                                                                           {
-                                                                                item.PARAMETER_PRODUK_NAME
-                                                                           }
-                                                                      </span>
-                                                                 ) : null}
+                                                                 <span>
+                                                                      {
+                                                                           item.PARAMETER_PRODUK_NAME
+                                                                      }
+                                                                 </span>
                                                             </div>
                                                        </div>
                                                   </div>
@@ -730,64 +794,59 @@ export default function ParameterProduk({ auth }: any) {
                                                        <ul className="flex flex-col pl-4 ml-[0.30rem] text-gray-500 border-l border-red-700">
                                                             <li>
                                                                  <div className="bg-gray-200 w-fit p-4 rounded-md flex gap-2 items-center transition delay-700 duration-300 ease-in-out">
-                                                                      {item.PARAMETER_PRODUK_IS_CATEGORY ===
-                                                                      1 ? (
-                                                                           <>
-                                                                                <div
-                                                                                     className="text-sm bg-primary-adele p-2 rounded-md text-white cursor-pointer hover:bg-primary-hover-adele"
-                                                                                     onClick={(
-                                                                                          e
-                                                                                     ) =>
-                                                                                          handleClickAddParameter(
-                                                                                               e,
-                                                                                               item.PARAMETER_PRODUK_ID
-                                                                                          )
-                                                                                     }
-                                                                                >
-                                                                                     <span>
-                                                                                          Tambah
-                                                                                          Parameter
-                                                                                     </span>
-                                                                                </div>
-                                                                                <div
-                                                                                     className="text-sm bg-primary-adele p-2 rounded-md text-white cursor-pointer hover:bg-primary-hover-adele"
-                                                                                     onClick={(
-                                                                                          e
-                                                                                     ) =>
-                                                                                          handleClickEditParameter(
-                                                                                               item
-                                                                                          )
-                                                                                     }
-                                                                                >
-                                                                                     <span>
-                                                                                          Edit
-                                                                                     </span>
-                                                                                </div>
-                                                                           </>
-                                                                      ) : (
+                                                                      <>
                                                                            <div
-                                                                                className="text-sm bg-green-500 p-2 rounded-md text-white cursor-pointer hover:bg-red-400"
+                                                                                className="text-sm bg-green-700 p-2 rounded-md text-white cursor-pointer hover:bg-primary-hover-adele"
                                                                                 onClick={(
                                                                                      e
-                                                                                ) => {
+                                                                                ) =>
+                                                                                     handleClickAddParameter(
+                                                                                          e,
+                                                                                          item.PARAMETER_PRODUK_ID
+                                                                                     )
+                                                                                }
+                                                                           >
+                                                                                <span>
+                                                                                     Tambah
+                                                                                     Parameter
+                                                                                </span>
+                                                                           </div>
+                                                                           <div
+                                                                                className="text-sm bg-blue-700 p-2 rounded-md text-white cursor-pointer hover:bg-primary-hover-adele"
+                                                                                onClick={(
+                                                                                     e
+                                                                                ) =>
                                                                                      handleClickEditParameter(
                                                                                           item
-                                                                                     );
-                                                                                }}
+                                                                                     )
+                                                                                }
                                                                            >
                                                                                 <span>
                                                                                      Edit
                                                                                 </span>
                                                                            </div>
-                                                                      )}
+                                                                           <div
+                                                                                className="text-sm bg-primary-adele p-2 rounded-md text-white cursor-pointer hover:bg-primary-hover-adele"
+                                                                                onClick={(
+                                                                                     e
+                                                                                ) =>
+                                                                                     handleDeleteParameter(
+                                                                                          item
+                                                                                     )
+                                                                                }
+                                                                           >
+                                                                                <span>
+                                                                                     Delete
+                                                                                </span>
+                                                                           </div>
+                                                                      </>
                                                                  </div>
                                                             </li>
                                                        </ul>
                                                   </div>
                                                   {BasicInfo(item.children)}
                                              </li>
-                                        )
-                                   )}
+                                        ))}
                               </ul>
                          </div>
                          <div>
@@ -797,7 +856,9 @@ export default function ParameterProduk({ auth }: any) {
                                              ?.filter(
                                                   (dataFilter: any) =>
                                                        dataFilter.PARAMETER_PRODUK_IS_CATEGORY ===
-                                                       0
+                                                            0 &&
+                                                       dataFilter.PARAMETER_PRODUK_IS_DELETED ===
+                                                            0
                                              )
                                              ?.map((item: any, i: number) => (
                                                   <>
@@ -915,20 +976,36 @@ export default function ParameterProduk({ auth }: any) {
                                                                                           </div>
                                                                                      </>
                                                                                 ) : (
-                                                                                     <div
-                                                                                          className="text-sm bg-green-500 p-2 rounded-md text-white cursor-pointer hover:bg-red-400"
-                                                                                          onClick={(
-                                                                                               e
-                                                                                          ) => {
-                                                                                               handleClickEditParameter(
-                                                                                                    item
-                                                                                               );
-                                                                                          }}
-                                                                                     >
-                                                                                          <span>
-                                                                                               Edit
-                                                                                          </span>
-                                                                                     </div>
+                                                                                     <>
+                                                                                          <div
+                                                                                               className="text-sm bg-green-500 p-2 rounded-md text-white cursor-pointer hover:bg-red-400"
+                                                                                               onClick={(
+                                                                                                    e
+                                                                                               ) => {
+                                                                                                    handleClickEditParameter(
+                                                                                                         item
+                                                                                                    );
+                                                                                               }}
+                                                                                          >
+                                                                                               <span>
+                                                                                                    Edit
+                                                                                               </span>
+                                                                                          </div>
+                                                                                          <div
+                                                                                               className="text-sm bg-primary-adele p-2 rounded-md text-white cursor-pointer hover:bg-primary-hover-adele"
+                                                                                               onClick={(
+                                                                                                    e
+                                                                                               ) =>
+                                                                                                    handleDeleteParameter(
+                                                                                                         item
+                                                                                                    )
+                                                                                               }
+                                                                                          >
+                                                                                               <span>
+                                                                                                    Delete
+                                                                                               </span>
+                                                                                          </div>
+                                                                                     </>
                                                                                 )}
                                                                            </div>
                                                                       </li>

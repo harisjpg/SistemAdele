@@ -123,4 +123,38 @@ class TParameterProdukController extends Controller
             'X-Inertia' => true
         ]);
     }
+
+    public function deleteParameter(Request $request)
+    {
+        $result = DB::transaction(function () use ($request) {
+            // Data Auth
+            $user = Auth::user();
+            $user_id = $user->id;
+            $date = now();
+
+            // proses tambah ke database t_paramater_produk
+            $createParameterProduk = TParameterProduk::where('PARAMETER_PRODUK_ID', $request->data["PARAMETER_PRODUK_ID"])->update([
+                "PARAMETER_PRODUK_IS_DELETED"               => 1,
+                "PARAMETER_PRODUK_UPDATED_BY"               => $user_id,
+                "PARAMETER_PRODUK_UPDATED_DATE"             => $date
+            ]);
+
+            UserLog::create([
+                'created_by' => $user->id,
+                'action'     => json_encode([
+                    "description" => "Deleted Parameter Produk",
+                    "module"      => "Parameter Produk",
+                    "id"          => $request->data["PARAMETER_PRODUK_ID"]
+                ]),
+                'action_by'  => $user->user_login
+            ]);
+        });
+
+
+        return new JsonResponse([
+            'Delete Parameter Berhasil'
+        ], 201, [
+            'X-Inertia' => true
+        ]);
+    }
 }
